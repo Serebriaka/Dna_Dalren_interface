@@ -4,7 +4,7 @@
       <div class="body-column">
         <cardPlayer
             v-for="player in playerCards"
-            :key="player"
+            :key="player.name"
             :player="player"
         >
 
@@ -44,7 +44,7 @@ export default {
       playerCards: [
         {
           name: 'Попка',
-          race:'Полурослик',
+          race: 'Полурослик',
           history: 'Ученый',
           class: 'Воин',
           city: 'Дальрен',
@@ -56,6 +56,12 @@ export default {
             Wisdom: 16, //Мудрость
             Charisma: 25 //Харизма
           },
+          armor: {
+            name: '',
+            choppingArmor: 0,
+            crushingArmor: 0,
+          },
+          gold: 0,
         }
       ],
       historys: [

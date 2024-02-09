@@ -21,6 +21,7 @@
            :key="stat"
         >
           <div class="stats-second-table__name">{{ stat.name }}</div>
+          <button v-if="false">-</button>
           <div class="stats-second-table__name">{{ stat.value }}</div>
           <button v-if="false">+</button>
           <div class="stats-second-table__name">
@@ -29,12 +30,12 @@
         </div>
       </div>
       <div class="stats-third">
-        <div class="stat fs14">Здоровье 22</div>
+        <div class="stat fs14">Здоровье {{setHeat}}</div>
         <div class="stat fs14">Защита 22</div>
-        <div class="stat fs14">Скрытность 22</div>
-        <div class="stat fs14">Внимательность 22</div>
-        <div class="stat fs14">Инициатива 22</div>
-        <div class="stat fs14">Удача 22</div>
+        <div class="stat fs14">Скрытность {{setStels}}</div>
+        <div class="stat fs14">Внимательность {{setObservation}}</div>
+        <div class="stat fs14">Инициатива {{setIniciative}}</div>
+        <div class="stat fs14">Удача {{setLucky}}</div>
       </div>
       <div class="stats-fourth">
         <div class="stats-fourth__tab">
@@ -43,6 +44,11 @@
         <div class="stats-fourth__tab">
         Языки
         </div>
+      </div>
+      <div class="footer-menu">
+        <div class="footer-menu__gold stat">333</div>
+        <div class="footer-menu__exp stat">Опыт</div>
+        <div class="footer-menu__btn-inventory stat" >Инвентарь</div>
       </div>
     </div>
     <div class="inventory" v-if="false"></div>
@@ -92,7 +98,32 @@ export default {
         result.push(obj)
       })
       return result
-    }
+    },
+    setLucky() {
+      let result = []
+      result = this.statsValues[5].value
+      return result
+    },
+    setObservation() {
+      let result = []
+      result = this.statsValues[4].value
+      return result
+    },
+    setHeat() {
+      let result = []
+      result = this.statsValues[2].value
+      return result
+    },
+    setStels() {
+      let result = []
+      result = this.statsValues[1].value
+      return result
+    },
+    setIniciative() {
+      let result = []
+      result = this.statsValues[3].value
+      return result
+    },
   }
 }
 </script>
@@ -104,9 +135,10 @@ export default {
   height: 100%;
 }
 .stat {
+  align-items: center;
   display: flex;
   justify-content: center;
-  padding: 3px;
+  padding: 1px;
   width: 100%;
   background-color: #e79049;
   border: 1px solid #8B4513;
@@ -114,9 +146,11 @@ export default {
   text-align: center;
   font-family: cursive;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+  font-weight: 600;
 }
 .stats {
-  padding: 15px;
+  padding: 15px 15px 0 15px;
   width: 100%;
   height: 96%;
   display: flex;
@@ -177,9 +211,30 @@ export default {
   }
   &-ava {
       background-color: #A9A9A9;
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+}
+.footer-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  justify-content: space-between;
+  &__gold {
+    height: 100%;
+    width: 25%;
+  }
+  &__exp {
+    height: 100%;
+    width: 25%;
+    text-align: center;
+  }
+  &__btn-inventory {
+    height: 100%;
+    width: 25%;
+    text-align: center;
   }
 }
 .fs14 {
