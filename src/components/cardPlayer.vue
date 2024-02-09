@@ -1,13 +1,20 @@
 <template>
   <div class="body" >
     <div class="stats">
-      <div class="stats-first">
-        <div class="stats-first-name stat">{{player.name}}</div>
-        <div class="stats-first-class stat">{{player.class}}</div>
-        <div class="stats-first-race stat">{{player.race}}</div>
-        <div class="stats-first-city stat">{{player.city}}</div>
+      <div class="stats-header">
+        <div class="stats-header-column">
+          <div class="stats-ava"></div>
+          <div class="stats-first-name stat">{{player.name}}</div>
+        </div>
+        <div class="stats-first">
+          <div class="stats-first-history stat">{{player.history}}</div>
+          <div class="stats-first-class stat">{{player.class}}</div>
+          <div class="stats-first-race stat">{{player.race}}</div>
+          <div class="stats-first-city stat">{{player.city}}</div>
+        </div>
       </div>
-      <div class="stats-ava"></div>
+
+
       <div class="stats-second">
         <div class="stats-second-table"
            v-for="(stat) in statsValues"
@@ -16,6 +23,9 @@
           <div class="stats-second-table__name">{{ stat.name }}</div>
           <div class="stats-second-table__name">{{ stat.value }}</div>
           <button v-if="false">+</button>
+          <div class="stats-second-table__name">
+            {{ stat.mod }}
+          </div>
         </div>
       </div>
       <div class="stats-third">
@@ -66,9 +76,18 @@ export default {
       let statsValue =  Object.values(this.player.skills);
       console.log(statsValue)
       statsValue.forEach((el, index) => {
+        let mod =
+            statsValue[index] < 8 ? -2 :
+                statsValue[index] < 10 ? -1 :
+                    statsValue[index] < 12 ? 0 :
+                      statsValue[index] < 14 ? 1 :
+                        statsValue[index] < 16 ? 2 :
+                          statsValue[index] < 18 ? 3 :
+                            statsValue[index] > 18 ? 4 :3
         let obj = {
           name: this.stats[index],
           value: statsValue[index],
+          mod: mod,
         }
         result.push(obj)
       })
@@ -104,13 +123,26 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  &-first {
-    display: grid;
-    grid-template-columns: repeat(2, 2fr);
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+  &-header {
+    display: flex;
+    flex-direction: row;
+    height: 18%;
     width: 100%;
+    justify-content: space-between;
+    &-column {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+  &-first {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
   }
   &-second {
     display: flex;
@@ -147,7 +179,6 @@ export default {
       background-color: #A9A9A9;
       width: 100px;
       height: 100px;
-      border-radius: 50%;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 }
