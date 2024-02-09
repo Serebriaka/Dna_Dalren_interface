@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="footer-menu">
-        <div class="footer-menu__gold stat">333</div>
+        <div class="footer-menu__gold stat">{{ player.gold}}</div>
         <div class="footer-menu__exp stat">Опыт</div>
         <div class="footer-menu__btn-inventory stat" >Инвентарь</div>
       </div>
