@@ -18,12 +18,12 @@
       <div class="stats-second">
         <div class="stats-second-table"
            v-for="(stat) in statsValues"
-           :key="stat"
+           :key="stat.name"
         >
           <div class="stats-second-table__name">{{ stat.name }}</div>
-          <button v-if="false">-</button>
+          <button v-if="true" @click="minSkill(stat.value - 1, stat.statsEng)">-</button>
           <div class="stats-second-table__name">{{ stat.value }}</div>
-          <button v-if="false">+</button>
+          <button v-if="true" @click="addSkill(stat.value + 1, stat.statsEng)">+</button>
           <div class="stats-second-table__name">
             {{ stat.mod }}
           </div>
@@ -42,12 +42,15 @@
         Профессии
         </div>
         <div class="stats-fourth__tab">
-        Языки
+          Языки:
+          <div class="stats-fourth__tab-elem"  v-for="lang in player.languages" :key="lang">
+            {{lang}}
+          </div>
         </div>
       </div>
       <div class="footer-menu">
         <div class="footer-menu__gold stat">{{ player.gold}}</div>
-        <div class="footer-menu__exp stat">Опыт</div>
+        <div class="footer-menu__exp stat">355 exp</div>
         <div class="footer-menu__btn-inventory stat" >Инвентарь</div>
       </div>
     </div>
@@ -64,7 +67,7 @@ export default {
   data() {
     return {
       stats: ['Сил', "Лов", "Вын", "Инт", "Муд", "Хар"],
-      statsEng: ['Strength', "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"],
+      statsEng: ['strength', "dexterity", "constitution", "intelligence", "wisdom", "charisma"],
     }
   },
   components: {
@@ -74,7 +77,19 @@ export default {
 
   },
   methods: {
-
+    minSkill(value, statsEng) {
+      /* eslint-disable */
+      this.player.skills[statsEng] = value
+      this.sendChangePlayer()
+    },
+    addSkill(value, statsEng) {
+      /* eslint-disable */
+      this.player.skills[statsEng] = value
+      this.sendChangePlayer()
+    },
+    sendChangePlayer() {
+      this.$emit('sendChangePlayer')
+    }
   },
   computed: {
     statsValues() {
@@ -94,6 +109,8 @@ export default {
           name: this.stats[index],
           value: statsValue[index],
           mod: mod,
+          statsEng: this.statsEng[index]
+          // engName: this.player.stats[index].engName
         }
         result.push(obj)
       })
@@ -202,7 +219,7 @@ export default {
     flex-direction: row;
     gap: 10px;
     width: 100%;
-    height: 20%;
+    height: 28%;
     &__tab {
       width: 50%;
       border: 1px solid #8B4513;
