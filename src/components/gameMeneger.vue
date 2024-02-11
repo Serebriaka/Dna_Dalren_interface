@@ -11,7 +11,7 @@
 
         </cardPlayer>
       </div>
-      <div class="form_add_player">
+      <div class="form_add_player" v-if="isAdmin">
         <select v-model="selectedClass">
           <option disabled value="">Выберите класс</option>
           <option v-for="clas in classes" :key="clas.name">{{ clas.name}}</option>
@@ -130,7 +130,7 @@ export default {
             charisma: 1 //Харизма
           },
           instrumentSkils: [],
-          languages: ["Всеобщий", 'язык на выбор'],
+          languages: ["Всеобщий"],
         },
         {
           name: 'Ученый',
@@ -808,6 +808,11 @@ export default {
   computed: {
     isLocation() {
       return window.location.pathname
+    },
+    isAdmin() {
+      let result = false
+      if(this.isLocation === '/admin') result = true
+      return result
     }
   }
 }

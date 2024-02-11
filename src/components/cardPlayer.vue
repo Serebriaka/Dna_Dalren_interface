@@ -1,6 +1,6 @@
 <template>
   <div class="body" >
-    <div class="stats">
+    <div class="stats" v-if="page === 'stats'">
       <div class="stats-header">
         <div class="stats-header-column">
           <div class="stats-ava"></div>
@@ -21,11 +21,11 @@
            :key="stat.name"
         >
           <div class="stats-second-table__name">{{ stat.name }}</div>
-          <button v-if="true" @click="minSkill(stat.value - 1, stat.statsEng)">-</button>
+          <button v-if="isAdmin" @click="minSkill(stat.value - 1, stat.statsEng)">-</button>
           <div class="stats-second-table__name">{{ stat.value }}</div>
-          <button v-if="true" @click="addSkill(stat.value + 1, stat.statsEng)">+</button>
+          <button v-if="isAdmin" @click="addSkill(stat.value + 1, stat.statsEng)">+</button>
           <div class="stats-second-table__name">
-            {{ stat.mod }}
+            {{ stat.mode }}
           </div>
         </div>
       </div>
@@ -49,12 +49,16 @@
         </div>
       </div>
       <div class="footer-menu">
-        <div class="footer-menu__gold stat">{{ player.gold}}</div>
+        <div class="footer-menu__gold stat">
+          <button @click="setGold('min')" class="btn" v-if="isAdmin">-</button>
+          {{ player.gold}}
+          <button @click="setGold('add')" class="btn" v-if="isAdmin">+</button>
+        </div>
         <div class="footer-menu__exp stat">355 exp</div>
-        <div class="footer-menu__btn-inventory stat" >Инвентарь</div>
+        <div class="footer-menu__btn-inventory stat" @click="page = 'inventory'">Инвентарь</div>
       </div>
     </div>
-    <div class="inventory" v-if="false"></div>
+    <div class="inventory" v-if="page === 'inventory'"></div>
   </div>
 </template>
 
@@ -68,6 +72,8 @@ export default {
     return {
       stats: ['Сил', "Лов", "Вын", "Инт", "Муд", "Хар"],
       statsEng: ['strength', "dexterity", "constitution", "intelligence", "wisdom", "charisma"],
+      page: 'stats',
+      testValue: 0.2
     }
   },
   components: {
@@ -89,6 +95,15 @@ export default {
     },
     sendChangePlayer() {
       this.$emit('sendChangePlayer')
+    },
+    setGold(param) {
+      if(param === 'add') {
+        this.player.gold = this.player.gold +1
+      }
+      if(param === 'min') {
+        this.player.gold = this.player.gold -1
+      }
+      this.sendChangePlayer()
     }
   },
   computed: {
@@ -108,7 +123,7 @@ export default {
         let obj = {
           name: this.stats[index],
           value: statsValue[index],
-          mod: mod,
+          mode: mod,
           statsEng: this.statsEng[index]
           // engName: this.player.stats[index].engName
         }
@@ -118,29 +133,37 @@ export default {
     },
     setLucky() {
       let result = []
-      result = this.statsValues[5].value
+      result = this.statsValues[5].mode
       return result
     },
     setObservation() {
       let result = []
-      result = this.statsValues[4].value
+      result = this.statsValues[4].mode
       return result
     },
     setHeat() {
       let result = []
-      result = this.statsValues[2].value
+      result = this.statsValues[2].value * 3
       return result
     },
     setStels() {
       let result = []
-      result = this.statsValues[1].value
+      result = this.statsValues[1].mode
       return result
     },
     setIniciative() {
       let result = []
-      result = this.statsValues[3].value
+      result = this.statsValues[3].mode
       return result
     },
+    isLocation() {
+      return window.location.pathname
+    },
+    isAdmin() {
+      let result = false
+      if(this.isLocation === '/admin') result = true
+      return result
+    }
   }
 }
 </script>
@@ -150,6 +173,14 @@ export default {
 .body {
   width: 100%;
   height: 100%;
+}
+.btn {
+  background-color: #e3a774;
+  transition: 0.3s ease;
+}
+.btn:hover {
+  background-color: #e18a47;
+  transition: 0.3s ease;
 }
 .stat {
   align-items: center;
@@ -224,6 +255,9 @@ export default {
       width: 50%;
       border: 1px solid #8B4513;
       text-align: center;
+      &-elem {
+        font-size: 12px;
+      }
     }
   }
   &-ava {
@@ -233,6 +267,15 @@ export default {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 }
+.inventory {
+  padding: 15px 15px 0 15px;
+  width: 100%;
+  height: 96%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
 .footer-menu {
   width: 100%;
   display: flex;
@@ -240,6 +283,7 @@ export default {
   height: 30px;
   justify-content: space-between;
   &__gold {
+    gap: 5px;
     height: 100%;
     width: 25%;
   }
