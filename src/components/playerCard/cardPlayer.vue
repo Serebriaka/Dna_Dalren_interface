@@ -1,6 +1,6 @@
 <template>
   <div class="body" >
-    <div class="stats" v-if="page === 'stats'">
+    <div class="stats" v-if="player.page === 'stats'">
       <div class="stats-header">
         <div class="stats-header-column">
           <div class="stats-ava"></div>
@@ -13,57 +13,49 @@
           <div class="stats-first-city stat">{{player.city}}</div>
         </div>
       </div>
-
-
-      <div class="stats-second">
-        <div class="stats-second-table"
-           v-for="(stat) in statsValues"
-           :key="stat.name"
-        >
-          <div class="stats-second-table__name">{{ stat.name }}</div>
-          <button v-if="isAdmin" @click="minSkill(stat.value - 1, stat.statsEng)">-</button>
-          <div class="stats-second-table__name">{{ stat.value }}</div>
-          <button v-if="isAdmin" @click="addSkill(stat.value + 1, stat.statsEng)">+</button>
-          <div class="stats-second-table__name">
-            {{ stat.mode }}
-          </div>
-        </div>
+      <div>
+        <playerCharacteristics
+          :player="player"
+          :isAdmin="isAdmin"
+        />
       </div>
       <div class="stats-third">
         <div class="stat fs14">Здоровье {{setHeat}}</div>
-        <div class="stat fs14">Защита 22</div>
+        <div class="stat fs14">Защита 0</div>
         <div class="stat fs14">Скрытность {{setStels}}</div>
         <div class="stat fs14">Внимательность {{setObservation}}</div>
         <div class="stat fs14">Инициатива {{setIniciative}}</div>
         <div class="stat fs14">Удача {{setLucky}}</div>
       </div>
-      <div class="stats-fourth">
-        <div class="stats-fourth__tab">
-        Профессии
-        </div>
-        <div class="stats-fourth__tab">
-          Языки:
-          <div class="stats-fourth__tab-elem"  v-for="lang in player.languages" :key="lang">
-            {{lang}}
-          </div>
-        </div>
-      </div>
-      <div class="footer-menu">
-        <div class="footer-menu__gold stat">
-          <button @click="setGold('min')" class="btn" v-if="isAdmin">-</button>
-          {{ player.gold}}
-          <button @click="setGold('add')" class="btn" v-if="isAdmin">+</button>
-        </div>
-        <div class="footer-menu__exp stat">355 exp</div>
-        <div class="footer-menu__btn-inventory stat" @click="page = 'inventory'">Инвентарь</div>
-      </div>
+      <languages-player
+        :player="player"
+      />
+      <footer-card
+        :isAdmin="isAdmin"
+        :player="player"
+        pageRightTab="inventory"
+        pageLeftTab="inventory"
+        nameRightTab="Инвентарь"
+        nameLeftTab="Классы"
+        @tabChange="setpage"
+      />
     </div>
-    <div class="inventory" v-if="page === 'inventory'"></div>
+
+    <InventoryPlayer
+        v-if="player.page === 'inventory'"
+        :player="player"
+    />
   </div>
 </template>
 
 <script>
 // import ChromePicker from "./ChromePicker.vue";
+import playerCharacteristics from "./playerCharacteristics.vue";
+import store from "@/store";
+import LanguagesPlayer from "@/components/playerCard/languagesPlayer.vue";
+import footerCard from "@/components/playerCard/footerCard.vue";
+import InventoryPlayer from '@/components/playerCard/InventoryPlayer.vue'
+
 export default {
   props: {
     player: {}
@@ -72,15 +64,17 @@ export default {
     return {
       stats: ['Сил', "Лов", "Вын", "Инт", "Муд", "Хар"],
       statsEng: ['strength', "dexterity", "constitution", "intelligence", "wisdom", "charisma"],
-      page: 'stats',
       testValue: 0.2
     }
   },
   components: {
+    LanguagesPlayer,
+    playerCharacteristics,
+    footerCard,
+    InventoryPlayer
   },
   mounted() {
     console.log(window.location.pathname)
-
   },
   methods: {
     minSkill(value, statsEng) {
@@ -93,24 +87,17 @@ export default {
       this.player.skills[statsEng] = value
       this.sendChangePlayer()
     },
-    sendChangePlayer() {
-      this.$emit('sendChangePlayer')
+    setpage(tab) {
+      this.player.page = tab
     },
-    setGold(param) {
-      if(param === 'add') {
-        this.player.gold = this.player.gold +1
-      }
-      if(param === 'min') {
-        this.player.gold = this.player.gold -1
-      }
-      this.sendChangePlayer()
-    }
+    sendChangePlayer() {
+      store.dispatch('sendSharedValue')
+    },
   },
   computed: {
     statsValues() {
       let result = []
       let statsValue =  Object.values(this.player.skills);
-      console.log(statsValue)
       statsValue.forEach((el, index) => {
         let mod =
             statsValue[index] < 8 ? -2 :
@@ -226,17 +213,6 @@ export default {
     align-items: center;
     width: 60%;
   }
-  &-second {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    &-table {
-      text-align: center;
-      &_name {
-
-      }
-    }
-  }
   &-third {
     display: grid;
     grid-template-columns: repeat(2, 4fr);
@@ -245,23 +221,11 @@ export default {
     gap: 20px;
     width: 100%;
   }
-  &-fourth {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    width: 100%;
-    height: 28%;
-    &__tab {
-      width: 50%;
-      border: 1px solid #8B4513;
-      text-align: center;
-      &-elem {
-        font-size: 12px;
-      }
-    }
-  }
   &-ava {
-      background-color: #A9A9A9;
+      //background-color: #A9A9A9;
+      background-image: url('../../images/ava.png');
+      background-size: cover;
+      background-position: center;
       width: 90px;
       height: 90px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -275,28 +239,6 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-}
-.footer-menu {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  height: 30px;
-  justify-content: space-between;
-  &__gold {
-    gap: 5px;
-    height: 100%;
-    width: 25%;
-  }
-  &__exp {
-    height: 100%;
-    width: 25%;
-    text-align: center;
-  }
-  &__btn-inventory {
-    height: 100%;
-    width: 25%;
-    text-align: center;
-  }
 }
 .fs14 {
   font-size: 14px;

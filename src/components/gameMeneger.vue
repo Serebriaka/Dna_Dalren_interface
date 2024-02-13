@@ -6,7 +6,6 @@
             v-for="player in playerCards"
             :key="player.name"
             :player="player"
-            @sendChangePlayer="sendSharedValue"
         >
 
         </cardPlayer>
@@ -39,128 +38,13 @@
 </template>
 
 <script>
-import cardPlayer from "./cardPlayer.vue";
-import axios from "axios";
+import cardPlayer from "./playerCard/cardPlayer.vue";
+import store from "../store";
+// import axios from "axios";
 export default {
   data() {
     return {
-      playerCards: [],
-      historys: [
-        {
-        name: 'Раб',
-        passive: '«Тяжелое сердце» - 1 раз до долгого отдыха восстанавливает себе +1d10 здоровья',
-        skills: {
-          strength: 2, //сила
-          dexterity: 0, //Ловкость
-          constitution: 2, //Выносливость
-          intelligence: 0, // Интерект
-          wisdom: 0, //Мудрость
-          charisma: 0 //Харизма
-        },
-        instrumentSkils: [],
-        languages: ["Всеобщий"],
-        },
-        {
-          name: 'Преступник',
-          passive: '«Опасные связи» - в любом городе преступник знает кому предложить взятку',
-          skills: {
-            strength: 0, //сила
-            dexterity: 1, //Ловкость
-            constitution: 0, //Выносливость
-            intelligence: 0, // Интерект
-            wisdom: 0, //Мудрость
-            charisma: 1 //Харизма
-          },
-          instrumentSkils: ["Отмычка", 'саперский набор'],
-          languages: ["Всеобщий"],
-        },
-        {
-          name: 'Солдат',
-          passive: "«Арсенал» - 2 раза за 1 бой может заменить оружие в руке на оружие из инвентаря, не тратя на это\n" +
-              "действие",
-          skills: {
-            strength: 1, //сила
-            dexterity: 0, //Ловкость
-            constitution: 1, //Выносливость
-            intelligence: 0, // Интерект
-            wisdom: 0, //Мудрость
-            charisma: 0 //Харизма
-          },
-          instrumentSkils: ["Отмычка", 'саперский набор'],
-          languages: ["Всеобщий"],
-        },
-        {
-          name: 'Дипломат',
-          passive: "«Птица мира» - 1 раз до долгого отдыха может свести конфликт на нет (если это возможно)",
-          skills: {
-            strength: 0, //сила
-            dexterity: 0, //Ловкость
-            constitution: 0, //Выносливость
-            intelligence: 0, // Интерект
-            wisdom: 0, //Мудрость
-            charisma: 2 //Харизма
-          },
-          instrumentSkils: [],
-          languages: ["Всеобщий", 'Грязный эльфийский'],
-        },
-        {
-          name: 'Одержимый',
-          passive: "«Мерзкий шепот» - в некоторых ситуациях мастер решает за персонажа как поступить.",
-          skills: {
-            strength: 0, //сила
-            dexterity: 0, //Ловкость
-            constitution: 1, //Выносливость
-            intelligence: 1, // Интерект
-            wisdom: 0, //Мудрость
-            charisma: 0 //Харизма
-          },
-          instrumentSkils: [],
-          languages: ["Всеобщий", 'Грязный эльфийский', 'Язык крови', 'Забытый'],
-        },
-        {
-          name: 'Дворянин',
-          passive: "«Благородное происхождение» - фамилию героя знают во всех королевствах. Любой трактирщик\n" +
-              "предложит комнату бесплатно на одну ночь",
-          skills: {
-            strength: 0, //сила
-            dexterity: 0, //Ловкость
-            constitution: 0, //Выносливость
-            intelligence: 1, // Интерект
-            wisdom: 0, //Мудрость
-            charisma: 1 //Харизма
-          },
-          instrumentSkils: [],
-          languages: ["Всеобщий"],
-        },
-        {
-          name: 'Ученый',
-          passive: "«Книжный червь» - каждый раз в награду за выполнение задания получает на 10% больше опыта",
-          skills: {
-            strength: 0, //сила
-            dexterity: 0, //Ловкость
-            constitution: 0, //Выносливость
-            intelligence: 2, // Интерект
-            wisdom: 0, //Мудрость
-            charisma: 0 //Харизма
-          },
-          instrumentSkils: [],
-          languages: ["Всеобщий", 'Забытый', 'Высокий эльфийский'],
-        },
-        {
-          name: 'Ремесленник',
-          passive: "«Человек из гильдии» - вдвое быстрее осваивает профессии кожевенник, сапожник, портной",
-          skills: {
-            strength: 1, //сила
-            dexterity: 0, //Ловкость
-            constitution: 0, //Выносливость
-            intelligence: 1, // Интерект
-            wisdom: 0, //Мудрость
-            charisma: 0 //Харизма
-          },
-          instrumentSkils: ["Набор сапера"],
-          languages: ["Всеобщий"],
-        },
-      ],
+      // playerCards: [],
       perks: [],
       stats: [],
       races: [
@@ -737,35 +621,15 @@ export default {
     cardPlayer
   },
   created() {
+    console.log(store.state.historys)
+  },
+  async mounted() {
+    setInterval(() => {
+      store.dispatch('updateSharedValue');
+    }, 2000);
+  },
 
-  },
-  mounted() {
-    setInterval(this.updateSharedValue, 2000);
-  },
   methods: {
-     async sendSharedValue() {
-
-      const data = { test: this.playerCards }; // Данные для отправки
-      try {
-        console.log(data, "отправленное")
-        await axios.post('http://192.168.0.100:3000/saveData', data);
-
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    },
-    async updateSharedValue() {
-      try {
-        const response = await axios.get('http://192.168.0.100:3000/getData');
-        console.log(response.data, "полученное")
-        console.log(response.data)
-        if(response.data.message.test !== undefined) this.playerCards = response.data.message.test
-        // this.playerCards = response.data.message.test
-        // Ответ от сервера
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    },
     createPlayerCard() {
        let race = this.races.find((race) => {
          return race.name === this.selectedRace
@@ -786,6 +650,7 @@ export default {
          class: clas.name,
          city: city,
          languages: language,
+         page: 'stats',
          skills: {
            strength: race.characteristics.strength + history.skills.strength,
            dexterity: race.characteristics.dexterity + history.skills.dexterity,
@@ -800,14 +665,21 @@ export default {
            crushingArmor: 0,
          },
          gold: 0,
+         exp: 0,
        }
        this.playerCards.push(card)
-       this.sendSharedValue()
+      store.dispatch('sendSharedValue')
     }
   },
   computed: {
+    historys() {
+      return store.state.historys
+    },
     isLocation() {
       return window.location.pathname
+    },
+    playerCards() {
+      return store.state.playerCards
     },
     isAdmin() {
       let result = false
@@ -831,7 +703,7 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   &-column {
-    width: 300px;
+    width: 450px;
     height: 100%;
     display: flex;
     flex-direction: row;
