@@ -3,8 +3,8 @@
     <footer-card
         :isAdmin="isAdmin"
         :player="player"
-        pageRightTab="inventory"
-        pageLeftTab="stats"
+        pageRightTab="stats"
+        pageLeftTab="classes"
         nameRightTab="Начало"
         nameLeftTab="Классы"
         @tabChange="setPage"

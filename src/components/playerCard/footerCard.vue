@@ -66,6 +66,7 @@ export default {
     },
     toInventory() {
       this.$emit('tabChange', this.pageRightTab)
+      this.sendChangePlayer()
     }
   },
 
@@ -93,6 +94,7 @@ export default {
     height: 100%;
     width: 25%;
     text-align: center;
+    cursor: pointer;
   }
 }
 .footerTab {

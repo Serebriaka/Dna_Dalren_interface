@@ -7,8 +7,8 @@
           <div class="stats-first-name stat">{{player.name}}</div>
         </div>
         <div class="stats-first">
-          <div class="stats-first-history stat">{{player.history}}</div>
           <div class="stats-first-class stat">{{player.class}}</div>
+          <div class="stats-first-history stat">{{player.history}}</div>
           <div class="stats-first-race stat">{{player.race}}</div>
           <div class="stats-first-city stat">{{player.city}}</div>
         </div>
@@ -45,6 +45,13 @@
         v-if="player.page === 'inventory'"
         :player="player"
     />
+    <button
+        class="del-player" v-if="isAdmin"
+        @mousedown.stop="startHold"
+        @mouseup.stop="endHold"
+    >
+      Удалить игрока
+    </button>
   </div>
 </template>
 
@@ -58,7 +65,8 @@ import InventoryPlayer from '@/components/playerCard/InventoryPlayer.vue'
 
 export default {
   props: {
-    player: {}
+    player: {},
+    index: {}
   },
   data() {
     return {
@@ -93,6 +101,17 @@ export default {
     sendChangePlayer() {
       store.dispatch('sendSharedValue')
     },
+    startHold() {
+      this.holdTimer = setTimeout(() => {
+        this.doAction()
+      }, 1000);
+    },
+    endHold() {
+      clearTimeout(this.holdTimer);
+    },
+    doAction() {
+      this.$emit('changeDel', this.index)
+    }
   },
   computed: {
     statsValues() {
@@ -239,6 +258,13 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+.del-player {
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+  cursor: pointer;
+  margin-left: 15px;
 }
 .fs14 {
   font-size: 14px;

@@ -714,6 +714,387 @@ const store = new Vuex.Store({
                 ]
             }
         ],
+        armors: [
+            {
+                name: 'Кожаный доспех',
+                category: 'armor',
+                weight: 7,
+                sale: 50,
+                description: 'Легкий кожаный доспех, способный выдержать незначительный рубящий урон.',
+                chopping: 2, //рубящий
+                pricking: 0, //колющий
+                crushing: 0, //дробящий
+                strength: 6 //сила
+            },
+            {
+                name: 'Стеганый доспех',
+                category: 'armor',
+                weight: 10,
+                sale: 90,
+                description: 'Легкий стеганый доспех, обеспечивающий защиту от рубящего урона.',
+                chopping: 3, //рубящий
+                pricking: 0, //колющий
+                crushing: 0, //дробящий
+                strength: 8 //сила
+            },
+            {
+                name: 'Кольчужный доспех',
+                category: 'armor',
+                weight: 12,
+                sale: 180,
+                description: 'Распространенный средний доспех, защищающий владельца от рубящего и дробящего урона.',
+                chopping: 5, //рубящий
+                pricking: 0, //колющий
+                crushing: 5, //дробящий
+                strength: 12 //сила
+            },
+            {
+                name: 'Пластинчатый доспех',
+                category: 'armor',
+                weight: 14,
+                sale: 240,
+                description: 'Средний доспех, хорошо защищающий владельца от рубящего и дробящего урона.',
+                chopping: 6, //рубящий
+                pricking: 0, //колющий
+                crushing: 6, //дробящий
+                strength: 16 //сила
+            },
+            {
+                name: 'Латный доспех',
+                category: 'armor',
+                weight: 20,
+                sale: 320,
+                description: 'Тяжелый доспех, хорошо защищающий владельца от колющего урона и немного от рубящего и дробящего.',
+                chopping: 0, //рубящий
+                pricking: 14, //колющий
+                crushing: 0, //дробящий
+                strength: 18 //сила
+            },
+            {
+                name: 'Турнирные латы',
+                category: 'armor',
+                weight: 30,
+                sale: 590,
+                description: 'Тяжелый доспех, дающий лучшую защиту от колющего урона и немного защищающий от рубящего и дробящего.',
+                chopping: 3, //рубящий
+                pricking: 20, //колющий
+                crushing: 3, //дробящий
+                strength: 21 //сила
+            },
+        ],
+        items: [
+            {
+                name: 'Провизия',
+                weight: 1,
+                sale: 1,
+                description: 'Порция еды, рассчитанная на одного персонажа для долгого отдыха.',
+                category: 'Food',
+            },
+            {
+                name: 'Вода',
+                weight: 1,
+                sale: 1,
+                description: 'Порция воды, рассчитанная на одного персонажа для долгого отдыха.',
+                category: 'Food',
+            },
+            {
+                name: 'Зелье лечения',
+                weight: 0.5,
+                sale: 50,
+                description: 'Зелье лечения, способное залечить легкие ранения.',
+                category: 'medicine',
+                random: '1d12'
+            },
+            {
+                name: 'название',
+                weight: 1,
+                sale: 20,
+                description: 'Чистый бинт, поможет остановить кровотечение.',
+                category: 'medicine',
+                random: '1d6'
+            },
+            {
+                name: 'Книга',
+                weight: 0.5,
+                sale: 0,
+                description: 'Обычная книга, найденная на просторах Дальрена.',
+                category: 'Book',
+                random: '1d12'
+            },
+            {
+                name: 'Инструменты для взлома',
+                weight: 1,
+                sale: 40,
+                description: 'Набор молоточков и отмычек для вскрытия замков. Ломается после 4 попыток взлома.',
+                category: 'instrument',
+                random: '1d2' //Получилось, или не получилось
+            },
+            {
+                name: 'Инструменты сапера',
+                weight: 1,
+                sale: 40,
+                description: 'Набор из кусачек и синей изоленты для обезвреживания ловушек. Ломается после 4 попыток обезвреживания.',
+                category: 'instrument',
+                random: '1d2' //Получилось, или не получилось
+            },
+            {
+                name: 'название',
+                weight: 1,
+                sale: 25,
+                description: 'Самая обычная лопата, с помощью которой можно закопать труп, или выкопать сокровище.',
+                category: 'instrument',
+            }
+        ],
+        weapons: [
+            {
+                name: 'Тяжелая булава',
+                weight: 3,
+                sale: 50,
+                description: 'Увесистая незамысловатая булава, прекрасно подходит как разбойникам, так и городской страже.',
+                category: 'weapons',
+                type: ['Heavy'],
+                chopping: 0, //рубящий
+                pricking: 0, //колющий
+                crushing: 1-8, //дробящий
+                strength: 10,
+                dexterity: 0, //указывать ли характеристику, если она не требуется?
+            },
+            {
+                name: 'Копье',
+                weight: 2,
+                sale: 75,
+                description: 'Легкое укороченное копье, при должной сноровке можно использовать вместе со щитом.',
+                category: 'weapons',
+                type: ['light', 'two-handed'],
+                chopping: 0, //рубящий
+                pricking: 1-12, //колющий
+                crushing: 0, //дробящий
+                strength: 8,
+                dexterity: 12,
+            },
+            {
+                name: 'Кинжал',
+                weight: 1,
+                sale: 30,
+                description: 'Легкий кинжал - универсальное оружие, подходящее каждому.',
+                category: 'weapons',
+                type: ['light'],
+                chopping: 0, //рубящий
+                pricking: 1-4, //колющий
+                crushing: 0, //дробящий
+                strength: 0,
+                dexterity: 6,
+            },
+            {
+                name: 'Короткий меч',
+                weight: 2,
+                sale: 50,
+                description: 'Самый обычный короткий меч, выкованный самым обычным кузнецом.',
+                category: 'weapons',
+                type: ['light'],
+                chopping: 0, //рубящий
+                pricking: 1-10, //колющий
+                crushing: 0, //дробящий
+                strength: 10,
+                dexterity: 10,
+            },
+            {
+                name: 'Длинный меч',
+                weight: 3,
+                sale: 120,
+                description: 'Тяжелый клинок, с которым способен справиться не каждый воин.',
+                category: 'weapons',
+                type: ['Heavy', 'two-handed'],
+                chopping: 0, //рубящий
+                pricking: 0, //колющий
+                crushing: 2-20, //дробящий
+                strength: 14,
+                dexterity: 10,
+            },
+            {
+                name: 'Двуручный топор',
+                weight: 5,
+                sale: 110,
+                description: 'Тяжелый двуручный топор, придется по вкусу палачу.',
+                category: 'weapons',
+                type: ['Heavy', 'two-handed'],
+                chopping: 0, //рубящий
+                pricking: 0, //колющий
+                crushing: 1-20, //дробящий
+                strength: 14,
+                dexterity: 0,
+            },
+            {
+                name: 'Одноручный топор',
+                weight: 2,
+                sale: 80,
+                description: 'Самый простой боевой топор. Пригоден для рубки деревьев.',
+                category: 'weapons',
+                type: ['Heavy'],
+                chopping: 1-10, //рубящий
+                pricking: 0, //колющий
+                crushing: 0, //дробящий
+                strength: 10,
+                dexterity: 8,
+            },
+            {
+                name: 'Тяжелый молот',
+                weight: 6,
+                sale: 150,
+                description: 'описание',
+                category: 'weapons',
+                type: ['Heavy', 'two-handed'],
+                chopping: 0, //рубящий
+                pricking: 0, //колющий
+                crushing: 3-18, //дробящий
+                strength: 16,
+                dexterity: 0,
+            },
+            {
+                name: 'Рапира',
+                weight: 2,
+                sale: 140,
+                description: 'Легкое и изящное оружие, способное пробить латы.',
+                category: 'weapons',
+                type: ['light'],
+                chopping: 0, //рубящий
+                pricking: 5-20, //колющий
+                crushing: 0, //дробящий
+                strength: 10,
+                dexterity: 15,
+            },
+            {
+                name: 'Короткий лук',
+                weight: 2,
+                sale: 50,
+                description: 'Короткий охотничий лук, популярный во всех королевствах.',
+                category: 'weapons',
+                type: ['Remote', 'two-handed'],
+                chopping: 0, //рубящий
+                pricking: 1-12, //колющий
+                crushing: 0, //дробящий
+                strength: 0,
+                dexterity: 12,
+            },
+            {
+                name: 'Длинный лук',
+                weight: 2,
+                sale: 210,
+                description: 'Длинный лук, используемый лучшими стрелками континента.',
+                category: 'weapons',
+                type: ['Remote', 'two-handed'],
+                chopping: 0, //рубящий
+                pricking: 6-21, //колющий
+                crushing: 0, //дробящий
+                strength: 0,
+                dexterity: 18,
+            },
+            {
+                name: 'Ручной арбалет',
+                weight: 1,
+                sale: 80,
+                description: 'Небольшой арбалет, который можно использовать одной рукой.',
+                category: 'weapons',
+                type: ['Remote'],
+                chopping: 0, //рубящий
+                pricking: 2-8, //колющий
+                crushing: 0, //дробящий
+                strength: 0,
+                dexterity: 12,
+            },
+            {
+                name: 'Тяжелый арбалет',
+                weight: 6,
+                sale: 240,
+                description: 'Тяжелый арбалет с мощной пробивной способностью. Враги, получившие урон этим оружием и не прошедшие проверку силы теряю равновесие до следующего своего хода',
+                category: 'weapons',
+                type: ['Remote', 'two-handed'],
+                chopping: 0, //рубящий
+                pricking: 7-21, //колющий
+                crushing: 0, //дробящий
+                strength: 12,
+                dexterity: 16,
+            }
+        ],
+        cloth: [
+            {
+                name: 'Поношенное дорожное платье',
+                weight: 2,
+                sale: 10,
+                description: 'Базовая одежда с капюшоном, какая найдется у любого искателя приключений.',
+                category: 'cloth',
+            },
+            {
+                name: 'Удобная городская одежда',
+                weight: 2,
+                sale: 60,
+                description: 'Удобная одежда для пронулок по городу. Дает + 1 к проверкам харизмы.',
+                category: 'cloth',
+            },
+            {
+                name: 'Одежда рабочего',
+                weight: 2,
+                sale: 50,
+                description: 'Выдается при получении любой профессии (кроме золотаря). Дает + 1 к проверкам харизмы. ',
+                category: 'cloth',
+            },
+            {
+                name: 'Дорогие одежды',
+                weight: 2,
+                sale: 95,
+                description: 'Одежда из дорогих тканей, сшитая мастером-портным. Дает + 2 к проверкам харизмы.',
+                category: 'cloth',
+            },
+            {
+                name: 'Шелковый костюм',
+                weight: 2,
+                sale: 160,
+                description: 'Такой костюм по кошелю исключительно дворянину. Дает + 3 к проверкам харизмы.',
+                category: 'cloth',
+            },
+            {
+                name: 'Сшитые под заказ одеяния ',
+                weight: 2,
+                sale: 290,
+                description: 'Сшитый под заказ костюм, украшенный драгоценностями, мечта каждого артиста. Дает + 4 к проверкам харизмы.',
+                category: 'cloth',
+            }
+        ],
+        shield: [
+            {
+                name: 'Круглый деревянный щит',
+                category: 'shield',
+                weight: 2,
+                sale: 50,
+                description: 'Обычный круглый деревянный щит, дающий небольшую защиту от всех типов урона.',
+                chopping: 1, //рубящий
+                pricking: 1, //колющий
+                crushing: 1, //дробящий
+                strength: 2 //сила
+            },
+            {
+                name: 'Стальной каплевидный щит',
+                category: 'shield',
+                weight: 2,
+                sale: 90,
+                description: 'Стальной капливидный щит, хорошо защищающий владьца от всех видов урона.',
+                chopping: 2, //рубящий
+                pricking: 2, //колющий
+                crushing: 2, //дробящий
+                strength: 4 //сила
+            },
+            {
+                name: 'Тяжелый башенный щит',
+                category: 'shield',
+                weight: 4,
+                sale: 230,
+                description: 'Тяжелый башенный щит, отлично защищающий владельца от всех видов урона.',
+                chopping: 4, //рубящий
+                pricking: 4, //колющий
+                crushing: 4, //дробящий
+                strength: 7 //сила
+            }
+        ]
     },
     getters: {
         getTest: state => {

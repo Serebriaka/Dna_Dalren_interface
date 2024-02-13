@@ -65,14 +65,6 @@ export default  {
         result.push(obj)
       })
       return result
-    },
-    isLocation() {
-      return window.location.pathname
-    },
-    isAdmin() {
-      let result = false
-      if(this.isLocation === '/admin') result = true
-      return result
     }
   }
 }
