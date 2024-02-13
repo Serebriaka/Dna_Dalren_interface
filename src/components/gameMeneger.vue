@@ -64,7 +64,7 @@ export default {
   async mounted() {
     setInterval(() => {
       store.dispatch('updateSharedValue');
-    }, 2000);
+    }, 2500);
   },
 
   methods: {
@@ -102,6 +102,8 @@ export default {
            choppingArmor: 0,
            crushingArmor: 0,
          },
+         inventory: [],
+         equipment: [],
          gold: 0,
          exp: 0,
        }
@@ -149,7 +151,7 @@ export default {
 }
 .body {
   width: 100%;
-  height: 90%;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

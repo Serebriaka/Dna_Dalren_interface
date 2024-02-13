@@ -1,5 +1,9 @@
 <template>
   <div class="inventory">
+    <inventory-table
+        :player="player"
+    />
+
     <footer-card
         :isAdmin="isAdmin"
         :player="player"
@@ -14,12 +18,12 @@
 <script>
 
 import footerCard from "@/components/playerCard/footerCard.vue";
-
+import inventoryTable from "./inventoryTable.vue"
 export default {
   props: {
     player: {}
   },
-  components: {footerCard},
+  components: {footerCard, inventoryTable},
   data() {
     return {
 

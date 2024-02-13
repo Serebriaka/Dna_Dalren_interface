@@ -806,7 +806,7 @@ const store = new Vuex.Store({
                 random: '1d12'
             },
             {
-                name: 'название',
+                name: 'Бинт',
                 weight: 1,
                 sale: 20,
                 description: 'Чистый бинт, поможет остановить кровотечение.',
@@ -838,7 +838,7 @@ const store = new Vuex.Store({
                 random: '1d2' //Получилось, или не получилось
             },
             {
-                name: 'название',
+                name: 'Лопата',
                 weight: 1,
                 sale: 25,
                 description: 'Самая обычная лопата, с помощью которой можно закопать труп, или выкопать сокровище.',

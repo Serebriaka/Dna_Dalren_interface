@@ -1,6 +1,6 @@
 <template>
   <div class="body" >
-    <div class="stats" v-if="player.page === 'stats'">
+    <div class="stats" v-if="isAdmin || player.page === 'stats'">
       <div class="stats-header">
         <div class="stats-header-column">
           <div class="stats-ava"></div>
@@ -40,9 +40,8 @@
         @tabChange="setpage"
       />
     </div>
-
     <InventoryPlayer
-        v-if="player.page === 'inventory'"
+        v-if="isAdmin || player.page === 'inventory'"
         :player="player"
     />
     <button
@@ -178,7 +177,7 @@ export default {
 <style scoped lang="scss">
 .body {
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 .btn {
   background-color: #e3a774;
@@ -256,8 +255,12 @@ export default {
   height: 96%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
+  @media screen and (min-width: 576px) {
+    height: 400px;
+  }
+
 }
 .del-player {
   width: 100%;
