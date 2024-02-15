@@ -32,7 +32,7 @@
               Использовать
             </div>
             <div class="selectPopup-tab"
-                 v-if="isArmor || isWeapon"
+                 v-if="isArmor || isWeapon || isСloth"
                  @click="clickTab('equip', inv, index)"
             >
               Экипировать
@@ -74,6 +74,7 @@ export default {
       categoryArray: ["Броня", "Предметы", "Оружие", "Одежда", "Щиты"],
       isArmor: false,
       isWeapon: false,
+      isСloth: false,
     }
   },
   mounted() {
@@ -143,16 +144,26 @@ export default {
       } else {
         this.isWeapon = false
       }
-      console.log(this.isWeapon)
+
+      if(this.categoryTouch === 'weapons' && isTwoHandedActive) {
+        this.isWeapon = true
+      }
+
       if(this.categoryTouch === 'shield' && isTwoHandedActive) {
         this.isWeapon = true
       }
 
-      let isSArmor = this.player.equipment.some(item => item.category === 'armor')//блок валидации брони
-      if(this.categoryTouch === 'armor' && !isSArmor) {
+      let isArmor = this.player.equipment.some(item => item.category === 'armor')//блок валидации брони
+      if(this.categoryTouch === 'armor' && !isArmor) {
         this.isArmor = true
       } else {
         this.isArmor = false
+      }
+      let isСloth = this.player.equipment.some(item => item.category === 'cloth')//блок валидации одежды
+      if(this.categoryTouch === 'cloth' && !isСloth) {
+        this.isСloth = true
+      } else {
+        this.isСloth = false
       }
 
     }
