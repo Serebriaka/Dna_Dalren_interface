@@ -29,7 +29,6 @@ export default  {
     }
   },
   mounted() {
-    console.log(store.state.test)
   },
   methods: {
     minSkill(stat) {

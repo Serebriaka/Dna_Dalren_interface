@@ -59,7 +59,6 @@ export default {
     cardPlayer
   },
   created() {
-    console.log(store.state.historys)
   },
   async mounted() {
     setInterval(() => {

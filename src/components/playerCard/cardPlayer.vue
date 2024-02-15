@@ -81,7 +81,6 @@ export default {
     InventoryPlayer
   },
   mounted() {
-    console.log(window.location.pathname)
   },
   methods: {
     minSkill(value, statsEng) {
