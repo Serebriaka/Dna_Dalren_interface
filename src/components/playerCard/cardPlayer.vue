@@ -20,8 +20,20 @@
         />
       </div>
       <div class="stats-third">
-        <div class="stat fs14">Здоровье {{setHeat}}</div>
-        <div class="stat fs14">Защита 0</div>
+        <div class="stat fs14">
+          Здоровье
+          <select v-if="isAdmin" v-model="selectedHealthPoint">
+            <option v-for="point in points" :key="point">{{point}}</option>
+          </select>
+          <button class="btn" v-if="isAdmin" @click="setActHealth('dec')">-</button>
+          {{player.actHealth}}
+          <button class="btn" v-if="isAdmin" @click="setActHealth('inc')">+</button>
+          /
+          {{setHeat}}
+        </div>
+        <div class="stat fs14">
+          Защита {{player.choppingArmor}} {{player.crushingArmor}} {{player.prickingArmor}}
+        </div>
         <div class="stat fs14">Скрытность {{setStels}}</div>
         <div class="stat fs14">Внимательность {{setObservation}}</div>
         <div class="stat fs14">Инициатива {{setIniciative}}</div>
@@ -71,7 +83,8 @@ export default {
     return {
       stats: ['Сил', "Лов", "Вын", "Инт", "Муд", "Хар"],
       statsEng: ['strength', "dexterity", "constitution", "intelligence", "wisdom", "charisma"],
-      testValue: 0.2
+      selectedHealthPoint: 1,
+      points: [1,2,3,5,10,20,50]
     }
   },
   components: {
@@ -109,6 +122,11 @@ export default {
     },
     doAction() {
       this.$emit('changeDel', this.index)
+    },
+    setActHealth(tab) {
+      if(tab === 'dec') this.player.actHealth = this.player.actHealth - +this.selectedHealthPoint
+      if(tab === 'inc') this.player.actHealth = this.player.actHealth + +this.selectedHealthPoint
+      this.sendChangePlayer()
     }
   },
   computed: {
@@ -148,6 +166,7 @@ export default {
     setHeat() {
       let result = []
       result = this.statsValues[2].value * 3
+      if(this.player.actHealth > result) this.player.actHealth = result
       return result
     },
     setStels() {

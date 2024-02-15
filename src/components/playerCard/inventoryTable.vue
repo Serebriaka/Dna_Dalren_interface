@@ -96,7 +96,9 @@ export default {
         this.player.equipment.push(inv)
         this.player.inventory.splice(index, 1)
       }
-      console.log(inv)
+      if(tab === 'use') {
+        this.useHealth(inv, index)
+      }
       this.selectedIndexPopup = null
       store.dispatch('sendSharedValue')
     },
@@ -115,55 +117,89 @@ export default {
       this.isValidatePopup()
     },
     clickItem(index, inv) { //логика открытия и закрытия попапа
-      console.log(inv)
       if (this.selectedIndexPopup === index) {
         this.selectedIndexPopup = null
-        this.isValidatePopup()
+        this.isValidatePopup(inv)
       } else {
         this.categoryTouch = ''
         this.selectedIndexPopup = index
         this.categoryTouch = inv.category
-        this.isValidatePopup()
+        this.isValidatePopup(inv)
+      }
+      console.log(inv)
+    },
+    isValidatePopup(inv) {
+      if (inv?.category === 'weapons' || inv?.category === 'shield' || inv?.category === 'armor' || inv?.category === 'cloth') {
+        let counterOneWeapons = 0 // количество одноручных оружий
+        this.player.equipment.forEach(item => {
+          if(item?.handed === 'one-handed') counterOneWeapons++
+        })
+
+        let counterTwoWeapons = 0 // количество двуручных оружий
+        this.player.equipment.forEach(item => {
+          if(item?.handed === 'two-handed') counterTwoWeapons++
+        })
+
+        let counterShield = 0 //количество щитов
+        this.player.equipment.forEach(item => {
+          console.log(item)
+          if(item?.handed === 'one-handed' && item?.category === 'shield') {
+            counterShield++
+          }
+        })
+        let isTwoHanded = this.player.equipment.some(item => item?.handed === 'two-handed'); //блок валидации двуручного оружия
+        //надо сделать вложенности if
+        if(inv.handed === 'one-handed' && inv.category !== 'shield') {
+          if(counterOneWeapons <= 1 && counterShield <= 1 && counterTwoWeapons === 0) {
+            this.isWeapon = true
+          } else {
+            this.isWeapon = false
+          }
+        }
+        if(inv.handed === 'one-handed' && inv.category === 'shield') {
+          if(counterOneWeapons <= 1 && counterShield === 0 && counterTwoWeapons === 0) {
+            this.isWeapon = true
+          } else {
+            this.isWeapon = false
+          }
+        }
+        if(inv.handed === 'two-handed') {
+          if(counterOneWeapons === 0 && counterShield === 0 && counterTwoWeapons === 0) {
+            this.isWeapon = true
+          } else {
+            this.isWeapon = false
+          }
+        }
+
+        let isArmors = this.player.equipment.some(item => item.category === 'armor')//блок валидации брони
+        if(this.categoryTouch === 'armor' && !isArmors) {
+          this.isArmor = true
+        } else {
+          this.isArmor = false
+        }
+        let isСloth = this.player.equipment.some(item => item.category === 'cloth')//блок валидации одежды
+        if(this.categoryTouch === 'cloth' && !isСloth) {
+          this.isСloth = true
+        } else {
+          this.isСloth = false
+        }
       }
     },
-    isValidatePopup() {
-      let counter = 0
-      this.player.equipment.forEach(item => {
-        if(item?.handed === 'one-handed') counter++
-      })
-      let isTwoHandedActive = false
-      if (counter <= 1) {
-        isTwoHandedActive = true
-      } else {
-        isTwoHandedActive = false
+    useHealth(inv, index) {
+      if(inv.category === 'medicine') {
+        if(inv.randoms === '1d12') {
+          let randomNum = 0
+          randomNum = Math.floor(Math.random() * 12) + 1;
+          this.player.actHealth = this.player.actHealth + +randomNum
+          this.player.inventory.splice(index, 1)
+        }
+        if(inv.randoms === '1d6') {
+          let randomNum = 0
+          randomNum = Math.floor(Math.random() * 6) + 1;
+          this.player.actHealth = this.player.actHealth + +randomNum
+          this.player.inventory.splice(index, 1)
+        }
       }
-
-      let isTwoHanded = this.player.equipment.some(item => item?.handed === 'two-handed'); //блок валидации двуручного оружия
-      if(this.categoryTouch === 'weapons' && !isTwoHanded && counter < 1) {
-        this.isWeapon = true
-      } else if(this.categoryTouch === 'weapons' && isTwoHandedActive) {
-        this.isWeapon = true
-      } else {
-        this.isWeapon = false
-      }
-
-      if(this.categoryTouch === 'shield' && isTwoHandedActive) {
-        this.isWeapon = true
-      }
-
-      let isArmor = this.player.equipment.some(item => item.category === 'armor')//блок валидации брони
-      if(this.categoryTouch === 'armor' && !isArmor) {
-        this.isArmor = true
-      } else {
-        this.isArmor = false
-      }
-      let isСloth = this.player.equipment.some(item => item.category === 'cloth')//блок валидации одежды
-      if(this.categoryTouch === 'cloth' && !isСloth) {
-        this.isСloth = true
-      } else {
-        this.isСloth = false
-      }
-
     }
   },
   computed: {

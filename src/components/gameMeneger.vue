@@ -96,11 +96,9 @@ export default {
            wisdom: race.characteristics.wisdom + history.skills.wisdom,
            charisma: race.characteristics.charisma + history.skills.charisma
          },
-         armor: {
-           name: '',
-           choppingArmor: 0,
-           crushingArmor: 0,
-         },
+         choppingArmor: 0, //рубящий
+         crushingArmor: 0, //дробящий
+         prickingArmor: 0, //колющий
          inventory: [],
          equipment: [],
          gold: 0,

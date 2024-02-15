@@ -804,7 +804,7 @@ const store = new Vuex.Store({
                     sale: 50,
                     description: 'Зелье лечения, способное залечить легкие ранения.',
                     category: 'medicine',
-                    random: '1d12'
+                    randoms: '1d12'
                 },
                 {
                     name: 'Бинт',
@@ -812,7 +812,7 @@ const store = new Vuex.Store({
                     sale: 20,
                     description: 'Чистый бинт, поможет остановить кровотечение.',
                     category: 'medicine',
-                    random: '1d6'
+                    randoms: '1d6'
                 },
                 {
                     name: 'Книга',
@@ -820,7 +820,7 @@ const store = new Vuex.Store({
                     sale: 0,
                     description: 'Обычная книга, найденная на просторах Дальрена.',
                     category: 'Book',
-                    random: '1d12'
+                    randoms: '1d12'
                 },
                 {
                     name: 'Инструменты для взлома',
@@ -828,7 +828,7 @@ const store = new Vuex.Store({
                     sale: 40,
                     description: 'Набор молоточков и отмычек для вскрытия замков. Ломается после 4 попыток взлома.',
                     category: 'instrument',
-                    random: '1d2' //Получилось, или не получилось
+                    randoms: '1d2' //Получилось, или не получилось
                 },
                 {
                     name: 'Инструменты сапера',
@@ -836,7 +836,7 @@ const store = new Vuex.Store({
                     sale: 40,
                     description: 'Набор из кусачек и синей изоленты для обезвреживания ловушек. Ломается после 4 попыток обезвреживания.',
                     category: 'instrument',
-                    random: '1d2' //Получилось, или не получилось
+                    randoms: '1d2' //Получилось, или не получилось
                 },
                 {
                     name: 'Лопата',
