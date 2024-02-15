@@ -257,7 +257,7 @@ export default {
   justify-content: end;
   align-items: center;
   @media screen and (min-width: 576px) {
-    height: 400px;
+    height: 580px;
   }
 
 }

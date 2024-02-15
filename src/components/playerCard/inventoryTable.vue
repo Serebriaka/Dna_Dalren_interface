@@ -141,12 +141,10 @@ export default {
       let isTwoHanded = this.player.equipment.some(item => item?.handed === 'two-handed'); //блок валидации двуручного оружия
       if(this.categoryTouch === 'weapons' && !isTwoHanded && counter < 1) {
         this.isWeapon = true
+      } else if(this.categoryTouch === 'weapons' && isTwoHandedActive) {
+        this.isWeapon = true
       } else {
         this.isWeapon = false
-      }
-
-      if(this.categoryTouch === 'weapons' && isTwoHandedActive) {
-        this.isWeapon = true
       }
 
       if(this.categoryTouch === 'shield' && isTwoHandedActive) {
@@ -318,5 +316,8 @@ export default {
   border: 2px solid #8B4513;
   background-color: white;
   margin-bottom: 117px;
+  &-tab {
+    cursor: pointer;
+  }
 }
 </style>
