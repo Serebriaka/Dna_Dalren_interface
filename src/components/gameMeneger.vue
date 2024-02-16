@@ -2,14 +2,19 @@
   <div class="container">
     <div class="body">
       <div class="body-column">
-        <cardPlayer
+        <div
             v-for="(player, index) in playerCards"
             :key="player.name"
-            :player="player"
-            :index="index"
-            @changeDel="delPlayer"
         >
-        </cardPlayer>
+          <cardPlayer
+              v-if="isLocation === '/' + index || isAdmin"
+              :player="player"
+              :index="index"
+              @changeDel="delPlayer"
+          >
+          </cardPlayer>
+        </div>
+
       </div>
       <div class="form_add_player" v-if="isAdmin">
         <select v-model="selectedClass">
@@ -65,7 +70,6 @@ export default {
       store.dispatch('updateSharedValue');
     }, 2500);
   },
-
   methods: {
     createPlayerCard() {
        let race = this.races.find((race) => {
@@ -101,6 +105,7 @@ export default {
          prickingArmor: 0, //колющий
          inventory: [],
          equipment: [],
+         actHealth: null,
          gold: 0,
          exp: 0,
        }

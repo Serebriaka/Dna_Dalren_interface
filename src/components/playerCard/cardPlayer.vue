@@ -94,6 +94,11 @@ export default {
     InventoryPlayer
   },
   mounted() {
+    /* eslint-disable */
+    if(this.player.actHealth === null) {
+      this.player.actHealth = this.player.skills.constitution * 3
+      this.sendChangePlayer()
+    }
   },
   methods: {
     minSkill(value, statsEng) {
