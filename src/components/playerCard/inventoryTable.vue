@@ -241,25 +241,11 @@ export default {
       if(this.isLocation === '/admin') result = true
       return result
     },
-    // isArmor() {
-    //   let result = false
-    //   if(this.categoryTouch === 'armor') result = true
-    //   return result
-    // },
     isUse() {
       let result = false
       if(this.categoryTouch === 'medicine') result = true
       return result
     },
-    // isWeapon() {
-    //   let result = false
-    //
-    //   if(this.categoryTouch === 'weapons') result = true
-    //   this.player.equipment.forEach(item => {
-    //     if(item?.handed === 'two-handed') result = false
-    //   })
-    //   return result
-    // }
   },
   watch: {
     selectedCategory() {
