@@ -1,62 +1,67 @@
 <template>
-  <div class="inventory-lists">
-    <div class="inventory-lists__left">
-      Экипировка
-      <div class="inventory-lists__left-tab">
-        <div
-            class="inventory-lists__left-item"
-            v-for="(equip, index) in player.equipment"
-            :key="index"
-            @click="enEquip(index, equip)"
-        >
-          {{ equip.name }} <div v-if="isAdmin" @click="delEquip(index)" style="margin-left: 5px">x</div>
-        </div>
-      </div>
-      <div class="weight">Вес: {{inventoryWeight}} / {{maxWeight}}</div>
+  <div class="inventory">
+    <div class="inventory-players">
+      <div class="inventory-players-tab" v-for="play in players" :key="play.name"> {{ play.name }}</div>
     </div>
-    <div class="inventory-lists__right">
-      Инвентарь
-      <div class="inventory-lists__right-tab">
-        <div
-            class="inventory-lists__right-item"
-            v-for="(inv, index) in player.inventory"
-            :key="index"
-        >
-          <div @click="clickItem(index, inv)">{{inv.name}}</div>
-          <div v-if="isAdmin" @click="delItem(index)" style="margin-left: 5px">x</div>
-          <div class="selectPopup" v-if="index === selectedIndexPopup">
-            <div class="selectPopup-tab"
-                 @click="clickTab('use', inv, index)"
-                 v-if="isUse"
-            >
-              Использовать
-            </div>
-            <div class="selectPopup-tab"
-                 v-if="isArmor || isWeapon || isСloth"
-                 @click="clickTab('equip', inv, index)"
-            >
-              Экипировать
-            </div>
-            <div class="selectPopup-tab"
-                 @click="clickTab('handOver', inv, index)"
-            >
-              Передать
-            </div>
+    <div class="inventory-card"> Инфентарь игрока: {{player.name}}</div>
+    <div class="inventory-lists">
+      <div class="inventory-lists__left">
+        Экипировка
+        <div class="inventory-lists__left-tab">
+          <div
+              class="inventory-lists__left-item"
+              v-for="(equip, index) in player.equipment"
+              :key="index"
+              @click="enEquip(index, equip)"
+          >
+            {{ equip.name }} <div v-if="isAdmin" @click="delEquip(index)" style="margin-left: 5px">x</div>
           </div>
         </div>
-        <select v-if="isAdmin" v-model="selectedCategory">
-          <option disabled value="">Выберите категорию</option>
-          <option v-for="(item) in categoryArray" :key="item"> {{item}}</option>
-        </select>
-        <select v-if="isAdmin" v-model="selectedItem">
-          <option disabled value="">Выберите предмет</option>
-          <option v-for="(item, index) in items" :key="index"> {{item.name}}</option>
-        </select>
-        <button @click="addItem" v-if="isAdmin">+</button>
+        <div class="weight">Вес: {{inventoryWeight}} / {{maxWeight}}</div>
+      </div>
+      <div class="inventory-lists__right">
+        Инвентарь
+        <div class="inventory-lists__right-tab">
+          <div
+              class="inventory-lists__right-item"
+              v-for="(inv, index) in player.inventory"
+              :key="index"
+          >
+            <div @click="clickItem(index, inv)">{{inv.name}}</div>
+            <div v-if="isAdmin" @click="delItem(index)" style="margin-left: 5px">x</div>
+            <div class="selectPopup" v-if="index === selectedIndexPopup">
+              <div class="selectPopup-tab"
+                   @click="clickTab('use', inv, index)"
+                   v-if="isUse"
+              >
+                Использовать
+              </div>
+              <div class="selectPopup-tab"
+                   v-if="isArmor || isWeapon || isСloth"
+                   @click="clickTab('equip', inv, index)"
+              >
+                Экипировать
+              </div>
+              <div class="selectPopup-tab"
+                   @click="clickTab('handOver', inv, index)"
+              >
+                Передать
+              </div>
+            </div>
+          </div>
+          <select v-if="isAdmin" v-model="selectedCategory">
+            <option disabled value="">Выберите категорию</option>
+            <option v-for="(item) in categoryArray" :key="item"> {{item}}</option>
+          </select>
+          <select v-if="isAdmin" v-model="selectedItem">
+            <option disabled value="">Выберите предмет</option>
+            <option v-for="(item, index) in items" :key="index"> {{item.name}}</option>
+          </select>
+          <button @click="addItem" v-if="isAdmin">+</button>
+        </div>
       </div>
     </div>
   </div>
-
 </template>
 <script>
 import store from "@/store";
@@ -246,6 +251,9 @@ export default {
       if(this.categoryTouch === 'medicine') result = true
       return result
     },
+    players() {
+      return store.state.playerCards
+    },
   },
   watch: {
     selectedCategory() {
@@ -256,6 +264,21 @@ export default {
 </script>
 <style lang="scss">
 .inventory {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  &-players {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    &-tab {
+      height: 40px;
+      width: 40px;
+      background-color: green;
+      color: white;
+    }
+  }
   &-lists {
     height: 50%;
     width: 100%;
@@ -295,6 +318,7 @@ export default {
       width: 100%;
       height: 100%;
       text-align: center;
+      position: relative;
       &-item {
         display: flex;
         align-items: center;
@@ -312,13 +336,14 @@ export default {
       }
 
       &-tab {
+        position: absolute;
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 97%;
         height: 90%;
         border: 2px solid #8B4513;
-        overflow-y: auto;
+        overflow: auto;
         gap: 2px;
       }
     }
@@ -332,12 +357,13 @@ export default {
 .selectPopup {
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
   height: auto;
   width: 40%;
   border: 2px solid #8B4513;
   background-color: white;
-  margin-bottom: 117px;
+  top: 10px;
+  //margin-bottom: 117px;
   &-tab {
     cursor: pointer;
   }

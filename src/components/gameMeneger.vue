@@ -2,19 +2,15 @@
   <div class="container">
     <div class="body">
       <div class="body-column">
-        <div
-            v-for="(player, index) in playerCards"
-            :key="player.name"
-        >
           <cardPlayer
-              v-if="isLocation === '/' + index || isAdmin"
+              v-for="(player, index) in playerCards"
+              :key="player.name"
+              v-show="isLocation === '/' + index || isAdmin"
               :player="player"
               :index="index"
               @changeDel="delPlayer"
           >
           </cardPlayer>
-        </div>
-
       </div>
       <div class="form_add_player" v-if="isAdmin">
         <select v-model="selectedClass">
@@ -192,7 +188,7 @@ export default {
   justify-content: space-between;
   margin-left: 40px;
 }
-@media (max-width: 480px) {
+@media (max-width: 576px) {
   .body {
     width: 100%;
     height: 100%;
