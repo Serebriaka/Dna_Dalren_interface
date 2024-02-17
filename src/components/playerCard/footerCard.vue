@@ -6,7 +6,7 @@
       {{ player.gold}}
       <button @click="setGold('add')" class="btn" v-if="isAdmin">+</button>
       <select v-model="selectGold" v-if="isAdmin">
-        <option v-for="number in selectGold" :key="number"> {{number}} </option>
+        <option v-for="number in numbersGold" :key="number"> {{number}} </option>
       </select>
     </div>
     <div class="footer-menu__exp footerTab">
