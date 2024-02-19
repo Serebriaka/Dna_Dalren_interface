@@ -55,6 +55,7 @@
     <InventoryPlayer
         v-if="isAdmin || player.page === 'inventory'"
         :player="player"
+        :index="index"
     />
     <button
         class="del-player" v-if="isAdmin"

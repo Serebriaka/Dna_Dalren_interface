@@ -1,7 +1,19 @@
 <template>
   <div class="inventory">
+    <div class="inventory-players">
+      <div class="inventory-players-tab"
+           v-for="(play, index) in players"
+           :key="play.name"
+           @click="clickAvatar(index)"
+      >
+        {{ play.name }}
+      </div>
+    </div>
+    <div class="inventory-card"> Инфентарь игрока: {{players[indexCard].name}}</div>
     <inventory-table
-        :player="player"
+        :player="players[indexCard]"
+        :index="index"
+        :indexCard="indexCard"
     />
 
     <footer-card
@@ -19,14 +31,16 @@
 
 import footerCard from "@/components/playerCard/footerCard.vue";
 import inventoryTable from "./inventoryTable.vue"
+import store from "@/store";
 export default {
   props: {
-    player: {}
+    player: {},
+    index: {}
   },
   components: {footerCard, inventoryTable},
   data() {
     return {
-
+      indexCard: this.index,
     }
   },
   methods: {
@@ -34,6 +48,10 @@ export default {
       /* eslint-disable */
       this.player.page = tab
     },
+    clickAvatar(index) {
+      console.log(index)
+      this.indexCard = index
+    }
   },
   computed: {
     isLocation() {
@@ -43,10 +61,32 @@ export default {
       let result = false
       if(this.isLocation === '/admin') result = true
       return result
-    }
+    },
+    players() {
+      return store.state.playerCards
+    },
   }
 }
 </script>
 <style lang="scss">
+.inventory {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 
+  &-players {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    &-tab {
+      height: 40px;
+      width: 40px;
+      background-color: green;
+      color: white;
+      cursor: pointer;
+    }
+  }
+}
 </style>

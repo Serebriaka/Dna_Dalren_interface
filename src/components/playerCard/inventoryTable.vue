@@ -1,9 +1,5 @@
 <template>
   <div class="inventory">
-    <div class="inventory-players">
-      <div class="inventory-players-tab" v-for="play in players" :key="play.name"> {{ play.name }}</div>
-    </div>
-    <div class="inventory-card"> Инфентарь игрока: {{player.name}}</div>
     <div class="inventory-lists">
       <div class="inventory-lists__left">
         Экипировка
@@ -32,20 +28,27 @@
             <div class="selectPopup" v-if="index === selectedIndexPopup">
               <div class="selectPopup-tab"
                    @click="clickTab('use', inv, index)"
-                   v-if="isUse"
+                   v-if="isUse && !stealItem"
               >
                 Использовать
               </div>
               <div class="selectPopup-tab"
-                   v-if="isArmor || isWeapon || isСloth"
+                   v-if="(isArmor || isWeapon || isСloth) && !stealItem"
                    @click="clickTab('equip', inv, index)"
               >
                 Экипировать
               </div>
               <div class="selectPopup-tab"
+                   v-if="!stealItem"
                    @click="clickTab('handOver', inv, index)"
               >
                 Передать
+              </div>
+              <div class="selectPopup-tab"
+                   v-if="stealItem"
+                   @click="clickTab('handOver', inv, index)"
+              >
+                Украсть
               </div>
             </div>
           </div>
@@ -68,7 +71,9 @@ import store from "@/store";
 
 export default {
   props: {
-    player: {}
+    player: {},
+    index: {},
+    indexCard: {},
   },
   data() {
     return {
@@ -251,9 +256,11 @@ export default {
       if(this.categoryTouch === 'medicine') result = true
       return result
     },
-    players() {
-      return store.state.playerCards
-    },
+    stealItem() {
+      let result = false
+      if(this.index !== this.indexCard) result = true
+      return result
+    }
   },
   watch: {
     selectedCategory() {
@@ -268,17 +275,6 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  &-players {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    &-tab {
-      height: 40px;
-      width: 40px;
-      background-color: green;
-      color: white;
-    }
-  }
   &-lists {
     height: 50%;
     width: 100%;
