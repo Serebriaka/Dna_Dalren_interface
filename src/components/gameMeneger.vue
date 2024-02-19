@@ -104,6 +104,10 @@ export default {
          actHealth: null,
          gold: 0,
          exp: 0,
+         isSteal: false,
+         subName: '',
+         domName: '',
+         invName: '',
        }
        this.playerCards.push(card)
       store.dispatch('sendSharedValue')

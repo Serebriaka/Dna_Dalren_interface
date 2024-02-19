@@ -14,6 +14,7 @@
         :player="players[indexCard]"
         :index="index"
         :indexCard="indexCard"
+        :playerName="player.name"
     />
 
     <footer-card
@@ -51,6 +52,7 @@ export default {
     clickAvatar(index) {
       console.log(index)
       this.indexCard = index
+      store.dispatch('sendSharedValue')
     }
   },
   computed: {

@@ -46,7 +46,7 @@
               </div>
               <div class="selectPopup-tab"
                    v-if="stealItem"
-                   @click="clickTab('handOver', inv, index)"
+                   @click="clickTab('stealItem', inv, index)"
               >
                 Украсть
               </div>
@@ -64,6 +64,15 @@
         </div>
       </div>
     </div>
+    <div v-if="isAdmin && player.isSteal" class="modal" :class="{ 'modal': true, 'slide-out': true }" style="border: 2px solid #f9ad03;">
+      <div class="modal-content">
+        <p>Игрок {{player.domName}} хочет украсть {{player.invName}} у игрока {{player.subName}}</p>
+        <div class="modal-content-btns">
+          <button class="medieval-button" @click="handle('yes')">Да</button>
+          <button class="medieval-button" @click="handle('no')">Нет</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -74,6 +83,7 @@ export default {
     player: {},
     index: {},
     indexCard: {},
+    playerName: {},
   },
   data() {
     return {
@@ -85,6 +95,9 @@ export default {
       isArmor: false,
       isWeapon: false,
       isСloth: false,
+      subName: '',
+      domName: '',
+      invName: '',
     }
   },
   mounted() {
@@ -109,6 +122,12 @@ export default {
       if(tab === 'use') {
         this.useHealth(inv, index)
       }
+      if(tab === 'stealItem') {
+        this.player.subName = this.player.name
+        this.player.domName = this.playerName
+        this.player.invName = inv.name
+        this.player.isSteal = true
+      }
       this.selectedIndexPopup = null
       store.dispatch('sendSharedValue')
     },
@@ -121,10 +140,12 @@ export default {
       store.dispatch('sendSharedValue')
     },
     enEquip(index, equip) {
-      this.player.equipment.splice(index, 1)
-      this.player.inventory.push(equip)
-      store.dispatch('sendSharedValue')
-      this.isValidatePopup()
+      if(!this.stealItem) {
+        this.player.equipment.splice(index, 1)
+        this.player.inventory.push(equip)
+        store.dispatch('sendSharedValue')
+        this.isValidatePopup()
+      }
     },
     clickItem(index, inv) { //логика открытия и закрытия попапа
       if (this.selectedIndexPopup === index) {
@@ -138,7 +159,7 @@ export default {
       }
       console.log(inv)
     },
-    isValidatePopup(inv) {
+    isValidatePopup(inv)  {
       if (inv?.category === 'weapons' || inv?.category === 'shield' || inv?.category === 'armor' || inv?.category === 'cloth') {
         let counterOneWeapons = 0 // количество одноручных оружий
         this.player.equipment.forEach(item => {
@@ -193,6 +214,10 @@ export default {
         } else {
           this.isСloth = false
         }
+      } else {
+        this.isСloth = false
+        this.isArmor = false
+        this.isWeapon = false
       }
     },
     useHealth(inv, index) {
@@ -210,6 +235,28 @@ export default {
           this.player.inventory.splice(index, 1)
         }
       }
+    },
+    handle(variable) {
+      if(variable === 'yes') {
+        let itemSteal = null
+        this.player.inventory.map((item, index) => {
+          if(item.name === this.player.invName) {
+            this.player.inventory.splice(index, 1)
+            itemSteal = item
+            console.log(this.players[this.index])
+          }
+        })
+        let index = null
+        this.players.forEach((item, ind) => {
+          if(item.name === this.player.domName) index = ind
+        })
+        this.players[index].inventory.push(itemSteal)
+      }
+      this.player.invName = ''
+      this.player.domName = ''
+      this.player.subName = ''
+      this.player.isSteal = false
+      store.dispatch('sendSharedValue')
     }
   },
   computed: {
@@ -260,7 +307,10 @@ export default {
       let result = false
       if(this.index !== this.indexCard) result = true
       return result
-    }
+    },
+    players() {
+      return store.state.playerCards
+    },
   },
   watch: {
     selectedCategory() {
@@ -316,10 +366,12 @@ export default {
       text-align: center;
       position: relative;
       &-item {
+        position: relative;
         display: flex;
         align-items: center;
         text-align: center;
         width: 93.5%;
+        flex-direction: column;
         justify-content: center;
         margin-top: -1px;
         height: auto;
@@ -353,15 +405,74 @@ export default {
 .selectPopup {
   display: flex;
   flex-direction: column;
-  position: fixed;
+  //position: absolute;
+  padding: 4px;
+  left: 4px;
   height: auto;
-  width: 40%;
+  width: auto;
   border: 2px solid #8B4513;
   background-color: white;
-  top: 10px;
+  top: 32px;
+  z-index: 2;
   //margin-bottom: 117px;
   &-tab {
     cursor: pointer;
+  }
+}
+.medieval-button {
+  background-color: #8B4513;
+  color: #fff;
+  padding: 5px 5px;
+  font-size: 18px;
+  border: 2px solid #8B4513;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Times New Roman', serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+  height: 40px;
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+.modal {
+  z-index: 1;
+  position: fixed;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.5s forwards; /* начальная анимация выезжания */
+}
+
+.modal.slide-out {
+  animation: slideOut 0.5s forwards; /* анимация выезжания */
+}
+.modal-content {
+  text-align: center;
+  &-btns {
+    gap: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 }
 </style>
