@@ -1,7 +1,15 @@
 <template>
     <div class="stats-fourth">
       <div class="stats-fourth__tab">
-        Профессии
+        Профессии:
+        <div class="stats-fourth__tab-elem" v-for="prof in player.professions" :key="prof">
+          {{prof}} <div @click="delProf(prof)" v-if="isAdmin">x</div >
+        </div>
+        <select v-if="isAdmin" v-model="selectedProfession" style="width: 90%" >
+          <option disabled value="">Выберите язык</option>
+          <option v-for="prof in professions" :key="prof"> {{ prof }}</option>
+        </select>
+        <button v-if="isAdmin" @click="addProf">+</button>
       </div>
       <div class="stats-fourth__tab">
         Языки:
@@ -10,7 +18,7 @@
         </div>
         <select v-if="isAdmin" v-model="selectedLang" style="width: 90%" >
           <option disabled value="">Выберите язык</option>
-          <option v-for="lang in languages" :key="lang"> {{ lang}}</option>
+          <option v-for="lang in languages" :key="lang"> {{ lang }}</option>
         </select>
         <button v-if="isAdmin" @click="addLang">+</button>
       </div>
@@ -27,7 +35,9 @@ export default {
   data() {
     return {
       languages: ["Грязный эльфийский", "Высокий эльфийский", "Забытый", "Всеобщий", "Язык крови", "Ташадо"],
-      selectedLang: ''
+      professions: ['Пекарь/кондитер', 'Кузнец', 'Кожевенник', 'Лучник', 'Сапожник', 'Портной', 'Цирюльник', 'Врач', 'Охотник/мясник', 'Золотарь'],
+      selectedLang: '',
+      selectedProfession: '',
     }
   },
   methods: {
@@ -36,12 +46,23 @@ export default {
       this.player.languages.push(this.selectedLang)
       store.dispatch('sendSharedValue')
     },
+    addProf() {
+      /* eslint-disable */
+      this.player.professions.push(this.selectedProfession)
+      store.dispatch('sendSharedValue')
+    },
     delLang(lang) {
       if(this.isAdmin) {
         this.player.languages = this.player.languages.filter(item => item !== lang)
         store.dispatch('sendSharedValue')
       }
-    }
+    },
+    delProf(prof) {
+      if(this.isAdmin) {
+        this.player.professions = this.player.professions.filter(item => item !== prof)
+        store.dispatch('sendSharedValue')
+      }
+    },
   },
   computed: {
     isLocation() {

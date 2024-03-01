@@ -108,6 +108,9 @@ export default {
          subName: '',
          domName: '',
          invName: '',
+         professions: [],
+         avatar: 'avatar_5',
+         isAvatar: true,
        }
        this.playerCards.push(card)
       store.dispatch('sendSharedValue')

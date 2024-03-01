@@ -3,7 +3,15 @@
     <div class="stats" v-if="isAdmin || player.page === 'stats'">
       <div class="stats-header">
         <div class="stats-header-column">
-          <div class="stats-ava"></div>
+          <div
+              class="stats-ava"
+              :style="{backgroundImage: 'url(' + require(`@/images/avatars/${player.avatar}.jpg`) + ')'}"
+          >
+          </div>
+          <avatar-popup
+            @avatarChange="avatarChange"
+            v-if="isPopupAvatar && !isAdmin && player.isAvatar"
+          />
           <div class="stats-first-name stat">{{player.name}}</div>
         </div>
         <div class="stats-first">
@@ -74,6 +82,7 @@ import store from "@/store";
 import LanguagesPlayer from "@/components/playerCard/languagesPlayer.vue";
 import footerCard from "@/components/playerCard/footerCard.vue";
 import InventoryPlayer from '@/components/playerCard/InventoryPlayer.vue'
+import AvatarPopup from "@/components/playerCard/avatarPopup.vue";
 
 export default {
   props: {
@@ -85,10 +94,12 @@ export default {
       stats: ['Сил', "Лов", "Вын", "Инт", "Муд", "Хар"],
       statsEng: ['strength', "dexterity", "constitution", "intelligence", "wisdom", "charisma"],
       selectedHealthPoint: 1,
-      points: [1,2,3,5,10,20,50]
+      points: [1,2,3,5,10,20,50],
+      isPopupAvatar: true,
     }
   },
   components: {
+    AvatarPopup,
     LanguagesPlayer,
     playerCharacteristics,
     footerCard,
@@ -132,6 +143,12 @@ export default {
     setActHealth(tab) {
       if(tab === 'dec') this.player.actHealth = this.player.actHealth - +this.selectedHealthPoint
       if(tab === 'inc') this.player.actHealth = this.player.actHealth + +this.selectedHealthPoint
+      this.sendChangePlayer()
+    },
+    avatarChange(index) {
+      this.player.avatar = 'avatar_' + index
+      this.player.isAvatar = false
+      this.isPopupAvatar = false
       this.sendChangePlayer()
     }
   },
@@ -265,7 +282,6 @@ export default {
   }
   &-ava {
       //background-color: #A9A9A9;
-      background-image: url('../../images/ava.png');
       background-size: cover;
       background-position: center;
       width: 90px;

@@ -9,7 +9,7 @@ const store = new Vuex.Store({
         async sendSharedValue(ctx) {
             const data = { test: ctx.state.playerCards }; // Данные для отправки
             try {
-                await axios.post('http://192.168.0.100:3000/saveData', data);
+                await axios.post('http://192.168.0.105:3000/saveData', data);
 
             } catch (error) {
                 console.error('Error:', error);
@@ -17,7 +17,7 @@ const store = new Vuex.Store({
         },
         async updateSharedValue(ctx) {
             try {
-                const response = await axios.get('http://192.168.0.100:3000/getData');
+                const response = await axios.get('http://192.168.0.105:3000/getData');
                 if(response.data.message.test !== undefined) ctx.state.playerCards = response.data.message.test
                 // console.log(ctx.state.playerCards)
                 // this.playerCards = response.data.message.test
@@ -1113,7 +1113,148 @@ const store = new Vuex.Store({
                 }
             ]
         },
-
+        professions: [
+            {
+                name: 'Пекарь/кондитер',
+                category: 'Profession',
+                trainingTime: 30, //время обучения
+                sale: 320, //стоимость
+                salary: 3, //зарплата
+                description: 'Простая непыльная работенка, способная прокормить весь отряд.',
+                intelligence: 14, //интеллект
+                strength: 0, //сила
+                wisdom: 0, //мудрость
+                charisma: 0, //харизма
+                dexterity: 12, //ловкость
+                endurance: 0, //выносливость
+            },
+            {
+                name: 'Кузнец',
+                category: 'Profession',
+                trainingTime: 366, //время обучения
+                sale: 800, //стоимость
+                salary: 12, //зарплата
+                description: 'Уважаемая профессия, из-за которой можно даже навсегда забросить приключения.',
+                intelligence: 0, //интеллект
+                strength: 16, //сила
+                wisdom: 14, //мудрость
+                charisma: 0, //харизма
+                dexterity: 0, //ловкость
+                endurance: 0, //выносливость
+            },
+            {
+                name: 'Кожевенник',
+                category: 'Profession',
+                trainingTime: 183, //время обучения
+                sale: 650, //стоимость
+                salary: 9, //зарплата
+                description: 'Работа для настоящих маньяков, любящих вырезать по коже.',
+                intelligence: 14, //интеллект
+                strength: 12, //сила
+                wisdom: 0, //мудрость
+                charisma: 0, //харизма
+                dexterity: 0, //ловкость
+                endurance: 0, //выносливость
+            },
+            {
+                name: 'Лучник',
+                category: 'Profession',
+                trainingTime: 183, //время обучения
+                sale: 680, //стоимость
+                salary: 10, //зарплата
+                description: 'Востребованная работа, заключающаяся в изготовлении луков.',
+                intelligence: 14, //интеллект
+                strength: 12, //сила
+                wisdom: 0, //мудрость
+                charisma: 0, //харизма
+                dexterity: 0, //ловкость
+                endurance: 0, //выносливость
+            },
+            {
+                name: 'Сапожник',
+                category: 'Profession',
+                trainingTime: 92, //время обучения
+                sale: 550, //стоимость
+                salary: 7, //зарплата
+                description: 'В свободное время незаменимый член любой команды.',
+                intelligence: 14, //интеллект
+                strength: 12, //сила
+                wisdom: 0, //мудрость
+                charisma: 0, //харизма
+                dexterity: 0, //ловкость
+                endurance: 0, //выносливость
+            },
+            {
+                name: 'Портной',
+                category: 'Profession',
+                trainingTime: 92, //время обучения
+                sale: 550, //стоимость
+                salary: 7, //зарплата
+                description: 'Такая профессия обязывает разбираться в моде, хотя бы в деревенской.',
+                intelligence: 14, //интеллект
+                strength: 12, //сила
+                wisdom: 0, //мудрость
+                charisma: 0, //харизма
+                dexterity: 0, //ловкость
+                endurance: 0, //выносливость
+            },
+            {
+                name: 'Цирюльник',
+                category: 'Profession',
+                trainingTime: 61, //время обучения
+                sale: 420, //стоимость
+                salary: 5, //зарплата
+                description: 'Эта профессия прекрасно подойдет, если вы решились на месть судье.',
+                intelligence: 12, //интеллект
+                strength: 0, //сила
+                wisdom: 0, //мудрость
+                charisma: 14, //харизма
+                dexterity: 0, //ловкость
+                endurance: 0, //выносливость
+            },
+            {
+                name: 'Врач',
+                category: 'Profession',
+                trainingTime: 366, //время обучения
+                sale: 1520, //стоимость
+                salary: 15, //зарплата
+                description: 'Обладая этой профессией, можно даже вернуть члена своего отряда к жизни.',
+                intelligence: 14, //интеллект
+                strength: 0, //сила
+                wisdom: 18, //мудрость
+                charisma: 0, //харизма
+                dexterity: 0, //ловкость
+                endurance: 14, //выносливость
+            },
+            {
+                name: 'Охотник/мясник',
+                category: 'Profession',
+                trainingTime: 10, //время обучения
+                sale: 450, //стоимость
+                salary: 6, //зарплата
+                description: 'Человеку этой профессии рады в любом трактире.',
+                intelligence: 0, //интеллект
+                strength: 0, //сила
+                wisdom: 16, //мудрость
+                charisma: 0, //харизма
+                dexterity: 16, //ловкость
+                endurance: 0, //выносливость
+            },
+            {
+                name: 'Золотарь',
+                category: 'Profession',
+                trainingTime: 1, //время обучения
+                sale: 50, //стоимость
+                salary: 2, //зарплата
+                description: 'Самый важный человек в королевствах!.',
+                intelligence: 0, //интеллект
+                strength: 0, //сила
+                wisdom: 0, //мудрость
+                charisma: 0, //харизма
+                dexterity: 0, //ловкость
+                endurance: 12, //выносливость
+            }
+        ],
     },
     getters: {
         getTest: state => {
