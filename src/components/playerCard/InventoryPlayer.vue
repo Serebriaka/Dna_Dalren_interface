@@ -5,8 +5,9 @@
            v-for="(play, index) in players"
            :key="play.name"
            @click="clickAvatar(index)"
+           :style="{backgroundImage: 'url(' + require(`@/images/avatars/${play.avatar}.jpg`) + ')'}"
       >
-        {{ play.name }}
+<!--        {{ play.name }}-->
       </div>
     </div>
     <div class="inventory-card"> Инфентарь игрока: {{players[indexCard].name}}</div>
@@ -83,6 +84,10 @@ export default {
     gap: 10px;
 
     &-tab {
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgb(101, 92, 29);
       height: 40px;
       width: 40px;
       background-color: green;

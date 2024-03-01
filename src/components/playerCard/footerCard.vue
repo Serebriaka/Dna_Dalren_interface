@@ -10,7 +10,7 @@
       </select>
     </div>
     <div class="footer-menu__exp footerTab">
-      <button @click="setExp('min')" class="btn" v-if="isAdmin">+</button>
+      <button @click="setExp('min')" class="btn" v-if="isAdmin">-</button>
       {{player.exp}} exp
       <button @click="setExp('add')" class="btn" v-if="isAdmin">+</button>
       <select v-model="selectExp" v-if="isAdmin" style="width: 40px;">

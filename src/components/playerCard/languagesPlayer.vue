@@ -6,7 +6,7 @@
           {{prof}} <div @click="delProf(prof)" v-if="isAdmin">x</div >
         </div>
         <select v-if="isAdmin" v-model="selectedProfession" style="width: 90%" >
-          <option disabled value="">Выберите язык</option>
+          <option disabled value="">Выберите профессию</option>
           <option v-for="prof in professions" :key="prof"> {{ prof }}</option>
         </select>
         <button v-if="isAdmin" @click="addProf">+</button>

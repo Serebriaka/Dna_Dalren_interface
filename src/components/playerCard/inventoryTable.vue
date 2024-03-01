@@ -33,7 +33,7 @@
                 Использовать
               </div>
               <div class="selectPopup-tab"
-                   v-if="(isArmor || isWeapon || isСloth) && !stealItem"
+                   v-if="(isArmor || isWeapon || isСloth || isEquippable) && !stealItem"
                    @click="clickTab('equip', inv, index)"
               >
                 Экипировать
@@ -95,6 +95,7 @@ export default {
       isArmor: false,
       isWeapon: false,
       isСloth: false,
+      isEquippable: false,
       subName: '',
       domName: '',
       invName: '',
@@ -133,6 +134,7 @@ export default {
     },
     delItem(index) {
       this.player.inventory.splice(index, 1)
+      this.selectedIndexPopup = null
       store.dispatch('sendSharedValue')
     },
     delEquip(index) {
@@ -161,6 +163,8 @@ export default {
     },
     isValidatePopup(inv)  {
       if (inv?.category === 'weapons' || inv?.category === 'shield' || inv?.category === 'armor' || inv?.category === 'cloth') {
+        let isStrengthAgree = this.player.skills.strength > inv?.strength //создаю хелпер на возможность экипировать по статам
+
         let counterOneWeapons = 0 // количество одноручных оружий
         this.player.equipment.forEach(item => {
           if(item?.handed === 'one-handed') counterOneWeapons++
@@ -173,29 +177,27 @@ export default {
 
         let counterShield = 0 //количество щитов
         this.player.equipment.forEach(item => {
-          console.log(item)
           if(item?.handed === 'one-handed' && item?.category === 'shield') {
             counterShield++
           }
         })
-        let isTwoHanded = this.player.equipment.some(item => item?.handed === 'two-handed'); //блок валидации двуручного оружия
         //надо сделать вложенности if
         if(inv.handed === 'one-handed' && inv.category !== 'shield') {
-          if(counterOneWeapons <= 1 && counterShield <= 1 && counterTwoWeapons === 0) {
+          if(counterOneWeapons <= 1 && counterShield <= 1 && counterTwoWeapons === 0 && isStrengthAgree) {
             this.isWeapon = true
           } else {
             this.isWeapon = false
           }
         }
         if(inv.handed === 'one-handed' && inv.category === 'shield') {
-          if(counterOneWeapons <= 1 && counterShield === 0 && counterTwoWeapons === 0) {
+          if(counterOneWeapons <= 1 && counterShield === 0 && counterTwoWeapons === 0 ) {
             this.isWeapon = true
           } else {
             this.isWeapon = false
           }
         }
         if(inv.handed === 'two-handed') {
-          if(counterOneWeapons === 0 && counterShield === 0 && counterTwoWeapons === 0) {
+          if(counterOneWeapons === 0 && counterShield === 0 && counterTwoWeapons === 0 && isStrengthAgree) {
             this.isWeapon = true
           } else {
             this.isWeapon = false
@@ -203,9 +205,11 @@ export default {
         }
 
         let isArmors = this.player.equipment.some(item => item.category === 'armor')//блок валидации брони
-        if(this.categoryTouch === 'armor' && !isArmors) {
+        if(this.categoryTouch === 'armor' && !isArmors && isStrengthAgree) {
           this.isArmor = true
+          console.log('11')
         } else {
+          console.log('22')
           this.isArmor = false
         }
         let isСloth = this.player.equipment.some(item => item.category === 'cloth')//блок валидации одежды
@@ -236,14 +240,13 @@ export default {
         }
       }
     },
-    handle(variable) {
+    handle(variable) { //логика воровства
       if(variable === 'yes') {
         let itemSteal = null
         this.player.inventory.map((item, index) => {
           if(item.name === this.player.invName) {
             this.player.inventory.splice(index, 1)
             itemSteal = item
-            console.log(this.players[this.index])
           }
         })
         let index = null
@@ -303,7 +306,7 @@ export default {
       if(this.categoryTouch === 'medicine') result = true
       return result
     },
-    stealItem() {
+    stealItem() { // проверка на принадлежность вещи игроку
       let result = false
       if(this.index !== this.indexCard) result = true
       return result
