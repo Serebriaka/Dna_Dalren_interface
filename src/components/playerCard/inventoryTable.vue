@@ -77,6 +77,7 @@
 </template>
 <script>
 import store from "@/store";
+import helpers from "@/helpers";
 
 export default {
   props: {
@@ -163,7 +164,7 @@ export default {
     },
     isValidatePopup(inv)  {
       if (inv?.category === 'weapons' || inv?.category === 'shield' || inv?.category === 'armor' || inv?.category === 'cloth') {
-        let isStrengthAgree = this.player.skills.strength > inv?.strength //создаю хелпер на возможность экипировать по статам
+        let isStrengthAgree = helpers.getStrengthValidate(inv, this.player.skills) //создаю хелпер на возможность экипировать по статам
 
         let counterOneWeapons = 0 // количество одноручных оружий
         this.player.equipment.forEach(item => {

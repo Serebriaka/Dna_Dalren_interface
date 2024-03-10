@@ -54,14 +54,19 @@
         :isAdmin="isAdmin"
         :player="player"
         pageRightTab="inventory"
-        pageLeftTab="inventory"
+        pageLeftTab="classes"
         nameRightTab="Инвентарь"
         nameLeftTab="Классы"
-        @tabChange="setpage"
+        @tabChange="setPage"
       />
     </div>
     <InventoryPlayer
         v-if="isAdmin || player.page === 'inventory'"
+        :player="player"
+        :index="index"
+    />
+    <classes-component
+        v-if="isAdmin || player.page === 'classes'"
         :player="player"
         :index="index"
     />
@@ -83,6 +88,7 @@ import LanguagesPlayer from "@/components/playerCard/languagesPlayer.vue";
 import footerCard from "@/components/playerCard/footerCard.vue";
 import InventoryPlayer from '@/components/playerCard/InventoryPlayer.vue'
 import AvatarPopup from "@/components/playerCard/avatarPopup.vue";
+import ClassesComponent from "@/components/playerCard/classesComponent.vue";
 
 export default {
   props: {
@@ -99,6 +105,7 @@ export default {
     }
   },
   components: {
+    ClassesComponent,
     AvatarPopup,
     LanguagesPlayer,
     playerCharacteristics,
@@ -123,7 +130,7 @@ export default {
       this.player.skills[statsEng] = value
       this.sendChangePlayer()
     },
-    setpage(tab) {
+    setPage(tab) {
       this.player.page = tab
     },
     sendChangePlayer() {

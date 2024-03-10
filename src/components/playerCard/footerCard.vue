@@ -1,6 +1,6 @@
 <template>
   <div class="footer-menu">
-    <div class="footer-menu__btn-inventory footerTab">Классы</div>
+    <div class="footer-menu__btn-inventory footerTab" @click="toClasses">{{nameLeftTab}}</div>
     <div class="footer-menu__gold footerTab">
       <button @click="setGold('min')" class="btn" v-if="isAdmin">-</button>
       {{ player.gold}}
@@ -66,6 +66,10 @@ export default {
     },
     toInventory() {
       this.$emit('tabChange', this.pageRightTab)
+      this.sendChangePlayer()
+    },
+    toClasses() {
+      this.$emit('tabChange', this.pageLeftTab)
       this.sendChangePlayer()
     }
   },
