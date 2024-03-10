@@ -29,12 +29,6 @@
         <input type='text' v-model="playerCity" placeholder="Напишите гражданство">
         <button class="medieval-button" @click="createPlayerCard">Добавить игрока</button>
       </div>
-
-      <!--    <input type="text" v-model="pole">-->
-      <!--    <button @click="sendSharedValue()">Отправить данные</button>-->
-      <!--    <button @click="updateSharedValue">Получить данные</button>-->
-      <!--    <div class="body_1" v-show="isLocation === '/1'"></div>-->
-      <!--    <div class="body_2" v-show="isLocation === '/2'"></div>-->
     </div>
   </div>
 </template>
@@ -111,6 +105,9 @@ export default {
          professions: [],
          avatar: 'avatar_5',
          isAvatar: true,
+         isStatRedactor: false,
+         statsPoints: 0,
+         level: 1,
        }
        this.playerCards.push(card)
       store.dispatch('sendSharedValue')

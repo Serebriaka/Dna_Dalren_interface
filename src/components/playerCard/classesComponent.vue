@@ -1,5 +1,8 @@
 <template>
   <div class="classes">
+    <div class="classes-container">
+
+    </div>
     <footer-card
         :isAdmin="isAdmin"
         :player="player"
@@ -45,5 +48,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  &-container {
+    display: flex;
+    gap: 10px;
+  }
 }
 </style>

@@ -25,6 +25,7 @@
         <playerCharacteristics
           :player="player"
           :isAdmin="isAdmin"
+          :isSetStats="player.isStatRedactor"
         />
       </div>
       <div class="stats-third">
@@ -76,6 +77,13 @@
         @mouseup.stop="endHold"
     >
       Удалить игрока
+    </button>
+    <button
+        class="stat-player" v-if="isAdmin"
+        :class="{'active-button': this.player.isStatRedactor}"
+        @click="setStatRedactor"
+    >
+      возможность редактировать статы
     </button>
   </div>
 </template>
@@ -157,6 +165,10 @@ export default {
       this.player.isAvatar = false
       this.isPopupAvatar = false
       this.sendChangePlayer()
+    },
+    setStatRedactor() {
+      this.player.isStatRedactor = !this.player.isStatRedactor
+      this.sendChangePlayer()
     }
   },
   computed: {
@@ -216,7 +228,7 @@ export default {
       let result = false
       if(this.isLocation === '/admin') result = true
       return result
-    }
+    },
   }
 }
 </script>
@@ -315,6 +327,17 @@ export default {
   margin-top: 15px;
   cursor: pointer;
   margin-left: 15px;
+}
+.stat-player {
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+  cursor: pointer;
+  margin-left: 15px;
+  background-color: #b06273;
+}
+.active-button {
+  background-color: #5dc35d;
 }
 .fs14 {
   font-size: 14px;

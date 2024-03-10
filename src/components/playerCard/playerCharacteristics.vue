@@ -5,9 +5,9 @@
          :key="stat.name"
     >
       <div class="stats-second-table__name">{{ stat.name }}</div>
-      <button v-if="isAdmin" @click="minSkill( stat.statsEng )">-</button>
+      <button class="btn-stats" v-if="isAdmin || (isStatRedactor && stat.isMinActive)" @click="minSkill( stat.statsEng )">-</button>
       <div class="stats-second-table__name">{{ stat.value }}</div>
-      <button v-if="isAdmin" @click="addSkill(stat.statsEng )">+</button>
+      <button class="btn-stats" v-if="isAdmin || (isStatRedactor && stat.isAddActive)" @click="addSkill(stat.statsEng )">+</button>
       <div class="stats-second-table__name">
         {{ stat.mode }}
       </div>
@@ -20,12 +20,14 @@ import store from "../../store"
 export default  {
   props: {
     player:{},
+    isSetStats:{},
     isAdmin: {}
   },
   data() {
     return {
       stats: ['Сил', "Лов", "Вын", "Инт", "Муд", "Хар"],
       statsEng: ['strength', "dexterity", "constitution", "intelligence", "wisdom", "charisma"],
+      accCharacteristics: {}
     }
   },
   mounted() {
@@ -43,27 +45,36 @@ export default  {
   },
   computed: {
     statsValues() {
-      let result = []
-      let statsValue =  Object.values(this.player.skills);
-      statsValue.forEach((el, index) => {
+      let result = Object.values(this.player.skills).map((value, index) => {
         let mod =
-            statsValue[index] < 8 ? -2 :
-                statsValue[index] < 10 ? -1 :
-                    statsValue[index] < 12 ? 0 :
-                        statsValue[index] < 14 ? 1 :
-                            statsValue[index] < 16 ? 2 :
-                                statsValue[index] < 18 ? 3 :
-                                    statsValue[index] > 18 ? 4 :3
-        let obj = {
+            value < 8 ? -2 :
+                value < 10 ? -1 :
+                    value < 12 ? 0 :
+                        value < 14 ? 1 :
+                            value < 16 ? 2 :
+                                value < 18 ? 3 :
+                                    value > 18 ? 4 : 3
+        return {
           name: this.stats[index],
-          value: statsValue[index],
+          value: value,
           mode: mod,
-          statsEng: this.statsEng[index]
+          statsEng: this.statsEng[index],
+          isMinActive: value > this.accCharacteristics[index],
+          isAddActive: true,
           // engName: this.player.stats[index].engName
         }
-        result.push(obj)
-      })
-      return result
+      });
+      return result;
+    },
+    isStatRedactor() {
+      return this.player.isStatRedactor
+    }
+  },
+  watch: {
+    isSetStats() {
+      if(this.isSetStats) {
+        this.accCharacteristics = Object.values(this.player.skills)
+      }
     }
   }
 }
@@ -83,6 +94,15 @@ export default  {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   font-size: 12px;
   font-weight: 600;
+}
+.btn-stats {
+  background-color: #9b462a;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
 }
 .stats {
   padding: 15px 15px 0 15px;
