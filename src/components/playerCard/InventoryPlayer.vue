@@ -7,7 +7,6 @@
            @click="clickAvatar(index)"
            :style="{backgroundImage: 'url(' + require(`@/images/avatars/${play.avatar}.jpg`) + ')'}"
       >
-<!--        {{ play.name }}-->
       </div>
     </div>
     <div class="inventory-card"> Инфентарь игрока: {{players[indexCard].name}}</div>

@@ -330,7 +330,7 @@ export default {
   width: 100%;
   height: 100%;
   &-lists {
-    height: 50%;
+    height: 100%;
     width: 100%;
     display: flex;
     gap: 20px;
@@ -359,8 +359,11 @@ export default {
         }
       }
       &-tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
-        height: 80%;
+        height: 83%;
         border: 2px solid #8B4513;
       }
     }
