@@ -28,10 +28,15 @@ export default  {
     return {
       stats: ['Сил', "Лов", "Вын", "Инт", "Муд", "Хар"],
       statsEng: ['strength', "dexterity", "constitution", "intelligence", "wisdom", "charisma"],
-      accCharacteristics: {}
     }
   },
   mounted() {
+    /* eslint-disable */
+    if(!this.player.accCharacteristics) {
+      this.player.accCharacteristics = Object.values(this.player.skills)
+      store.dispatch('sendSharedValue')
+    }
+
   },
   methods: {
     minSkill(stat) {
@@ -82,6 +87,7 @@ export default  {
     isSetStats() {
       if(this.isSetStats) {
         this.player.accCharacteristics = Object.values(this.player.skills)
+        store.dispatch('sendSharedValue')
       }
     }
   }
