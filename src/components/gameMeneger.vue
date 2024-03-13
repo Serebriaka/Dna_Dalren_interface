@@ -90,6 +90,7 @@ export default {
            wisdom: race.characteristics.wisdom + history.skills.wisdom,
            charisma: race.characteristics.charisma + history.skills.charisma
          },
+         accCharacteristics : null,
          choppingArmor: 0, //рубящий
          crushingArmor: 0, //дробящий
          prickingArmor: 0, //колющий
@@ -106,7 +107,8 @@ export default {
          avatar: 'avatar_5',
          isAvatar: true,
          isStatRedactor: false,
-         statsPoints: 0,
+         statsPoints: race.startPoints,
+         statsClassPoints: 1,
          level: 1,
        }
        this.playerCards.push(card)

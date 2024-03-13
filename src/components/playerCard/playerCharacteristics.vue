@@ -17,6 +17,7 @@
 <script>
 // import {mapGetters} from "vuex";
 import store from "../../store"
+
 export default  {
   props: {
     player:{},
@@ -35,17 +36,25 @@ export default  {
   methods: {
     minSkill(stat) {
       /* eslint-disable */
-      this.player.skills[stat] = this.player.skills[stat]-1
-      store.dispatch('sendSharedValue')
+      if(this.player.statsPoints >= 0 && !this.isAdmin) {
+        this.player.statsPoints++
+        this.player.skills[stat] = this.player.skills[stat]-1
+      }
+      if (this.isAdmin) this.player.skills[stat] = this.player.skills[stat]-1
+        store.dispatch('sendSharedValue')
     },
     addSkill(stat) {
-      this.player.skills[stat] = this.player.skills[stat]+1
+      if(this.player.statsPoints > 0 && !this.isAdmin) {
+        this.player.statsPoints--
+        this.player.skills[stat] = this.player.skills[stat]+1
+      }
+      if (this.isAdmin) this.player.skills[stat] = this.player.skills[stat]+1
       store.dispatch('sendSharedValue')
     },
   },
   computed: {
     statsValues() {
-      let result = Object.values(this.player.skills).map((value, index) => {
+      return Object.values(this.player.skills).map((value, index) => {
         let mod =
             value < 8 ? -2 :
                 value < 10 ? -1 :
@@ -59,12 +68,11 @@ export default  {
           value: value,
           mode: mod,
           statsEng: this.statsEng[index],
-          isMinActive: value > this.accCharacteristics[index],
+          isMinActive: value > this.player.accCharacteristics[index],
           isAddActive: true,
           // engName: this.player.stats[index].engName
         }
       });
-      return result;
     },
     isStatRedactor() {
       return this.player.isStatRedactor
@@ -73,7 +81,7 @@ export default  {
   watch: {
     isSetStats() {
       if(this.isSetStats) {
-        this.accCharacteristics = Object.values(this.player.skills)
+        this.player.accCharacteristics = Object.values(this.player.skills)
       }
     }
   }

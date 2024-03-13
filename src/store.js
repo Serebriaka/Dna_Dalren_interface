@@ -156,6 +156,7 @@ const store = new Vuex.Store({
                 name: "Человек",
                 racial_traits: "«Приспособленец» - 1 дополнительный поинт характеристик",
                 languages: ["Всеобщий"],
+                startPoints: 8,
                 characteristics: {
                     strength: 8, //сила
                     dexterity: 8, //Ловкость
@@ -169,6 +170,7 @@ const store = new Vuex.Store({
                 name: "Полуэльф",
                 racial_traits: "«Ловкие пальцы» - бонус +1 к проверкам ловкости при кражах",
                 languages: ["Всеобщий","Грязный эльфийский"],
+                startPoints: 7,
                 characteristics: {
                     strength: 8,
                     dexterity: 10,
@@ -182,6 +184,7 @@ const store = new Vuex.Store({
                 name: "Полурослик",
                 racial_traits: "Компактный размер» - бонус +1 к показателю скрытности",
                 languages: ["Всеобщий"],
+                startPoints: 7,
                 characteristics: {
                     strength: 7,
                     dexterity: 8,

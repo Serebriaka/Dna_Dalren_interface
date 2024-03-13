@@ -69,6 +69,7 @@
     <classes-component
         v-if="isAdmin || player.page === 'classes'"
         :player="player"
+        :isAdmin="isAdmin"
         :index="index"
     />
     <button

@@ -22,7 +22,7 @@
 </template>
 <script>
 import store from "@/store";
-
+import { eventBus } from '@/eventBus'
 export default {
   props: {
     isAdmin: {},
@@ -59,6 +59,7 @@ export default {
       if(param === 'min') {
         this.player.exp = this.player.exp - +this.selectExp
       }
+      eventBus.$emit('setExp', this.player.exp);
       this.sendChangePlayer()
     },
     sendChangePlayer() {
