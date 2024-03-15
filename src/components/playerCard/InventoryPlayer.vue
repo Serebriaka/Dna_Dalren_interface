@@ -22,7 +22,7 @@
         :player="player"
         pageRightTab="stats"
         pageLeftTab="classes"
-        nameRightTab="Начало"
+        nameRightTab="Профиль"
         nameLeftTab="Классы"
         @tabChange="setPage"
     />

@@ -4,13 +4,17 @@
         :isAdmin="isAdmin"
         :player="player"
     />
+    <class-list
+        :isAdmin="isAdmin"
+        :player="player"
+    />
     <footer-card
         :isAdmin="isAdmin"
         :player="player"
         pageRightTab="inventory"
         pageLeftTab="stats"
         nameRightTab="Инвентарь"
-        nameLeftTab="Начало"
+        nameLeftTab="Профиль"
         @tabChange="setPage"
     />
   </div>
@@ -18,6 +22,7 @@
 <script>
 import playerLevels from "@/components/playerCard/playerLevels.vue";
 import footerCard from "@/components/playerCard/footerCard.vue";
+import ClassList from "@/components/playerCard/classList.vue";
 
 export default {
   props: {
@@ -31,6 +36,7 @@ export default {
   },
   name: "classesComponent",
   components: {
+    ClassList,
     footerCard,
     playerLevels
   },

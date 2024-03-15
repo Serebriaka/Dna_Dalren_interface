@@ -52,11 +52,11 @@
               </div>
             </div>
           </div>
-          <select v-if="isAdmin" v-model="selectedCategory">
+          <select v-if="isAdmin" v-model="selectedCategory" style="width: 100%">
             <option disabled value="">Выберите категорию</option>
             <option v-for="(item) in categoryArray" :key="item"> {{item}}</option>
           </select>
-          <select v-if="isAdmin" v-model="selectedItem">
+          <select v-if="isAdmin" v-model="selectedItem" style="width: 100%">
             <option disabled value="">Выберите предмет</option>
             <option v-for="(item, index) in items" :key="index"> {{item.name}}</option>
           </select>
@@ -92,7 +92,7 @@ export default {
       selectedItem: '',
       categoryTouch: '',
       selectedIndexPopup: null,
-      categoryArray: ["Броня", "Предметы", "Оружие", "Одежда", "Щиты"],
+      categoryArray: ["Броня", "Предметы", "Оружие", "Одежда", "Щиты", 'Документы'],
       isArmor: false,
       isWeapon: false,
       isСloth: false,
@@ -287,6 +287,9 @@ export default {
         case 'Щиты':
           return store.state.allItems.shield
           break
+        case 'Документы':
+          return store.state.allItems.documents
+          break
         default: store.state.allItems.items
       }
 
@@ -367,6 +370,7 @@ export default {
         width: 100%;
         height: 83%;
         border: 2px solid #8B4513;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
       }
     }
     &__right {
@@ -400,6 +404,7 @@ export default {
         width: 97%;
         height: 90%;
         border: 2px solid #8B4513;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         overflow: auto;
         gap: 2px;
       }

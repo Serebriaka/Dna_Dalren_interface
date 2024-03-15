@@ -84,6 +84,7 @@ export default {
   flex-direction: row;
   font-size: 12px;
   justify-content: space-between;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   &__gold {
     gap: 5px;
     height: 100%;

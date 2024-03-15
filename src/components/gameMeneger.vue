@@ -82,7 +82,7 @@ export default {
          city: city,
          languages: language,
          page: 'stats',
-         skills: {
+         skills: { //на саамом деле это статы, но я лохонуся, поэтому настоящии скилы будут playerSkills
            strength: race.characteristics.strength + history.skills.strength,
            dexterity: race.characteristics.dexterity + history.skills.dexterity,
            constitution: race.characteristics.constitution + history.skills.constitution,
@@ -90,6 +90,7 @@ export default {
            wisdom: race.characteristics.wisdom + history.skills.wisdom,
            charisma: race.characteristics.charisma + history.skills.charisma
          },
+         playerSkills: [],
          accCharacteristics : null,
          choppingArmor: 0, //рубящий
          crushingArmor: 0, //дробящий

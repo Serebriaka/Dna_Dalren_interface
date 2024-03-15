@@ -1,11 +1,11 @@
 <template>
-  <div class="classes">
-    <div class="classes-header">
+  <div class="levels">
+    <div class="levels-header">
       <button @click="setLevel('del')" v-if="isAdmin">-</button>
-      <p>Level {{player.level}}</p>
+      <div>Level {{player.level}}</div>
       <button @click="setLevel('add')" v-if="isAdmin">+</button>
       <button @click="setPoints('del')" v-if="isAdmin">-</button>
-      <p>Points {{player.statsPoints}}</p>
+      <div>Points {{player.statsPoints}}</div>
       <button @click="setPoints('add')" v-if="isAdmin">+</button>
     </div>
   </div>
@@ -86,15 +86,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.classes {
-  padding: 15px 15px 0 15px;
-  width: 100%;
-  height: 96%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+.levels {
   &-header {
+    border: 3px solid #8B4513;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    padding: 10px;
     display: flex;
     gap: 10px;
   }
