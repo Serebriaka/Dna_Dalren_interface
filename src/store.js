@@ -860,7 +860,7 @@ const store = new Vuex.Store({
                     handed: 'one-handed',
                     chopping: 0, //рубящий
                     pricking: 0, //колющий
-                    crushing: 1-8, //дробящий
+                    crushing: "1-8", //дробящий
                     strength: 10,
                     dexterity: 0, //указывать ли характеристику, если она не требуется?
                 },
@@ -873,7 +873,7 @@ const store = new Vuex.Store({
                     type: ['light'],
                     handed: 'two-handed',
                     chopping: 0, //рубящий
-                    pricking: 1-12, //колющий
+                    pricking: "1-12", //колющий
                     crushing: 0, //дробящий
                     strength: 8,
                     dexterity: 12,
@@ -887,7 +887,7 @@ const store = new Vuex.Store({
                     type: ['light'],
                     handed: 'one-handed',
                     chopping: 0, //рубящий
-                    pricking: 1-4, //колющий
+                    pricking: "1-4", //колющий
                     crushing: 0, //дробящий
                     strength: 0,
                     dexterity: 6,
@@ -901,7 +901,7 @@ const store = new Vuex.Store({
                     type: ['light'],
                     handed: 'one-handed',
                     chopping: 0, //рубящий
-                    pricking: 1-10, //колющий
+                    pricking: "1-10", //колющий
                     crushing: 0, //дробящий
                     strength: 10,
                     dexterity: 10,
@@ -916,7 +916,7 @@ const store = new Vuex.Store({
                     handed: 'two-handed',
                     chopping: 0, //рубящий
                     pricking: 0, //колющий
-                    crushing: 2-20, //дробящий
+                    crushing: "2-20", //дробящий
                     strength: 14,
                     dexterity: 10,
                 },
@@ -930,7 +930,7 @@ const store = new Vuex.Store({
                     handed: 'two-handed',
                     chopping: 0, //рубящий
                     pricking: 0, //колющий
-                    crushing: 1-20, //дробящий
+                    crushing: "1-20", //дробящий
                     strength: 14,
                     dexterity: 0,
                 },
@@ -942,7 +942,7 @@ const store = new Vuex.Store({
                     category: 'weapons',
                     type: ['Heavy'],
                     handed: 'one-handed',
-                    chopping: 1-10, //рубящий
+                    chopping: "1-10", //рубящий
                     pricking: 0, //колющий
                     crushing: 0, //дробящий
                     strength: 10,
@@ -958,7 +958,7 @@ const store = new Vuex.Store({
                     handed: 'two-handed',
                     chopping: 0, //рубящий
                     pricking: 0, //колющий
-                    crushing: 3-18, //дробящий
+                    crushing: "3-18", //дробящий
                     strength: 16,
                     dexterity: 0,
                 },
@@ -971,7 +971,7 @@ const store = new Vuex.Store({
                     type: ['light'],
                     handed: 'one-handed',
                     chopping: 0, //рубящий
-                    pricking: 5-20, //колющий
+                    pricking: "5-20", //колющий
                     crushing: 0, //дробящий
                     strength: 10,
                     dexterity: 15,
@@ -985,7 +985,7 @@ const store = new Vuex.Store({
                     type: ['Remote'],
                     handed: 'two-handed',
                     chopping: 0, //рубящий
-                    pricking: 1-12, //колющий
+                    pricking: "1-12", //колющий
                     crushing: 0, //дробящий
                     strength: 0,
                     dexterity: 12,
@@ -999,7 +999,7 @@ const store = new Vuex.Store({
                     type: ['Remote'],
                     handed: 'two-handed',
                     chopping: 0, //рубящий
-                    pricking: 6-21, //колющий
+                    pricking: "6-21", //колющий
                     crushing: 0, //дробящий
                     strength: 0,
                     dexterity: 18,
@@ -1013,7 +1013,7 @@ const store = new Vuex.Store({
                     type: ['Remote'],
                     handed: 'one-handed',
                     chopping: 0, //рубящий
-                    pricking: 2-8, //колющий
+                    pricking: "2-8", //колющий
                     crushing: 0, //дробящий
                     strength: 0,
                     dexterity: 12,
@@ -1027,7 +1027,7 @@ const store = new Vuex.Store({
                     type: ['Remote'],
                     handed: 'two-handed',
                     chopping: 0, //рубящий
-                    pricking: 7-21, //колющий
+                    pricking: "7-21", //колющий
                     crushing: 0, //дробящий
                     strength: 12,
                     dexterity: 16,

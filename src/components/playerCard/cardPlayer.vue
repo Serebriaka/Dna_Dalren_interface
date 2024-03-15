@@ -40,8 +40,16 @@
           /
           {{setHeat}}
         </div>
-        <div class="stat fs14">
-          Защита {{player.choppingArmor}} {{player.crushingArmor}} {{player.prickingArmor}}
+        <div class="stat fs14 row" style="justify-content: space-around">
+          <div class="row">
+            <div class="choppingArmor"></div> <div>{{setArmor.choppingArmor}}</div>
+          </div>
+          <div class="row">
+            <div class="crushingArmor"></div> <div>{{setArmor.crushingArmor}}</div>
+          </div>
+          <div class="row">
+            <div class="prickingArmor"></div> <div>{{setArmor.prickingArmor}}</div>
+          </div>
         </div>
         <div class="stat fs14">Скрытность {{setStels}}</div>
         <div class="stat fs14">Внимательность {{setObservation}}</div>
@@ -225,6 +233,26 @@ export default {
     isLocation() {
       return window.location.pathname
     },
+    setArmor() {
+      let result = {
+        choppingArmor: 0,
+        crushingArmor: 0,
+        prickingArmor: 0,
+      }
+      this.player.equipment.forEach(item => {
+        if(item.category === "armor") {
+          result.choppingArmor += item.chopping
+          result.crushingArmor += item.crushing
+          result.prickingArmor += item.pricking
+        }
+        if(item.category === "shield") {
+          result.choppingArmor += item.chopping
+          result.crushingArmor += item.crushing
+          result.prickingArmor += item.pricking
+        }
+      })
+      return result
+    },
     isAdmin() {
       let result = false
       if(this.isLocation === '/admin') result = true
@@ -309,6 +337,24 @@ export default {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 }
+.choppingArmor{
+  margin-right: 5px;
+  height: 20px;
+  width: 20px;
+  background: url("../../images/icons/choppingArmor.png") no-repeat center center / cover;
+}
+.crushingArmor{
+  margin-right: 5px;
+  height: 20px;
+  width: 20px;
+  background: url("../../images/icons/crushingArmor.png") no-repeat center center / cover;
+}
+.prickingArmor{
+  margin-right: 5px;
+  height: 20px;
+  width: 20px;
+  background: url("../../images/icons/prickingArmor.png") no-repeat center center / cover;
+}
 .inventory {
   padding: 15px 15px 0 15px;
   width: 100%;
@@ -320,7 +366,6 @@ export default {
   @media screen and (min-width: 576px) {
     height: 100vh;
   }
-
 }
 .del-player {
   width: 100%;
@@ -342,5 +387,10 @@ export default {
 }
 .fs14 {
   font-size: 14px;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 </style>

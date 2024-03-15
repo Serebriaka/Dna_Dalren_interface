@@ -30,7 +30,7 @@ export default  {
       statsEng: ['strength', "dexterity", "constitution", "intelligence", "wisdom", "charisma"],
     }
   },
-  mounted() {
+  created() {
     /* eslint-disable */
     if(!this.player.accCharacteristics) {
       this.player.accCharacteristics = Object.values(this.player.skills)
@@ -81,7 +81,7 @@ export default  {
     },
     isStatRedactor() {
       return this.player.isStatRedactor
-    }
+    },
   },
   watch: {
     isSetStats() {

@@ -1,4 +1,5 @@
 export default {
+    /* eslint-disable */
     getStrengthValidate(item, player) {
         let result = false
         let itemStats = {
@@ -15,6 +16,36 @@ export default {
             } else {
                 result = false
                 break
+            }
+        }
+        return result
+    },
+    getShellVal(inv, equipment, stats) {
+        let result = true
+        if (inv.category === 'shield') {
+            let strength = 0
+            equipment.forEach((item)=>{
+                if (item.handed === 'one-handed') {
+                    strength = +item.strength
+                }
+            })
+            strength = strength + inv.strength
+            console.log(stats.strength, '=', strength)
+            if(stats.strength < strength) {
+                result = false
+            }
+        }
+        let isShield = equipment.some(equipment => equipment.category === 'shield')
+        if (inv.category === 'weapons' && isShield) {
+            let strength = 0
+            equipment.forEach((item)=>{
+                if (item.category === 'shield') {
+                    strength += item.strength
+                }
+            })
+            strength +=  inv.strength
+            if(stats.strength < strength) {
+                result = false
             }
         }
         return result

@@ -160,12 +160,16 @@ export default {
         this.categoryTouch = inv.category
         this.isValidatePopup(inv)
       }
-      console.log(inv)
     },
     isValidatePopup(inv)  {
       if (inv?.category === 'weapons' || inv?.category === 'shield' || inv?.category === 'armor' || inv?.category === 'cloth') {
+        this.isArmor = false
+        this.isWeapon = false
+        this.isСloth = false
+        this.isEquippable = false
         let isStrengthAgree = helpers.getStrengthValidate(inv, this.player.skills) //создаю хелпер на возможность экипировать по статам
-
+        let isShieldAgree = helpers.getShellVal(inv, this.player.equipment, this.player.skills) //поправить и использова каунтера амуниции которые ниже
+        console.log(isShieldAgree, 'result')
         let counterOneWeapons = 0 // количество одноручных оружий
         this.player.equipment.forEach(item => {
           if(item?.handed === 'one-handed') counterOneWeapons++
@@ -184,13 +188,13 @@ export default {
         })
         //надо сделать вложенности if
         if(inv.handed === 'one-handed' && inv.category !== 'shield') {
-          if(counterOneWeapons <= 1 && counterShield <= 1 && counterTwoWeapons === 0 && isStrengthAgree) {
+          if(counterOneWeapons <= 1 && counterShield <= 1 && counterTwoWeapons === 0 && isStrengthAgree && isShieldAgree) {
             this.isWeapon = true
           } else {
             this.isWeapon = false
           }
         }
-        if(inv.handed === 'one-handed' && inv.category === 'shield') {
+        if(inv.handed === 'one-handed' && inv.category === 'shield' && isShieldAgree) {
           if(counterOneWeapons <= 1 && counterShield === 0 && counterTwoWeapons === 0 ) {
             this.isWeapon = true
           } else {
@@ -208,9 +212,7 @@ export default {
         let isArmors = this.player.equipment.some(item => item.category === 'armor')//блок валидации брони
         if(this.categoryTouch === 'armor' && !isArmors && isStrengthAgree) {
           this.isArmor = true
-          console.log('11')
         } else {
-          console.log('22')
           this.isArmor = false
         }
         let isСloth = this.player.equipment.some(item => item.category === 'cloth')//блок валидации одежды
