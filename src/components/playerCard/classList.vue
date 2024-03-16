@@ -11,9 +11,19 @@
         <option v-for="skill in classSkills" :key="skill.name">{{skill.name}}</option>
       </select>
       <button @click="addSkill" v-if="isAdmin">+</button>
-      <div class="body-right__list" v-for="(skill, index) in activeSkills" :key="skill.name">
+      <div
+          class="body-right__list"
+          v-for="(skill, index) in activeSkills"
+          :key="skill.name"
+          @click="openPopup(skill)"
+      >
         {{skill.name}}
         <div @click="delClass(index)" v-if="isAdmin" style="cursor: pointer">x</div>
+      </div>
+    </div>
+    <div class="body-popup" v-if="isClassInfo" @click="closePopup">
+      <div class="body-popup-content" @click.stop="">
+        <div>{{popupText}}</div>
       </div>
     </div>
   </div>
@@ -25,12 +35,14 @@ export default {
   /* eslint-disable */
   props: {
     player: {},
-    isAdmin: {}
+    isAdmin: {},
   },
   data() {
     return {
       selectedClassSkill: 'Воин',
-      selectedClass: ''
+      selectedClass: '',
+      isClassInfo: false,
+      popupText: '',
     }
   },
   mounted() {
@@ -45,6 +57,14 @@ export default {
     delClass(index) {
       this.player.playerSkills.splice(index, 1)
       store.dispatch('sendSharedValue')
+    },
+    openPopup(skill) {
+      this.isClassInfo = true
+      this.popupText = skill.description
+    },
+    closePopup() {
+      this.isClassInfo = false
+      this.popupText = ''
     }
   },
   computed: {
@@ -76,7 +96,7 @@ export default {
   height: 80%;
   width: 100%;
   padding-bottom: 15px;
- &-left {
+  &-left {
    display: flex;
    flex-direction: column;
    height: 100%;
@@ -107,6 +127,35 @@ export default {
       border-radius: 5px;
       background: linear-gradient(322deg, #b7763f, #d78913);
       margin: 1px 3px;
+    }
+  }
+  &-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    &-content {
+      position: absolute;
+      height: auto;
+      width: 60%;
+      padding: 10px;
+      background: linear-gradient(8deg, #fdeea5, #ffd99b);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      border: 2px solid #8B4513;
+    }
+    &-closeIcon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: #fff;
+      cursor: pointer;
     }
   }
 }

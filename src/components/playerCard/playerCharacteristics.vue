@@ -104,7 +104,7 @@ export default  {
   border: 1px solid #8B4513;
   border-radius: 10px;
   text-align: center;
-  font-family: cursive;
+  //font-family: cursive;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   font-size: 12px;
   font-weight: 600;

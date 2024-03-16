@@ -356,8 +356,9 @@ export default {
         justify-content: center;
         margin-top: -1px;
         height: auto;
-        background-color: #e79049;
+        background: linear-gradient(322deg, #cbc630, #ff9a00);
         padding: 3px;
+        border-radius: 5px;
         border: 2px solid #8B4513;
         @media screen and (min-width: 576px) {
           cursor: pointer;
@@ -369,6 +370,9 @@ export default {
         align-items: center;
         width: 100%;
         height: 83%;
+        padding: 3px;
+        overflow: auto;
+        gap: 4px;
         border: 2px solid #8B4513;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
       }
@@ -388,14 +392,14 @@ export default {
         justify-content: center;
         margin-top: -1px;
         height: auto;
-        background-color: #e79049;
+        background: linear-gradient(322deg, #b7763f, #d78913);
         padding: 3px;
+        border-radius: 5px;
         border: 2px solid #8B4513;
         @media screen and (min-width: 576px) {
           cursor: pointer;
         }
       }
-
       &-tab {
         position: absolute;
         display: flex;
@@ -403,10 +407,11 @@ export default {
         align-items: center;
         width: 97%;
         height: 90%;
+        padding: 3px;
         border: 2px solid #8B4513;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         overflow: auto;
-        gap: 2px;
+        gap: 4px;
       }
     }
   }
@@ -441,7 +446,7 @@ export default {
   border: 2px solid #8B4513;
   border-radius: 5px;
   cursor: pointer;
-  font-family: 'Times New Roman', serif;
+  //font-family: 'Times New Roman', serif;
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: 0.3s ease;

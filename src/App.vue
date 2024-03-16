@@ -6,6 +6,8 @@
 
 <script>
 import gameMeneger from './components/gameMeneger.vue'
+import '@/assets/fonts.scss';
+
 
 export default {
   components: {
@@ -23,6 +25,6 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: cursive;
+  font-family: Colus;
 }
 </style>
