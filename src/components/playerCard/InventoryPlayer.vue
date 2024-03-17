@@ -26,6 +26,7 @@
         nameLeftTab="Классы"
         @tabChange="setPage"
     />
+    <audio ref="clickSound" src="../../assets/sounds/click.mp3"></audio>
   </div>
 </template>
 <script>
@@ -47,7 +48,9 @@ export default {
   methods: {
     setPage(tab) {
       /* eslint-disable */
+      this.$refs.clickSound.play();
       this.player.page = tab
+
     },
     clickAvatar(index) {
       console.log(index)

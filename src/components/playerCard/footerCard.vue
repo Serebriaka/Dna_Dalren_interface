@@ -66,6 +66,7 @@ export default {
       store.dispatch('sendSharedValue')
     },
     toInventory() {
+
       this.$emit('tabChange', this.pageRightTab)
       this.sendChangePlayer()
     },

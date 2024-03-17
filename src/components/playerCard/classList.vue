@@ -1,8 +1,8 @@
 <template>
   <div class="body">
-    <div class="body-left">
-      <div class="body-left__list"></div>
-    </div>
+<!--    <div class="body-left">-->
+<!--      <div class="body-left__list"></div>-->
+<!--    </div>-->
     <div class="body-right">
       <select v-model="selectedClassSkill" v-if="isAdmin">
         <option v-for="skill in allSkills" :key="skill.name">{{skill.name}}</option>
@@ -112,7 +112,7 @@ export default {
     display: flex;
     flex-direction: column;
     height: 100%;
-    width: 40%;
+    width: 80%;
     border: 3px solid #8B4513;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
     border-radius: 3px;

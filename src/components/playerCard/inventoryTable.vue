@@ -38,12 +38,12 @@
               >
                 Экипировать
               </div>
-              <div class="selectPopup-tab"
-                   v-if="!stealItem"
-                   @click="clickTab('handOver', inv, index)"
-              >
-                Передать
-              </div>
+<!--              <div class="selectPopup-tab"-->
+<!--                   v-if="!stealItem"-->
+<!--                   @click="clickTab('handOver', inv, index)"-->
+<!--              >-->
+<!--                Передать-->
+<!--              </div>-->
               <div class="selectPopup-tab"
                    v-if="stealItem"
                    @click="clickTab('stealItem', inv, index)"
