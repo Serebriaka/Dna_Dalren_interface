@@ -10,7 +10,7 @@
       <select v-model="selectedClass" v-if="isAdmin">
         <option v-for="skill in classSkills" :key="skill.name">{{skill.name}}</option>
       </select>
-      <button @click="addSkill" v-if="isAdmin">+</button>
+      <button @click="addSkill" v-if="isAdmin && selectedClass">+</button>
       <div
           class="body-right__list"
           v-for="(skill, index) in activeSkills"
@@ -49,10 +49,12 @@ export default {
   },
   methods: {
     addSkill() {
-      let skill = this.classSkills.find(item => item.name  === this.selectedClass)
-      console.log(skill)
-      this.player.playerSkills.push(skill)
-      store.dispatch('sendSharedValue')
+      if (this.selectedClass !== '') {
+        let skill = this.classSkills.find(item => item.name  === this.selectedClass)
+        this.player.playerSkills.push(skill)
+        this.selectedClass = ''
+        store.dispatch('sendSharedValue')
+      }
     },
     delClass(index) {
       this.player.playerSkills.splice(index, 1)
@@ -83,6 +85,11 @@ export default {
     },
     activeSkills() {
       return this.player.playerSkills
+    }
+  },
+  watch: {
+    selectedClassSkill() {
+      this.selectedClass = ''
     }
   }
 }
