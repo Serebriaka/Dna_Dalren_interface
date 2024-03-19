@@ -1,4 +1,4 @@
-# test-server
+# ALfa-test
 
 ## Project setup
 ```
