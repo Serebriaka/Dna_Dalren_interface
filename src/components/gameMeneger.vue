@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <adminComponent/>
     <div class="body">
       <div class="body-column">
           <cardPlayer
@@ -36,6 +37,7 @@
 <script>
 import cardPlayer from "./playerCard/cardPlayer.vue";
 import store from "../store";
+import adminComponent from './adminComponent.vue'
 // import axios from "axios";
 export default {
   data() {
@@ -51,7 +53,8 @@ export default {
     }
   },
   components: {
-    cardPlayer
+    cardPlayer,
+    adminComponent
   },
   created() {
   },
