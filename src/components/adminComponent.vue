@@ -291,10 +291,10 @@ export default {
     }
   },
   mounted() {
-    document.addEventListener('click', this.closePopup)
+    document.addEventListener('clickPick', this.closePopup)
   },
   beforeUnmount() {
-    document.removeEventListener('click', this.closePopup)
+    document.removeEventListener('clickPick', this.closePopup)
   },
   methods: {
     setRarity(rarity) {
