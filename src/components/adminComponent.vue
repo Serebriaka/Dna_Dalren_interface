@@ -52,7 +52,7 @@
             <input type="number" v-model="requirements.constitution" placeholder="Выносливость"> <div>Выносливость(Требование)</div>
           </div>
           <div class="admin-basics-element">
-            <input type="number" v-model="requirements.intelligence" placeholder="Интерект"> <div>Интерект(Требование)</div>
+            <input type="number" v-model="requirements.intelligence" placeholder="Интеллект"> <div>Интеллект(Требование)</div>
           </div>
           <div class="admin-basics-element">
             <input type="number" v-model="requirements.wisdom" placeholder="Мудрость"> <div>Мудрость(Требование)</div>
@@ -72,7 +72,7 @@
           <input type="number" v-model="buffs.constitution" placeholder="Выносливость"> <div>Выносливость (Бафф)</div>
         </div>
         <div class="admin-basics-element">
-          <input type="number" v-model="buffs.intelligence" placeholder="Интерект"> <div>Интерект (Бафф)</div>
+          <input type="number" v-model="buffs.intelligence" placeholder="Интеллект"> <div>Интеллект (Бафф)</div>
         </div>
         <div class="admin-basics-element">
           <input type="number" v-model="buffs.wisdom" placeholder="Мудрость"> <div>Мудрость (Бафф)</div>
@@ -291,10 +291,10 @@ export default {
     }
   },
   mounted() {
-    document.addEventListener('clickPick', this.closePopup)
+    document.addEventListener('click', this.closePopup)
   },
   beforeUnmount() {
-    document.removeEventListener('clickPick', this.closePopup)
+    document.removeEventListener('click', this.closePopup)
   },
   methods: {
     setRarity(rarity) {

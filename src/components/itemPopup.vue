@@ -72,6 +72,7 @@ export default {
 <style scoped lang="scss">
 .popup {
   position: absolute;
+  top: -419px;
   background-color: white;
   border: 1px solid #000000;
   border-radius: 7px;
