@@ -4,13 +4,13 @@ import axios from "axios";
 
 
 Vue.use(Vuex)
-
+const url ='http://192.168.0.100:3000'
 const store = new Vuex.Store({
     actions: {
         async sendSharedValue(ctx) {
             const data = { test: ctx.state.playerCards }; // Данные для отправки
             try {
-                await axios.post('http://172.20.10.3:3000/saveData', data);
+                await axios.post(url +'/saveData', data);
 
             } catch (error) {
                 console.error('Error:', error);
@@ -18,11 +18,30 @@ const store = new Vuex.Store({
         },
         async updateSharedValue(ctx) {
             try {
-                const response = await axios.get('http://172.20.10.3:3000/getData');
+                const response = await axios.get(url +'/getData');
                 if(response.data.message.test !== undefined) ctx.state.playerCards = response.data.message.test
-                // console.log(ctx.state.playerCards)
-                // this.playerCards = response.data.message.test
-                // Ответ от сервера
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        },
+        async setItem(ctx, item) {
+            try {
+                await axios.post(url +'/setItem', item);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        },
+        async delItem(ctx, item) {
+            try {
+                await axios.delete(url +'/delItem', item);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        },
+        async updateItems(ctx) {
+            try {
+                const response = await axios.get(url +'/getItems');
+                if(response.data.message.test !== undefined) ctx.state.allItem = response.data
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -718,6 +737,7 @@ const store = new Vuex.Store({
                 ]
             }
         ],
+        allItem: [],
         allItems: {
             armors: [
                 {

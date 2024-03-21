@@ -3,46 +3,117 @@
     <div class="admin-select">
       <select-component :options="selectedCategories" @change="setCategory"/>
     </div>
-    <div class="admin-basics">
-      <div class="admin-basics-element">
-        <input type="text" v-model="name" placeholder="Название"> <div>Название</div>
+    <div class="admin-basics-row">
+      <div class="admin-basics">
+        <div class="admin-basics-element">
+          <input type="text" v-model="name" placeholder="Название"> <div>Название</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="text" v-model="description" placeholder="Описание"> <div>Описание</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="number" v-model="weight" placeholder="Вес"> <div>Вес</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="number" v-model="sale" placeholder="Цена"> <div>Цена</div>
+        </div>
+        <div class="admin-basics-element">
+          <select-component :options="selectedRarity" @change="setRarity"/> <div>Редкость</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="checkbox" v-model="isProtection"> <div>Должен давать защиту</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="checkbox" v-model="isRequirements"> <div>Есть требования чтобы надеть</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="checkbox" v-model="isBuffs"> <div>Может давать баффы</div>
+        </div>
       </div>
-      <div class="admin-basics-element">
-        <input type="text" v-model="description" placeholder="Описание"> <div>Описание</div>
+      <div class="admin-basics-protection" v-if="isProtection">
+          <div class="admin-basics-element">
+            <input type="number" v-model="protection.chopping" placeholder="Рубящий"> <div>Рубящий(защита)</div>
+          </div>
+          <div class="admin-basics-element">
+            <input type="number" v-model="protection.pricking" placeholder="Колющий"> <div>Колющий(защита)</div>
+          </div>
+          <div class="admin-basics-element">
+            <input type="number" v-model="protection.crushing" placeholder="Дробящий"> <div>Дробящий(защита)</div>
+          </div>
       </div>
-      <div class="admin-basics-element">
-        <input type="number" v-model="weight" placeholder="Вес"> <div>Вес</div>
+      <div class="admin-basics-requirements" v-if="isRequirements">
+          <div class="admin-basics-element">
+            <input type="number" v-model="requirements.strength" placeholder="Сила"> <div>Сила(Требование)</div>
+          </div>
+          <div class="admin-basics-element">
+            <input type="number" v-model="requirements.dexterity" placeholder="Ловкость"> <div>Ловкость(Требование)</div>
+          </div>
+          <div class="admin-basics-element">
+            <input type="number" v-model="requirements.constitution" placeholder="Выносливость"> <div>Выносливость(Требование)</div>
+          </div>
+          <div class="admin-basics-element">
+            <input type="number" v-model="requirements.intelligence" placeholder="Интерект"> <div>Интерект(Требование)</div>
+          </div>
+          <div class="admin-basics-element">
+            <input type="number" v-model="requirements.wisdom" placeholder="Мудрость"> <div>Мудрость(Требование)</div>
+          </div>
+          <div class="admin-basics-element">
+            <input type="number" v-model="requirements.charisma" placeholder="Харизма"> <div>Харизма(Требование)</div>
+          </div>
       </div>
-      <div class="admin-basics-element">
-        <input type="number" v-model="sale" placeholder="Цена"> <div>Цена</div>
+      <div class="admin-basics-buffs" v-if="isBuffs">
+        <div class="admin-basics-element">
+          <input type="number" v-model="buffs.strength" placeholder="Сила"> <div>Сила (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="number" v-model="buffs.dexterity" placeholder="Ловкость"> <div>Ловкость (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="number" v-model="buffs.constitution" placeholder="Выносливость"> <div>Выносливость (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="number" v-model="buffs.intelligence" placeholder="Интерект"> <div>Интерект (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="number" v-model="buffs.wisdom" placeholder="Мудрость"> <div>Мудрость (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="number" v-model="buffs.charisma" placeholder="Харизма"> <div>Харизма (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="number" v-model="buffs.health" placeholder="Здоровье"> <div>увеличивает макс. Здоровье (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="text" v-model="buffs.damage.chopping" placeholder="Рубящий"> <div>Рубящий урон (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="text" v-model="buffs.damage.pricking" placeholder="Колющий"> <div>Колющий урон (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="text" v-model="buffs.damage.crushing" placeholder="Дробящий"> <div>Дробящий урон (Бафф)</div>
+        </div>
+        <div class="admin-basics-element">
+          <input type="text" v-model="buffs.treatment" placeholder="Лечение"> <div>Лечит здоровья (для лечилок)</div>
+        </div>
       </div>
-      <div class="admin-basics-element">
-        <select-component :options="selectedRarity" @change="setRarity"/> <div>Редкость</div>
-      </div>
-      <div class="admin-basics-element">
-        <input type="checkbox" v-model="isProtection"> <div>Должен давать защиту</div>
-      </div>
-
-      <div class="admin-basics-element">
-        <input type="checkbox" v-model="isRequirements"> <div>Есть требования чтобы надеть</div>
-      </div>
-
-      <div class="admin-basics-element">
-        <input type="checkbox" v-model="isBuffs"> <div>Может давать баффы</div>
-      </div>
-<!--      <div class="admin-basics-element"></div>-->
-<!--      <div class="admin-basics-element"></div>-->
-<!--      <div class="admin-basics-element"></div>-->
-<!--      <div class="admin-basics-element"></div>-->
     </div>
 
-<!--  <button @click="save"></button>-->
+
+  <div
+      @click="save"
+      class="btn"
+      :class="{activeBtn: isBtnActive}"
+  >
+    Сохранить
+  </div>
   </div>
 </template>
 
 <script>
 
 import SelectComponent from "@/components/selectComponents/selectComponent.vue";
+import helpers from "@/helpers";
+import store from "@/store";
 
 export default {
   components: {SelectComponent},
@@ -54,8 +125,12 @@ export default {
 
       selectedCategories: [
         {
-          name: "Оружие",
+          name: "Броня",
           value: "armors",
+        },
+        {
+          name: "Квестовое",
+          value: "questItem",
         },
         {
           name: "Предметы",
@@ -112,8 +187,8 @@ export default {
           value: 4
         },
       ],
-      selectedCategory: "",
-      itemObj: {
+      itemObj: { // образец заполнения объекта
+        id: "",
         name: '',
         category: '',
         weight: 0,
@@ -143,10 +218,11 @@ export default {
           wisdom: 0,
           charisma: 0,
           health: 0,
+          treatment: '',
           damage: {
-            chopping: 0, //рубящий
-            pricking: 0, //колющий
-            crushing: 0, //дробящий
+            chopping: '', //рубящий
+            pricking: '', //колющий
+            crushing: '', //дробящий
           },
         },
         isRead: false, //прочитать описание
@@ -160,13 +236,41 @@ export default {
 
 
       name: '',
-      category: '',
+      selectedCategory: '',
       weight: 0,
       sale: 0,
       description: '',
-      rarity: 1, //редкость 1 - самый редкий 4 обычный
+      rarity: 0, //редкость 1 - самый редкий 4 обычный
       logo: '',
       skills: [],
+      protection: {
+        chopping: 0, //рубящий
+        pricking: 0, //колющий
+        crushing: 0, //дробящий
+      },
+      requirements: { //требования
+        strength: 0,
+        dexterity: 0,
+        constitution: 0,
+        intelligence: 0,
+        wisdom: 0,
+        charisma: 0,
+      },
+      buffs: {
+        strength: 0,
+        dexterity: 0,
+        constitution: 0,
+        intelligence: 0,
+        wisdom: 0,
+        charisma: 0,
+        health: 0,
+        treatment: '',
+        damage: {
+          chopping: '', //рубящий
+          pricking: '', //колющий
+          crushing: '', //дробящий
+        },
+      },
     }
   },
   methods: {
@@ -175,17 +279,103 @@ export default {
     },
     setCategory(category) {
       this.selectedCategory = category.value
+    },
+    save() {
+      let item = { ...this.itemObj}
+      item.id = helpers.generateId(),
+      item.name = this.name,
+      item.category = this.selectedCategory,
+      item.weight = +this.weight,
+      item.sale = +this.sale,
+      item.description = this.description,
+      item.rarity = +this.rarity, //редкость 1 - самый редкий 4 обычный
+      item.logo = '',
+      item.skills = [], //вариант на случай если предмет позволяет использовать навык
+      item.protection = {
+        chopping: +this.protection.chopping, //рубящий
+        pricking: +this.protection.pricking, //колющий
+        crushing: +this.protection.crushing, //дробящий
+      },
+      item.requirements = { //требования
+        strength: +this.requirements.strength,
+        dexterity: +this.requirements.dexterity,
+        constitution: +this.requirements.constitution,
+        intelligence: +this.requirements.intelligence,
+        wisdom: +this.requirements.wisdom,
+        charisma: +this.requirements.charisma,
+      },
+      item.buffs = {
+        strength: +this.buffs.strength,
+        dexterity: +this.buffs.dexterity,
+        constitution: +this.buffs.constitution,
+        intelligence: +this.buffs.intelligence,
+        wisdom: +this.buffs.wisdom,
+        charisma: +this.buffs.charisma,
+        health: +this.buffs.health,
+        treatment: this.buffs.treatment, //лечение
+        damage: {
+          chopping: this.buffs.damage.chopping, //рубящий
+          pricking: this.buffs.damage.pricking, //колющий
+          crushing: this.buffs.damage.crushing, //дробящий
+        },
+      },
+      item.isRead = false, //прочитать описание
+      item.isUse = false, //использовать
+      item.isEquip = false, //надеть
+      item.isUndress = false, //снять
+      item.isPlant = false, //подкинуть
+      item.isSteal = false, //украсть
+      item.isHandOver = false //передать
+
+      store.dispatch('delItem', item)
+
+      // console.log(item, 'item')
     }
+  },
+  computed: {
+    isBtnActive() {
+      let result = false
+      result = !!(this.name && this.selectedCategory && this.description && this.rarity);
+      return result
+    },
   },
   watch: {
     isProtection() {
-
+      this.itemObj.protection =  {
+        chopping: 0, //рубящий
+        pricking: 0, //колющий
+        crushing: 0, //дробящий
+      }
+      this.protection = this.itemObj.protection
     },
     isRequirements() {
-
+      this.itemObj.requirements = {
+        strength: 0,
+        dexterity: 0,
+        constitution: 0,
+        intelligence: 0,
+        wisdom: 0,
+        charisma: 0,
+      }
+      this.requirements = this.itemObj.requirements
     },
     isBuffs() {
-
+      this.itemObj.buffs = {
+        strength: 0,
+        dexterity: 0,
+        constitution: 0,
+        intelligence: 0,
+        wisdom: 0,
+        charisma: 0,
+        health: 0,
+        treatment: '',
+        damage: {
+          chopping: '', //рубящий
+          pricking: '', //колющий
+          crushing: '', //дробящий
+        },
+      }
+      this.buffs = this.itemObj.buffs
     },
   }
 }
@@ -204,11 +394,61 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 25%;
+    padding: 20px;
+    border: 1px solid #bcbbbd;
+    border-radius: 10px;
     &-element {
+      align-items: center;
+      text-align: center;
       display: flex;
       gap: 10px;
+
+    }
+    &-row {
+      display: flex;
+      flex-direction: row !important;
+      gap: 10px;
+    }
+    &-protection {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      border: 1px solid #bcbbbd;
+      border-radius: 10px;
+    }
+    &-requirements {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      border: 1px solid #bcbbbd;
+      border-radius: 10px;
+    }
+    &-buffs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      border: 1px solid #bcbbbd;
+      border-radius: 10px;
     }
   }
+}
+.activeBtn {
+  transition: all 0.5s;
+  color: black !important;
+  background-color: #e3a774 !important;
+  border: 2px solid #8B4513 !important;
+}
+.btn {
+  //width: 100%;
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  background-color: #a9a9a9;
+  border-radius: 10px;
+  color: #707070;
+  border: 2px solid #707070;
 }
 </style>
