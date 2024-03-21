@@ -59,9 +59,10 @@ export default {
   created() {
   },
   async mounted() {
+    await store.dispatch('getItems')
     setInterval(() => {
       store.dispatch('updateSharedValue');
-    }, 1500);
+    }, 3500);
   },
   methods: {
     createPlayerCard() {

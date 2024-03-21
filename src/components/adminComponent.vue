@@ -97,15 +97,28 @@
         </div>
       </div>
     </div>
-
-
-  <div
-      @click="save"
-      class="btn"
-      :class="{activeBtn: isBtnActive}"
-  >
-    Сохранить
-  </div>
+    <div
+        @click="save"
+        class="btn"
+        :class="{activeBtn: isBtnActive}"
+    >
+      Сохранить
+    </div>
+    <div class="admin-items">
+      <item-popup
+          v-if="isPopup"
+          :item="item"
+      />
+      <div class="admin-items-list" v-for="(value, key, index) in itemCategories" :key="value[key]">
+        <div class="category">{{nameCategories[index]}}</div>
+        <div class="admin-items-list-elem" v-for="item in value" :key="item.id">
+          <div style="display: flex; gap: 5px; align-items: center" @click.stop>
+            <div style="cursor: pointer" @click="openPopup(item)">{{item.name}} </div>
+            <div style="cursor: pointer" @click="deleteItem(item)">x</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -114,15 +127,19 @@
 import SelectComponent from "@/components/selectComponents/selectComponent.vue";
 import helpers from "@/helpers";
 import store from "@/store";
+import ItemPopup from "@/components/itemPopup.vue";
 
 export default {
-  components: {SelectComponent},
+  components: {ItemPopup, SelectComponent},
   data() {
     return {
+      item: {},
+      isPopup: false,
+
       isProtection: false,
       isRequirements: false,
       isBuffs: false,
-
+      nameCategories: ['Броня', 'Предметы', 'Щиты', 'Одежда', 'Оружие', 'Документы', 'Инструменты', 'Еда', 'Украшения', 'Медицина', 'Квестовые предметы'],
       selectedCategories: [
         {
           name: "Броня",
@@ -273,6 +290,12 @@ export default {
       },
     }
   },
+  mounted() {
+    document.addEventListener('click', this.closePopup)
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.closePopup)
+  },
   methods: {
     setRarity(rarity) {
       this.rarity = rarity.value
@@ -280,22 +303,29 @@ export default {
     setCategory(category) {
       this.selectedCategory = category.value
     },
-    save() {
+    openPopup(item) {
+      this.item = item
+      this.isPopup = !this.isPopup
+    },
+    closePopup() {
+      this.isPopup = !this.isPopup
+    },
+    async save() {
       let item = { ...this.itemObj}
-      item.id = helpers.generateId(),
-      item.name = this.name,
-      item.category = this.selectedCategory,
-      item.weight = +this.weight,
-      item.sale = +this.sale,
-      item.description = this.description,
-      item.rarity = +this.rarity, //редкость 1 - самый редкий 4 обычный
-      item.logo = '',
-      item.skills = [], //вариант на случай если предмет позволяет использовать навык
+      item.id = helpers.generateId()
+      item.name = this.name
+      item.category = this.selectedCategory
+      item.weight = +this.weight
+      item.sale = +this.sale
+      item.description = this.description
+      item.rarity = +this.rarity //редкость 1 - самый редкий 4 обычный
+      item.logo = ''
+      item.skills = [] //вариант на случай если предмет позволяет использовать навык
       item.protection = {
         chopping: +this.protection.chopping, //рубящий
         pricking: +this.protection.pricking, //колющий
         crushing: +this.protection.crushing, //дробящий
-      },
+      }
       item.requirements = { //требования
         strength: +this.requirements.strength,
         dexterity: +this.requirements.dexterity,
@@ -303,7 +333,7 @@ export default {
         intelligence: +this.requirements.intelligence,
         wisdom: +this.requirements.wisdom,
         charisma: +this.requirements.charisma,
-      },
+      }
       item.buffs = {
         strength: +this.buffs.strength,
         dexterity: +this.buffs.dexterity,
@@ -318,18 +348,26 @@ export default {
           pricking: this.buffs.damage.pricking, //колющий
           crushing: this.buffs.damage.crushing, //дробящий
         },
-      },
-      item.isRead = false, //прочитать описание
-      item.isUse = false, //использовать
-      item.isEquip = false, //надеть
-      item.isUndress = false, //снять
-      item.isPlant = false, //подкинуть
-      item.isSteal = false, //украсть
+      }
+      item.isRead = false //прочитать описание
+      item.isUse = false //использовать
+      item.isEquip = false //надеть
+      item.isUndress = false //снять
+      item.isPlant = false //подкинуть
+      item.isSteal = false //украсть
       item.isHandOver = false //передать
 
-      store.dispatch('delItem', item)
+      await store.dispatch('setItem', item)
+      await store.dispatch('getItems', item)
+    },
+    async deleteItem(item) {
+      let object = {
+        id: item.id,
+        category: item.category
+      }
 
-      // console.log(item, 'item')
+      await store.dispatch('delItem', object)
+      await store.dispatch('getItems')
     }
   },
   computed: {
@@ -338,6 +376,9 @@ export default {
       result = !!(this.name && this.selectedCategory && this.description && this.rarity);
       return result
     },
+    itemCategories() {
+      return store.state.allItem
+    }
   },
   watch: {
     isProtection() {
@@ -434,11 +475,34 @@ export default {
       border-radius: 10px;
     }
   }
+  &-items {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-around;
+    height: 100%;
+    border: 1px solid #000000;
+    padding: 7px;
+    text-align: center;
+    align-items: center;
+    &-list {
+      align-items: center;
+      width: 9%;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      &-elem {
+        padding-top: 5px;
+      }
+    }
+  }
 }
 .activeBtn {
   transition: all 0.5s;
   color: black !important;
-  background-color: #e3a774 !important;
+  background-color: #c35f10 !important;
   border: 2px solid #8B4513 !important;
 }
 .btn {
@@ -451,4 +515,11 @@ export default {
   color: #707070;
   border: 2px solid #707070;
 }
+.category {
+  border-radius: 7px;
+  padding: 5px;
+  color: #ec8f46;
+  border: 2px solid #8B4513;
+}
+
 </style>

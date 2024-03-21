@@ -32,16 +32,20 @@ const store = new Vuex.Store({
             }
         },
         async delItem(ctx, item) {
-            try {
-                await axios.delete(url +'/delItem', item);
-            } catch (error) {
-                console.error('Error:', error);
-            }
+                let params = {
+                    id: item.id,
+                    category: item.category
+                }
+                try {
+                    await axios.delete(url +'/delItem', {params});
+                } catch (error) {
+                    console.error('Error:', error);
+                }
         },
-        async updateItems(ctx) {
+        async getItems(ctx) {
             try {
                 const response = await axios.get(url +'/getItems');
-                if(response.data.message.test !== undefined) ctx.state.allItem = response.data
+                if(response.data !== undefined) ctx.state.allItem = response.data
             } catch (error) {
                 console.error('Error:', error);
             }
