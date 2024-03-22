@@ -63,6 +63,9 @@
       </div>
       <div class="admin-basics-buffs" v-if="isBuffs">
         <div class="admin-basics-element">
+          <select-component :options="selectedHanded" @change="setHanded"/> <div>Сколько рук?</div>
+        </div>
+        <div class="admin-basics-element">
           <input type="number" v-model="buffs.strength" placeholder="Сила"> <div>Сила (Бафф)</div>
         </div>
         <div class="admin-basics-element">
@@ -204,6 +207,16 @@ export default {
           value: 4
         },
       ],
+      selectedHanded: [
+        {
+          name: "Одноручное",
+          value: 'one-handed'
+        },
+        {
+          name: "Двуручное",
+          value: 'two-handed'
+        },
+      ],
       itemObj: { // образец заполнения объекта
         id: "",
         name: '',
@@ -214,6 +227,7 @@ export default {
         rarity: 1, //редкость 1 - самый редкий 4 обычный
         logo: '',
         skills: [], //вариант на случай если предмет позволяет использовать навык
+        handed: '',
         protection: {
           chopping: 0, //рубящий
           pricking: 0, //колющий
@@ -254,6 +268,7 @@ export default {
 
       name: '',
       selectedCategory: '',
+      handed: 'one-handed',
       weight: 0,
       sale: 0,
       description: '',
@@ -303,6 +318,9 @@ export default {
     setCategory(category) {
       this.selectedCategory = category.value
     },
+    setHanded(handed) {
+      this.handed = handed.value
+    },
     openPopup(item) {
       this.item = item
       this.isPopup = !this.isPopup
@@ -321,6 +339,7 @@ export default {
       item.rarity = +this.rarity //редкость 1 - самый редкий 4 обычный
       item.logo = ''
       item.skills = [] //вариант на случай если предмет позволяет использовать навык
+      item.handed = this.handed
       item.protection = {
         chopping: +this.protection.chopping, //рубящий
         pricking: +this.protection.pricking, //колющий
@@ -374,6 +393,7 @@ export default {
     isBtnActive() {
       let result = false
       result = !!(this.name && this.selectedCategory && this.description && this.rarity);
+      if(this.isBuffs && !this.handed) result = false
       return result
     },
     itemCategories() {
@@ -417,6 +437,7 @@ export default {
         },
       }
       this.buffs = this.itemObj.buffs
+      this.handed = ''
     },
   }
 }
