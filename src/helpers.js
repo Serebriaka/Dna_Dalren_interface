@@ -53,5 +53,27 @@ export default {
             id += characters.charAt(Math.floor(Math.random() * characters.length));
         }
         return id;
-    }
+    },
+    setNewSkills(skills, item, type) {
+        let result = {}
+        if(type === 'add') {
+            skills.charisma = skills.charisma + item.buffs.charisma
+            skills.constitution = skills.constitution + item.buffs.constitution
+            skills.dexterity = skills.dexterity + item.buffs.dexterity
+            skills.intelligence = skills.intelligence + item.buffs.intelligence
+            skills.strength = skills.strength + item.buffs.strength
+            skills.wisdom = skills.wisdom + item.buffs.wisdom
+            console.log(item)
+        }
+        if(type === 'del') {
+            skills.charisma = skills.charisma - item.buffs.charisma
+            skills.constitution = skills.constitution - item.buffs.constitution
+            skills.dexterity = skills.dexterity - item.buffs.dexterity
+            skills.intelligence = skills.intelligence - item.buffs.intelligence
+            skills.strength = skills.strength - item.buffs.strength
+            skills.wisdom = skills.wisdom - item.buffs.wisdom
+        }
+
+        return result
+    },
 }

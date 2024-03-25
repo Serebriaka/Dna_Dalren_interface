@@ -10,7 +10,7 @@
               :key="index"
               @click="enEquip(index, equip)"
           >
-            {{ equip.name }} <div v-if="isAdmin" @click="delEquip(index)" style="margin-left: 5px">x</div>
+            {{ equip.name }} <div v-if="isAdmin" @click="delEquip(index, equip)" style="margin-left: 5px">x</div>
           </div>
         </div>
         <div class="weight">Вес: {{inventoryWeight}} / {{maxWeight}}</div>
@@ -24,7 +24,7 @@
               :key="index"
           >
             <div @click="clickItem(index, inv)">{{inv.name}}</div>
-            <div v-if="isAdmin" @click="delItem(index)" style="margin-left: 5px">x</div>
+            <div v-if="isAdmin" @click="delItem(index, inv)" style="margin-left: 5px">x</div>
             <div class="selectPopup" v-if="index === selectedIndexPopup">
               <div class="selectPopup-tab"
                    @click="clickTab('use', inv, index)"
@@ -91,6 +91,7 @@
 <script>
 import store from "@/store";
 import validationItems from "@/validationItems";
+import helpers from "@/helpers";
 // import helpers from "@/helpers";
 
 export default {
@@ -193,6 +194,7 @@ export default {
         this.checkInventory() // Проверка экипировки перед валидацией
         this.player.inventory = this.player.inventory.map((item, index) => {
           item.isEquip = false
+          item.isUse = false
           item.isRead = true
           // item.isPlant = true
           if (validationItems.getIsEquip(item) && validationItems.getStatsValidate(item.requirements, this.player.skills)) { // Валидация по возможности экипировать
@@ -217,6 +219,9 @@ export default {
               item.isEquip = true
             }
           }
+          if(item.category === 'medicine') {
+            item.isUse = true
+          }
           return item;
         });
         store.dispatch('sendSharedValue')
@@ -226,6 +231,7 @@ export default {
     clickTab(tab, inv, index) {
       if(tab === 'equip') {
         this.player.equipment.push(inv)
+        helpers.setNewSkills(this.player.skills, inv, 'add')
         this.player.inventory.splice(index, 1)
       }
       if(tab === 'use') {
@@ -246,14 +252,16 @@ export default {
       this.selectedIndexPopup = null
       store.dispatch('sendSharedValue')
     },
-    delEquip(index) {
+    delEquip(index, inv) {
       this.player.equipment.splice(index, 1)
+      helpers.setNewSkills(this.player.skills, inv, 'del')
       store.dispatch('sendSharedValue')
     },
     enEquip(index, equip) {
       if(!this.stealItem) {
         this.player.equipment.splice(index, 1)
         this.player.inventory.push(equip)
+        helpers.setNewSkills(this.player.skills, equip, 'del')
         store.dispatch('sendSharedValue')
         this.isValidatePopup()
       }
@@ -271,13 +279,13 @@ export default {
     },
     useHealth(inv, index) {
       if(inv.category === 'medicine') {
-        if(inv.randoms === '1d12') {
+        if(inv.buffs.treatment === '1d12') {
           let randomNum = 0
           randomNum = Math.floor(Math.random() * 12) + 1;
           this.player.actHealth = this.player.actHealth + +randomNum
           this.player.inventory.splice(index, 1)
         }
-        if(inv.randoms === '1d6') {
+        if(inv.buffs.treatment === '1d6') {
           let randomNum = 0
           randomNum = Math.floor(Math.random() * 6) + 1;
           this.player.actHealth = this.player.actHealth + +randomNum

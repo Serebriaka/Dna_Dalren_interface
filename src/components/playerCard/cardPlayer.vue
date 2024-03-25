@@ -209,6 +209,11 @@ export default {
       result = this.statsValues[5].mode
       return result
     },
+    setExtraHealth() {
+      let result = 0
+      result = this.player.equipment.reduce((acc, item) => item.buffs.health + acc, 0)
+      return result
+    },
     setObservation() {
       let result = []
       result = this.statsValues[4].mode
@@ -216,7 +221,7 @@ export default {
     },
     setHeat() {
       let result = []
-      result = this.statsValues[2].value * 3
+      result = this.statsValues[2].value * 3 + this.setExtraHealth
       if(this.player.actHealth > result) this.player.actHealth = result
       return result
     },
