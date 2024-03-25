@@ -368,7 +368,7 @@ export default {
           crushing: this.buffs.damage.crushing, //дробящий
         },
       }
-      item.isRead = false //прочитать описание
+      item.isRead = true //прочитать описание
       item.isUse = false //использовать
       item.isEquip = false //надеть
       item.isUndress = false //снять

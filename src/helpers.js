@@ -1,55 +1,5 @@
 export default {
     /* eslint-disable */
-    getStrengthValidate(item, player) {
-        let result = false
-        let itemStats = {
-            charisma: item.charisma ? item.charisma : 0,
-            constitution: item.constitution ? item.constitution : 0,
-            dexterity: item.dexterity ? item.dexterity : 0,
-            intelligence: item.intelligence ? item.intelligence : 0,
-            strength: item.strength ? item.strength : 0,
-            wisdom: item.wisdom ? item.wisdom : 0,
-        }
-        for (const key in itemStats) {
-            if (itemStats[key] <= player[key]) {
-                result = true;
-            } else {
-                result = false
-                break
-            }
-        }
-        return result
-    },
-    getShellVal(inv, equipment, stats) {
-        let result = true
-        if (inv.category === 'shield') {
-            let strength = 0
-            equipment.forEach((item)=>{
-                if (item.handed === 'one-handed') {
-                    strength = +item.strength
-                }
-            })
-            strength = strength + inv.strength
-            console.log(stats.strength, '=', strength)
-            if(stats.strength < strength) {
-                result = false
-            }
-        }
-        let isShield = equipment.some(equipment => equipment.category === 'shield')
-        if (inv.category === 'weapons' && isShield) {
-            let strength = 0
-            equipment.forEach((item)=>{
-                if (item.category === 'shield') {
-                    strength += item.strength
-                }
-            })
-            strength +=  inv.strength
-            if(stats.strength < strength) {
-                result = false
-            }
-        }
-        return result
-    },
     setExpForLevel(level) {
         let result = 0
         switch (level) {

@@ -28,22 +28,34 @@
             <div class="selectPopup" v-if="index === selectedIndexPopup">
               <div class="selectPopup-tab"
                    @click="clickTab('use', inv, index)"
-                   v-if="isUse && !stealItem"
+                   v-if="inv.isUse && !stealItem"
               >
                 Использовать
               </div>
               <div class="selectPopup-tab"
-                   v-if="(isArmor || isWeapon || isСloth || isEquippable) && !stealItem"
+                   v-if="inv.isEquip && !stealItem"
                    @click="clickTab('equip', inv, index)"
               >
                 Экипировать
               </div>
-<!--              <div class="selectPopup-tab"-->
-<!--                   v-if="!stealItem"-->
-<!--                   @click="clickTab('handOver', inv, index)"-->
-<!--              >-->
-<!--                Передать-->
-<!--              </div>-->
+              <div class="selectPopup-tab"
+                   v-if="inv.isHandOver && !stealItem"
+                   @click="clickTab('handOver', inv, index)"
+              >
+                Передать
+              </div>
+              <div class="selectPopup-tab"
+                   v-if="inv.isPlant && !stealItem"
+                   @click="clickTab('plant', inv, index)"
+              >
+                Подкинуть
+              </div>
+              <div class="selectPopup-tab"
+                   v-if="inv.isRead && !stealItem"
+                   @click="clickTab('read', inv, index)"
+              >
+                Описание
+              </div>
               <div class="selectPopup-tab"
                    v-if="stealItem"
                    @click="clickTab('stealItem', inv, index)"
@@ -54,16 +66,17 @@
           </div>
           <select v-if="isAdmin" v-model="selectedCategory" style="width: 100%">
             <option disabled value="">Выберите категорию</option>
-            <option v-for="(item) in categoryArray" :key="item"> {{item}}</option>
+            <option v-for="(item) in categoryArray" :key="item.id"> {{item.name}}</option>
           </select>
           <select v-if="isAdmin" v-model="selectedItem" style="width: 100%">
             <option disabled value="">Выберите предмет</option>
-            <option v-for="(item, index) in items" :key="index"> {{item.name}}</option>
+            <option v-for="(item) in items" :key="item.id"> {{item.name}}</option>
           </select>
           <button @click="addItem" v-if="isAdmin">+</button>
         </div>
       </div>
     </div>
+
     <div v-if="isAdmin && player.isSteal" class="modal" :class="{ 'modal': true, 'slide-out': true }" style="border: 2px solid #f9ad03;">
       <div class="modal-content">
         <p>Игрок {{player.domName}} хочет украсть {{player.invName}} у игрока {{player.subName}}</p>
@@ -77,7 +90,8 @@
 </template>
 <script>
 import store from "@/store";
-import helpers from "@/helpers";
+import validationItems from "@/validationItems";
+// import helpers from "@/helpers";
 
 export default {
   props: {
@@ -92,20 +106,78 @@ export default {
       selectedItem: '',
       categoryTouch: '',
       selectedIndexPopup: null,
-      categoryArray: ["Броня", "Предметы", "Оружие", "Одежда", "Щиты", 'Документы'],
-      isArmor: false,
-      isWeapon: false,
-      isСloth: false,
-      isEquippable: false,
+      categoryArray: [
+        {
+          name: "Броня",
+          value: "armors",
+        },
+        {
+          name: "Квестовое",
+          value: "questItem",
+        },
+        {
+          name: "Предметы",
+          value: "items",
+        },
+        {
+          name: "Щиты",
+          value: "shields",
+        },
+        {
+          name: "Одежда",
+          value: "cloth",
+        },
+        {
+          name: "Оружие",
+          value: "weapons",
+        },
+        {
+          name: "Документы",
+          value: "documents",
+        },
+        {
+          name: "Инструменты",
+          value: "instruments",
+        },
+        {
+          name: "Еда",
+          value: "food",
+        },
+        {
+          name: "Медицина",
+          value: "medicine",
+        },
+        {
+          name: "Украшения",
+          value: "jewelry",
+        },
+      ],
+
+      oneHandedCount: 0,
+      twoHandedCount: 0,
+      shieldsCount: 0,
+      clothCount: 0,
+      jeweleryCount: 0,
+      armorCount: 0,
+
+
       subName: '',
       domName: '',
       invName: '',
     }
   },
   mounted() {
-    // console.log(this.player.equipment)
+    this.validateItems()
   },
   methods: {
+    checkInventory() {
+      this.armorCount = validationItems.counter(this.player.equipment).armorCount
+      this.shieldsCount = validationItems.counter(this.player.equipment).shieldsCount
+      this.jeweleryCount = validationItems.counter(this.player.equipment).jeweleryCount
+      this.clothCount = validationItems.counter(this.player.equipment).clothCount
+      this.oneHandedCount = validationItems.counter(this.player.equipment).oneHandedCount
+      this.twoHandedCount = validationItems.counter(this.player.equipment).twoHandedCount
+    },
     addItem() {
       /* eslint-disable */
       if (this.selectedItem !== '') {
@@ -116,6 +188,41 @@ export default {
         store.dispatch('sendSharedValue')
       }
     },
+    validateItems() {
+      this.$nextTick(() => {
+        this.checkInventory() // Проверка экипировки перед валидацией
+        this.player.inventory = this.player.inventory.map((item, index) => {
+          item.isEquip = false
+          item.isRead = true
+          // item.isPlant = true
+          if (validationItems.getIsEquip(item) && validationItems.getStatsValidate(item.requirements, this.player.skills)) { // Валидация по возможности экипировать
+            if(item.category === 'weapons') { // валидация по оружию
+              if(item.handed === 'one-handed' && !this.twoHandedCount && this.oneHandedCount < 2 && validationItems.getShellVal(item, this.player.equipment, this.player.skills )) { //валидация одноручного оружия
+                item.isEquip = true
+              }
+              if(item.handed === 'two-handed' && !this.twoHandedCount && !this.oneHandedCount) { //валидация двуручного оружия
+                item.isEquip = true
+              }
+            }
+            if(item.category === 'armors' && !this.armorCount) { // Валидация по броне
+              item.isEquip = true
+            }
+            if(item.category === 'cloth' && !this.clothCount) { // Валидация по одежде
+              item.isEquip = true
+            }
+            if(item.category === 'jewelry' && !this.jeweleryCount) { // Валидация по украшениям
+              item.isEquip = true
+            }
+            if(item.category === 'shields'  && !this.shieldsCount && this.oneHandedCount <= 1 && !this.twoHandedCount && validationItems.getShellVal(item, this.player.equipment, this.player.skills )) { // Валидация по украшениям
+              item.isEquip = true
+            }
+          }
+          return item;
+        });
+        store.dispatch('sendSharedValue')
+      });
+    },
+
     clickTab(tab, inv, index) {
       if(tab === 'equip') {
         this.player.equipment.push(inv)
@@ -132,6 +239,7 @@ export default {
       }
       this.selectedIndexPopup = null
       store.dispatch('sendSharedValue')
+
     },
     delItem(index) {
       this.player.inventory.splice(index, 1)
@@ -151,81 +259,15 @@ export default {
       }
     },
     clickItem(index, inv) { //логика открытия и закрытия попапа
+      this.validateItems()
       if (this.selectedIndexPopup === index) {
         this.selectedIndexPopup = null
-        this.isValidatePopup(inv)
       } else {
-        this.categoryTouch = ''
         this.selectedIndexPopup = index
-        this.categoryTouch = inv.category
-        this.isValidatePopup(inv)
       }
     },
     isValidatePopup(inv)  {
-      if (inv?.category === 'weapons' || inv?.category === 'shield' || inv?.category === 'armor' || inv?.category === 'cloth') {
-        this.isArmor = false
-        this.isWeapon = false
-        this.isСloth = false
-        this.isEquippable = false
-        let isStrengthAgree = helpers.getStrengthValidate(inv, this.player.skills) //создаю хелпер на возможность экипировать по статам
-        let isShieldAgree = helpers.getShellVal(inv, this.player.equipment, this.player.skills) //поправить и использова каунтера амуниции которые ниже
-        console.log(isShieldAgree, 'result')
-        let counterOneWeapons = 0 // количество одноручных оружий
-        this.player.equipment.forEach(item => {
-          if(item?.handed === 'one-handed') counterOneWeapons++
-        })
 
-        let counterTwoWeapons = 0 // количество двуручных оружий
-        this.player.equipment.forEach(item => {
-          if(item?.handed === 'two-handed') counterTwoWeapons++
-        })
-
-        let counterShield = 0 //количество щитов
-        this.player.equipment.forEach(item => {
-          if(item?.handed === 'one-handed' && item?.category === 'shield') {
-            counterShield++
-          }
-        })
-        //надо сделать вложенности if
-        if(inv.handed === 'one-handed' && inv.category !== 'shield') {
-          if(counterOneWeapons <= 1 && counterShield <= 1 && counterTwoWeapons === 0 && isStrengthAgree && isShieldAgree) {
-            this.isWeapon = true
-          } else {
-            this.isWeapon = false
-          }
-        }
-        if(inv.handed === 'one-handed' && inv.category === 'shield' && isShieldAgree) {
-          if(counterOneWeapons <= 1 && counterShield === 0 && counterTwoWeapons === 0 ) {
-            this.isWeapon = true
-          } else {
-            this.isWeapon = false
-          }
-        }
-        if(inv.handed === 'two-handed') {
-          if(counterOneWeapons === 0 && counterShield === 0 && counterTwoWeapons === 0 && isStrengthAgree) {
-            this.isWeapon = true
-          } else {
-            this.isWeapon = false
-          }
-        }
-
-        let isArmors = this.player.equipment.some(item => item.category === 'armor')//блок валидации брони
-        if(this.categoryTouch === 'armor' && !isArmors && isStrengthAgree) {
-          this.isArmor = true
-        } else {
-          this.isArmor = false
-        }
-        let isСloth = this.player.equipment.some(item => item.category === 'cloth')//блок валидации одежды
-        if(this.categoryTouch === 'cloth' && !isСloth) {
-          this.isСloth = true
-        } else {
-          this.isСloth = false
-        }
-      } else {
-        this.isСloth = false
-        this.isArmor = false
-        this.isWeapon = false
-      }
     },
     useHealth(inv, index) {
       if(inv.category === 'medicine') {
@@ -266,33 +308,17 @@ export default {
     }
   },
   computed: {
+    itemCategories() {
+      return store.state.allItem
+    },
     inventoryWeight() {
       let allItems = [...this.player.inventory, ...this.player.equipment]
-      return allItems.reduce((total, item) => total + item.weight, 0);
+      if(allItems[0] !== undefined) return allItems.reduce((total, item) => total + item.weight, 0);
+
     },
     items() {
-      switch (this.selectedCategory) {
-        case 'Броня':
-          return store.state.allItems.armors
-          break;
-        case 'Предметы':
-          return store.state.allItems.items
-          break
-        case 'Оружие':
-          return store.state.allItems.weapons
-          break
-        case 'Одежда':
-          return store.state.allItems.cloth
-          break
-        case 'Щиты':
-          return store.state.allItems.shield
-          break
-        case 'Документы':
-          return store.state.allItems.documents
-          break
-        default: store.state.allItems.items
-      }
-
+      let category = this.categoryArray.find(item => item.name === this.selectedCategory)
+      return this.itemCategories[category.value]
     },
     maxWeight() {
       let result = 0
@@ -305,11 +331,6 @@ export default {
     isAdmin() {
       let result = false
       if(this.isLocation === '/admin') result = true
-      return result
-    },
-    isUse() {
-      let result = false
-      if(this.categoryTouch === 'medicine') result = true
       return result
     },
     stealItem() { // проверка на принадлежность вещи игроку
@@ -436,6 +457,7 @@ export default {
   //margin-bottom: 117px;
   &-tab {
     cursor: pointer;
+    font-size: 12px;
   }
 }
 .medieval-button {

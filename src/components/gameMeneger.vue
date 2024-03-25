@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <adminComponent/>
+    <adminComponent v-if="isEditor"/>
     <div class="body">
       <div class="body-column">
           <cardPlayer
@@ -42,7 +42,6 @@ import adminComponent from './adminComponent.vue'
 export default {
   data() {
     return {
-      // playerCards: [],
       perks: [],
       stats: [],
       selectedClass: "",
@@ -56,13 +55,14 @@ export default {
     cardPlayer,
     adminComponent
   },
-  created() {
+  async created() {
+    await store.dispatch('updateSharedValue');
+    await store.dispatch('getItems')
   },
   async mounted() {
-    await store.dispatch('getItems')
     setInterval(() => {
-      store.dispatch('updateSharedValue');
-    }, 3500);
+       store.dispatch('updateSharedValue');
+    }, 1500);
   },
   methods: {
     createPlayerCard() {
@@ -146,6 +146,11 @@ export default {
     isAdmin() {
       let result = false
       if(this.isLocation === '/admin') result = true
+      return result
+    },
+    isEditor() {
+      let result = false
+      if(this.isLocation === '/editor') result = true
       return result
     }
   }

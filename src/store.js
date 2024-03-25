@@ -20,6 +20,7 @@ const store = new Vuex.Store({
             try {
                 const response = await axios.get(url +'/getData');
                 if(response.data.message.test !== undefined) ctx.state.playerCards = response.data.message.test
+
             } catch (error) {
                 console.error('Error:', error);
             }
