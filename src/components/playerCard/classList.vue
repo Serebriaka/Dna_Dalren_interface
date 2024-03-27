@@ -1,8 +1,5 @@
 <template>
   <div class="body">
-<!--    <div class="body-left">-->
-<!--      <div class="body-left__list"></div>-->
-<!--    </div>-->
     <div class="body-right">
       <select v-model="selectedClassSkill" v-if="isAdmin">
         <option v-for="skill in allSkills" :key="skill.name">{{skill.name}}</option>
@@ -21,21 +18,26 @@
         <div @click="delClass(index)" v-if="isAdmin" style="cursor: pointer">x</div>
       </div>
     </div>
-    <div class="body-popup" v-if="isClassInfo" @click="closePopup">
-      <div class="body-popup-content" @click.stop="">
-        <div>{{popupText}}</div>
-      </div>
+    <div v-if="isClassInfo">
+      <description-popup
+          :description="popupText"
+          @close="closePopup"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import store from "@/store";
+import descriptionPopup from "@/components/descriptionPopup.vue";
 export default {
   /* eslint-disable */
   props: {
     player: {},
     isAdmin: {},
+  },
+  components: {
+    descriptionPopup,
   },
   data() {
     return {

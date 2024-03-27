@@ -24,7 +24,7 @@
         </select>
         <select v-model="selectedRace">
           <option disabled value="">Выберите рассу</option>
-          <option v-for="race in races" :key="race.name">{{ race.name}}</option>
+          <option v-for="race in races" :key="race.name">{{race.name}}</option>
         </select>
         <input type='text' v-model="playerName" placeholder="Напишите имя">
         <input type='text' v-model="playerCity" placeholder="Напишите гражданство">

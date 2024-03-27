@@ -13,7 +13,12 @@
             {{ equip.name }} <div v-if="isAdmin" @click="delEquip(index, equip)" style="margin-left: 5px">x</div>
           </div>
         </div>
-        <div class="weight">Вес: {{inventoryWeight}} / {{maxWeight}}</div>
+        <div
+            class="weight"
+            :class="{ red: inventoryWeight > maxWeight }"
+        >
+          Вес: {{inventoryWeight}} / {{maxWeight}}
+        </div>
       </div>
       <div class="inventory-lists__right">
         Инвентарь
@@ -86,15 +91,23 @@
         </div>
       </div>
     </div>
+    <description-popup
+       v-if="isReadPopup"
+      :item="itemClick"
+      :description="itemClick.description"
+      @close="closePopup"
+    />
   </div>
 </template>
 <script>
 import store from "@/store";
 import validationItems from "@/validationItems";
 import helpers from "@/helpers";
+import DescriptionPopup from "@/components/descriptionPopup.vue";
 // import helpers from "@/helpers";
 
 export default {
+  components: {DescriptionPopup},
   props: {
     player: {},
     index: {},
@@ -104,6 +117,7 @@ export default {
   data() {
     return {
       selectedCategory: 'Предметы',
+      itemClick: {},
       selectedItem: '',
       categoryTouch: '',
       selectedIndexPopup: null,
@@ -160,7 +174,7 @@ export default {
       clothCount: 0,
       jeweleryCount: 0,
       armorCount: 0,
-
+      isReadPopup: false,
 
       subName: '',
       domName: '',
@@ -227,6 +241,10 @@ export default {
         store.dispatch('sendSharedValue')
       });
     },
+    closePopup() {
+      this.isReadPopup = false
+      this.itemClick = {}
+    },
 
     clickTab(tab, inv, index) {
       if(tab === 'equip') {
@@ -242,6 +260,10 @@ export default {
         this.player.domName = this.playerName
         this.player.invName = inv.name
         this.player.isSteal = true
+      }
+      if(tab === 'read') {
+        this.isReadPopup = true
+        this.itemClick = inv
       }
       this.selectedIndexPopup = null
       store.dispatch('sendSharedValue')
@@ -448,7 +470,7 @@ export default {
 .weight {
   font-size: 16px;
   font-weight: 600;
-  margin-top: 5px;
+  margin-top: 7%;
 }
 .selectPopup {
   display: flex;
@@ -523,5 +545,9 @@ export default {
     flex-direction: row;
     justify-content: center;
   }
+}
+.red {
+  color: red;
+  //box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 </style>

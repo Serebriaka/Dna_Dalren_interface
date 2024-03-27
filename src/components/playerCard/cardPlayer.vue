@@ -245,16 +245,9 @@ export default {
         prickingArmor: 0,
       }
       this.player.equipment.forEach(item => {
-        if(item.category === "armor") {
-          result.choppingArmor += item.chopping
-          result.crushingArmor += item.crushing
-          result.prickingArmor += item.pricking
-        }
-        if(item.category === "shield") {
-          result.choppingArmor += item.chopping
-          result.crushingArmor += item.crushing
-          result.prickingArmor += item.pricking
-        }
+          result.choppingArmor += item.protection.chopping
+          result.crushingArmor += item.protection.crushing
+          result.prickingArmor += item.protection.pricking
       })
       return result
     },
