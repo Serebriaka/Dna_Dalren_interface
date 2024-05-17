@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 Vue.use(Vuex)
-const url ='http://192.168.0.100:3000'
+const url = `http://${window.location.hostname}:3000`
 const store = new Vuex.Store({
     actions: {
         async sendSharedValue(ctx) {
