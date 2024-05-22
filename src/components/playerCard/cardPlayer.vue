@@ -12,13 +12,29 @@
             @avatarChange="avatarChange"
             v-if="isPopupAvatar && !isAdmin && player.isAvatar"
           />
-          <div class="stats-first-name stat">{{player.name}}</div>
+<!--          <div class="stats-first-name">{{player.name}}</div>-->
+          <castom-text
+              :text="player.name"
+              :isText="true"
+          />
         </div>
         <div class="stats-first">
-          <div class="stats-first-class stat">{{player.class}}</div>
-          <div class="stats-first-history stat">{{player.history}}</div>
-          <div class="stats-first-race stat">{{player.race}}</div>
-          <div class="stats-first-city stat">{{player.city}}</div>
+          <castom-text
+              :text="player.class"
+              :isText="true"
+          />
+          <castom-text
+              :text="player.history"
+              :isText="true"
+          />
+          <castom-text
+              :text="player.race"
+              :isText="true"
+          />
+          <castom-text
+              :text="player.city"
+              :isText="true"
+          />
         </div>
       </div>
       <div>
@@ -29,32 +45,72 @@
         />
       </div>
       <div class="stats-third">
-        <div class="stat fs14">
-          Здоровье
-          <select v-if="isAdmin" v-model="selectedHealthPoint">
+        <div class="stats-third__center">
+          <castom-text
+              :text="`Здоровье`"
+              :value="player.actHealth + '/' + setHeat"
+              width="170px"
+              :images="{imageOne: 'health'}"
+              :isStandardStats="true"
+              :isAdmin="isAdmin"
+              @setActHealth="setActHealth"
+          />
+          <select v-if="isAdmin" v-model="selectedHealthPoint">-->
             <option v-for="point in points" :key="point">{{point}}</option>
           </select>
-          <button class="btn" v-if="isAdmin" @click="setActHealth('dec')">-</button>
-          {{player.actHealth}}
-          <button class="btn" v-if="isAdmin" @click="setActHealth('inc')">+</button>
-          /
-          {{setHeat}}
         </div>
-        <div class="stat fs14 row" style="justify-content: space-around">
-          <div class="row">
-            <div class="choppingArmor"></div> <div>{{setArmor.choppingArmor}}</div>
-          </div>
-          <div class="row">
-            <div class="crushingArmor"></div> <div>{{setArmor.crushingArmor}}</div>
-          </div>
-          <div class="row">
-            <div class="prickingArmor"></div> <div>{{setArmor.prickingArmor}}</div>
-          </div>
+        <div class="stats-third__column">
+          <castom-text
+              :images="{
+              imageOne: 'pickingDamage',
+              imageTwo: 'choppingDamage',
+              imageThree: 'crushingDamage'
+            }"
+              :damageValue="{
+              picking: setArmor.pickingArmor,
+              chopping: setArmor.choppingArmor,
+              crushing: setArmor.crushingArmor,
+            }"
+              :isDamageStats="true"
+          />
+          <castom-text
+              :images="{
+              imageOne: 'pickingArmor',
+              imageTwo: 'choppingArmor',
+              imageThree: 'crushingArmor'
+            }"
+              :damageValue="{
+              picking: setArmor.pickingArmor,
+              chopping: setArmor.choppingArmor,
+              crushing: setArmor.crushingArmor,
+            }"
+              :isDamageStats="true"
+          />
+          <castom-text
+              :text="`Скрытность`"
+              :value="setStels"
+              :images="{imageOne: 'stealth'}"
+              :isStandardStats="true"
+          />
+          <castom-text
+              :text="`Инициатива`"
+              :value="setIniciative"
+              :images="{imageOne: 'initiative'}"
+              :isStandardStats="true"
+          />
+          <castom-text
+              :text="`Внимательность`"
+              :value="setObservation"
+              :images="{imageOne: 'attentiveness'}"
+              :isStandardStats="true"
+          />
+          <castom-text
+              :text="`Удача`"
+              :value="setLucky"
+              :images="{imageOne: 'luck'}"
+              :isStandardStats="true"
+          />
         </div>
-        <div class="stat fs14">Скрытность {{setStels}}</div>
-        <div class="stat fs14">Внимательность {{setObservation}}</div>
-        <div class="stat fs14">Инициатива {{setIniciative}}</div>
-        <div class="stat fs14">Удача {{setLucky}}</div>
       </div>
       <languages-player
         :player="player"
@@ -106,6 +162,7 @@ import footerCard from "@/components/playerCard/footerCard.vue";
 import InventoryPlayer from '@/components/playerCard/InventoryPlayer.vue'
 import AvatarPopup from "@/components/playerCard/avatarPopup.vue";
 import ClassesComponent from "@/components/playerCard/classesComponent.vue";
+import CastomText from "@/components/castomText.vue";
 
 export default {
   props: {
@@ -122,6 +179,7 @@ export default {
     }
   },
   components: {
+    CastomText,
     ClassesComponent,
     AvatarPopup,
     LanguagesPlayer,
@@ -242,12 +300,12 @@ export default {
       let result = {
         choppingArmor: 0,
         crushingArmor: 0,
-        prickingArmor: 0,
+        pickingArmor: 0,
       }
       this.player.equipment.forEach(item => {
           result.choppingArmor += item.protection.chopping
           result.crushingArmor += item.protection.crushing
-          result.prickingArmor += item.protection.pricking
+          result.pickingArmor += item.protection.picking
       })
       return result
     },
@@ -317,21 +375,42 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: 60%;
+    &-name {
+      background-color: #8F4C3C;
+      color: white;
+      text-align: center;
+      border-radius: 23px;
+      border: 1px solid #3E3727;
+      padding: 4px;
+      font-size: 12px;
+    }
   }
   &-third {
-    display: grid;
-    grid-template-columns: repeat(2, 4fr);
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     width: 100%;
+    &__column {
+      display: grid;
+      grid-template-columns: repeat(2, 4fr);
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+    }
+    &__center {
+      display: flex;
+    }
   }
   &-ava {
-      //background-color: #A9A9A9;
+      border: solid 2px #8F4C3C;
+      background-color: #3E3727;
       background-size: cover;
       background-position: center;
-      width: 90px;
-      height: 90px;
+      width: 86px;
+      height: 86px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 }
@@ -391,5 +470,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-color: #D2DFC5;
+  width: 100%;
 }
 </style>

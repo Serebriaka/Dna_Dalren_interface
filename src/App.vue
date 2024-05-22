@@ -18,13 +18,19 @@ export default {
 
 <style>
 html, body {
-  height: 100%;
+  height: 99.4%;
 }
 .app {
-  width: 100%;
+  //width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: Colus;
+  font-family: Bellota-Italic;
+
+  @media (max-width: 600px) {
+    border: 4px solid #707070;
+    background-color: #D2DFC5;
+  }
 }
+
 </style>

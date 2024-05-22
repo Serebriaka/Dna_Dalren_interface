@@ -58,7 +58,6 @@ export default {
   async created() {
     await store.dispatch('updateSharedValue');
     await store.dispatch('getItems')
-    let ip = window.location.hostname;
   },
   async mounted() {
     setInterval(() => {
