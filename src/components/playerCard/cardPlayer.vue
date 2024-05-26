@@ -14,26 +14,33 @@
           />
 <!--          <div class="stats-first-name">{{player.name}}</div>-->
           <castom-text
+              solidColor="1px solid black"
+              :rombsNeeded="false"
               :text="player.name"
               :isText="true"
+              :boxShadow="false"
           />
         </div>
         <div class="stats-first">
           <castom-text
               :text="player.class"
               :isText="true"
+              :boxShadow="false"
           />
           <castom-text
               :text="player.history"
               :isText="true"
+              :boxShadow="false"
           />
           <castom-text
               :text="player.race"
               :isText="true"
+              :boxShadow="false"
           />
           <castom-text
               :text="player.city"
               :isText="true"
+              :boxShadow="false"
           />
         </div>
       </div>
@@ -390,14 +397,14 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     width: 100%;
     &__column {
       display: grid;
       grid-template-columns: repeat(2, 4fr);
       justify-content: center;
       align-items: center;
-      gap: 20px;
+      gap: 10px 0px;
       width: 100%;
     }
     &__center {

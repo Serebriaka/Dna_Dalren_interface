@@ -18,7 +18,7 @@ export default {
 
 <style>
 html, body {
-  height: 99.4%;
+  height: calc(100% - 4px);;
 }
 .app {
   //width: 100%;
@@ -29,7 +29,7 @@ html, body {
 
   @media (max-width: 600px) {
     border: 4px solid #707070;
-    background-color: #D2DFC5;
+    background-color: #e4ecdf;
   }
 }
 

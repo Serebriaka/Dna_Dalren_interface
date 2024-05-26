@@ -10,7 +10,6 @@
       <div v-if="images.imageOne" class="statImage"
            :style="{backgroundImage: 'url(' + require(`@/images/icons/statIcons/${images.imageOne}.svg`) + ')', marginLeft: '10%'}"
       >
-
       </div>
       <button v-if="isAdmin" @click="$emit('setActHealth','dec')">-</button>
       <div>{{ text }}</div>
@@ -45,8 +44,8 @@
       </div>
     </div>
 
-    <div class="romb-left" :style="rombStyles"></div>
-    <div class="romb-right" :style="rombStyles"></div>
+    <div v-if="rombsNeeded" class="romb-left" :style="rombStyles"></div>
+    <div v-if="rombsNeeded" class="romb-right" :style="rombStyles"></div>
   </div>
 </template>
 
@@ -54,11 +53,7 @@
 export default {
   props: {
     images: {
-      default: {
-        imageOne: '',
-        imageTwo: '',
-        imageThree: '',
-      }
+      default: () => ({})
     },
     value: {
       default: '',
@@ -109,6 +104,12 @@ export default {
     },
     isAdmin: {
       default: false
+    },
+    rombsNeeded: {
+      default: true
+    },
+    boxShadow: {
+      default: true
     }
 
   },
@@ -121,7 +122,8 @@ export default {
         color: this.color,
         borderRadius: this.borderRadius,
         border: this.solidColor,
-        fontSize: this.fontSize
+        fontSize: this.fontSize,
+        boxShadow: this.boxShadow ? '0 4px 12px rgba(0, 0, 0, 0.45)' : 'none',
       },
       rombStyles: {
         width: this.rombSize,
@@ -165,6 +167,7 @@ export default {
 .statValue {
   padding: 3px;
   border-radius: 5px;
+  color: #3E3727;
   background-color: #A4A86B;
   border: 1px solid #8F4C3C;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);

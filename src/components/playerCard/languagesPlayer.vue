@@ -1,8 +1,13 @@
 <template>
     <div class="stats-fourth">
       <div class="stats-fourth__tab">
-        Профессии:
+        <div class="stats-professions">
+          Профессии:
+          <div class="rhombus-position-left"/>
+          <div class="rhombus-position-right"/>
+        </div>
         <div class="stats-fourth__tab-elem" v-for="prof in player.professions" :key="prof">
+          <div class="rhombus"/>
           {{prof}} <div @click="delProf(prof)" v-if="isAdmin">x</div >
         </div>
         <select v-if="isAdmin" v-model="selectedProfession" style="width: 90%" >
@@ -12,8 +17,13 @@
         <button v-if="isAdmin" @click="addProf">+</button>
       </div>
       <div class="stats-fourth__tab">
-        Языки:
+        <div class="stats-professions">
+          Языки:
+          <div class="rhombus-position-left"/>
+          <div class="rhombus-position-right"/>
+        </div>
         <div class="stats-fourth__tab-elem" v-for="lang in player.languages" :key="lang">
+          <div class="rhombus"/>
           {{lang}} <div @click="delLang(lang)" v-if="isAdmin">x</div >
         </div>
         <select v-if="isAdmin" v-model="selectedLang" style="width: 90%" >
@@ -78,26 +88,68 @@ export default {
 </script>
 <style lang="scss">
 
-.stats-fourth {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  width: 100%;
-  height: 28%;
-  justify-content: center;
-  &__tab {
-    width: 50%;
-    border: 1px solid #8B4513;
-    text-align: center;
-    &-elem {
-      font-size: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      justify-content: center;
+.stats {
+  &-professions {
+    background-color: #A4A86B;
+    border-radius: 13px;
+    border: 1px solid #3E3727;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.30);
+    position: relative;
+    bottom: 1px;
+  }
+  &-fourth {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    height: 18%;
+    justify-content: center;
+
+    &__tab {
+      width: 40vw;
+      border: 1px solid #3E3727;
+      text-align: center;
+      background-color: #bec7b4;
+      border-radius: 13px;
+      box-shadow: 0 7px 12px rgba(0, 0, 0, 0.25);
+
+      &-elem {
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        justify-content: flex-start;
+        margin-left: 4px;
+        margin-top: 4px;
+      }
     }
   }
 }
-
+.rhombus {
+  width: 6px;
+  height: 6px;
+  background-color: #3E3727;
+  rotate: 45deg;
+  &-position {
+    &-left {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background-color: #3E3727;
+      rotate: 45deg;
+      top: 7px;
+      left: -4px;
+    }
+    &-right {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background-color: #3E3727;
+      rotate: 45deg;
+      top: 7px;
+      right: -4px;
+    }
+  }
+}
 </style>
