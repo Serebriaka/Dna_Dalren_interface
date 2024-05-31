@@ -43,6 +43,11 @@
         {{damageValue.crushing}}
       </div>
     </div>
+<!--Вариант только текст с 2 строчками-->
+    <div v-if="isTwoText" class="text" :style="mainStyles">
+      <div>{{ textTop }}</div>
+      <div>{{ textBottom }}</div>
+    </div>
 
     <div v-if="rombsNeeded" class="romb-left" :style="rombStyles"></div>
     <div v-if="rombsNeeded" class="romb-right" :style="rombStyles"></div>
@@ -91,9 +96,18 @@ export default {
       default: "12px"
     },
     text: {
-      default: "хей"
+      default: ""
+    },
+    textTop: {
+      default: ""
+    },
+    textBottom: {
+      default: ""
     },
     isText: {
+      default: false
+    },
+    isTwoText: {
       default: false
     },
     isStandardStats: {
@@ -150,9 +164,12 @@ export default {
 .text {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .romb {
   &-left {

@@ -343,8 +343,11 @@ export default {
     },
     inventoryWeight() {
       let allItems = [...this.player.inventory, ...this.player.equipment]
-      if(allItems[0] !== undefined) return allItems.reduce((total, item) => total + item.weight, 0);
-
+      if(allItems[0] !== undefined) {
+        return allItems.reduce((total, item) => total + item.weight, 0)
+      } else {
+        return 0
+      }
     },
     items() {
       let category = this.categoryArray.find(item => item.name === this.selectedCategory)

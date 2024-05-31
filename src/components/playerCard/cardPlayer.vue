@@ -1,56 +1,15 @@
 <template>
   <div class="body" >
     <div class="stats" v-if="isAdmin || player.page === 'stats'">
-      <div class="stats-header">
-        <div class="stats-header-column">
-          <div
-              class="stats-ava"
-              :style="{backgroundImage: 'url(' + require(`@/images/avatars/${player.avatar}.jpg`) + ')'}"
-          >
-          </div>
-          <avatar-popup
-            @avatarChange="avatarChange"
-            v-if="isPopupAvatar && !isAdmin && player.isAvatar"
-          />
-<!--          <div class="stats-first-name">{{player.name}}</div>-->
-          <castom-text
-              solidColor="1px solid black"
-              :rombsNeeded="false"
-              :text="player.name"
-              :isText="true"
-              :boxShadow="false"
-          />
-        </div>
-        <div class="stats-first">
-          <castom-text
-              :text="player.class"
-              :isText="true"
-              :boxShadow="false"
-          />
-          <castom-text
-              :text="player.history"
-              :isText="true"
-              :boxShadow="false"
-          />
-          <castom-text
-              :text="player.race"
-              :isText="true"
-              :boxShadow="false"
-          />
-          <castom-text
-              :text="player.city"
-              :isText="true"
-              :boxShadow="false"
-          />
-        </div>
-      </div>
-      <div>
-        <playerCharacteristics
-          :player="player"
-          :isAdmin="isAdmin"
-          :isSetStats="player.isStatRedactor"
-        />
-      </div>
+      <header-profile
+        :player="player"
+        :isAdmin="isAdmin"
+      />
+      <playerCharacteristics
+        :player="player"
+        :isAdmin="isAdmin"
+        :isSetStats="player.isStatRedactor"
+      />
       <div class="stats-third">
         <div class="stats-third__center">
           <castom-text
@@ -167,9 +126,9 @@ import store from "@/store";
 import LanguagesPlayer from "@/components/playerCard/languagesPlayer.vue";
 import footerCard from "@/components/playerCard/footerCard.vue";
 import InventoryPlayer from '@/components/playerCard/InventoryPlayer.vue'
-import AvatarPopup from "@/components/playerCard/avatarPopup.vue";
 import ClassesComponent from "@/components/playerCard/classesComponent.vue";
 import CastomText from "@/components/castomText.vue";
+import HeaderProfile from "@/components/playerCard/headerProfile.vue";
 
 export default {
   props: {
@@ -182,13 +141,12 @@ export default {
       statsEng: ['strength', "dexterity", "constitution", "intelligence", "wisdom", "charisma"],
       selectedHealthPoint: 1,
       points: [1,2,3,5,10,20,50],
-      isPopupAvatar: true,
     }
   },
   components: {
+    HeaderProfile,
     CastomText,
     ClassesComponent,
-    AvatarPopup,
     LanguagesPlayer,
     playerCharacteristics,
     footerCard,
@@ -232,12 +190,6 @@ export default {
     setActHealth(tab) {
       if(tab === 'dec') this.player.actHealth = this.player.actHealth - +this.selectedHealthPoint
       if(tab === 'inc') this.player.actHealth = this.player.actHealth + +this.selectedHealthPoint
-      this.sendChangePlayer()
-    },
-    avatarChange(index) {
-      this.player.avatar = 'avatar_' + index
-      this.player.isAvatar = false
-      this.isPopupAvatar = false
       this.sendChangePlayer()
     },
     setStatRedactor() {
@@ -362,36 +314,6 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  &-header {
-    display: flex;
-    flex-direction: row;
-    height: 18%;
-    width: 100%;
-    justify-content: space-between;
-    &-column {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-  }
-  &-first {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 60%;
-    &-name {
-      background-color: #8F4C3C;
-      color: white;
-      text-align: center;
-      border-radius: 23px;
-      border: 1px solid #3E3727;
-      padding: 4px;
-      font-size: 12px;
-    }
-  }
   &-third {
     display: flex;
     flex-direction: column;
@@ -410,15 +332,6 @@ export default {
     &__center {
       display: flex;
     }
-  }
-  &-ava {
-      border: solid 2px #8F4C3C;
-      background-color: #3E3727;
-      background-size: cover;
-      background-position: center;
-      width: 86px;
-      height: 86px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 }
 .choppingArmor{

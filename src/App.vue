@@ -25,7 +25,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: Bellota-Italic;
+  font-family: Bellota-Bold;
 
   @media (max-width: 600px) {
     border: 4px solid #707070;
