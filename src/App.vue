@@ -17,8 +17,12 @@ export default {
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 html, body {
-  height: calc(100% - 4px);;
+  height: 100vh;
+  margin: 0;
 }
 .app {
   //width: 100%;
@@ -30,6 +34,11 @@ html, body {
   @media (max-width: 600px) {
     border: 4px solid #707070;
     background-color: #e4ecdf;
+    //padding: 15px 15px 0 15px;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 100%;
   }
 }
 

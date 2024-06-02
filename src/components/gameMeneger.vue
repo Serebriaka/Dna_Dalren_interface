@@ -115,6 +115,7 @@ export default {
          statsPoints: race.startPoints,
          statsClassPoints: 1,
          level: 1,
+         crystal: 0
        }
        this.playerCards.push(card)
       store.dispatch('sendSharedValue')

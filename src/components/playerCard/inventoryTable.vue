@@ -386,8 +386,9 @@ export default {
 .inventory {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
-  height: 100%;
+  height: 76%;
   &-lists {
     height: 100%;
     width: 100%;

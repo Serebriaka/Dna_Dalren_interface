@@ -307,9 +307,9 @@ export default {
   font-weight: 600;
 }
 .stats {
-  padding: 15px 15px 0 15px;
+  //padding: 15px 15px 0 15px;
   width: 100%;
-  height: 96%;
+  height: calc(100% - 17px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -353,9 +353,9 @@ export default {
   background: url("../../images/icons/prickingArmor.png") no-repeat center center / cover;
 }
 .inventory {
-  padding: 15px 15px 0 15px;
+  //padding: 15px 15px 0 15px;
   width: 100%;
-  height: 96%;
+  height: calc(100% - 17px);
   display: flex;
   flex-direction: column;
   justify-content: end;

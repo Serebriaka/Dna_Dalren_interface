@@ -56,9 +56,8 @@ export default {
 
 <style scoped lang="scss">
 .classes {
-  padding: 15px 15px 0 15px;
+  height: calc(100% - 17px);
   width: 100%;
-  height: 96%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

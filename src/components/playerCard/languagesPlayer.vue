@@ -114,7 +114,7 @@ export default {
       box-shadow: 0 7px 12px rgba(0, 0, 0, 0.25);
 
       &-elem {
-        font-size: 14px;
+        font-size: 12px;
         cursor: pointer;
         display: flex;
         align-items: center;

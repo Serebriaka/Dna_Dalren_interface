@@ -1,23 +1,37 @@
 <template>
-  <div class="footer-menu">
-    <div class="footer-menu__btn-inventory footerTab" @click="toClasses">{{nameLeftTab}}</div>
-    <div class="footer-menu__gold footerTab">
-      <button @click="setGold('min')" class="btn" v-if="isAdmin">-</button>
-      {{ player.gold}}
-      <button @click="setGold('add')" class="btn" v-if="isAdmin">+</button>
-      <select v-model="selectGold" v-if="isAdmin">
-        <option v-for="number in numbersGold" :key="number"> {{number}} </option>
-      </select>
+  <div class="footer">
+    <div class="footer-top">
+      <div class="footer-top-left footerTab">
+        <div class="footer-top-left-image"/>
+        <button @click="setCrystal('min')" class="btn" v-if="isAdmin">-</button>
+        {{player.crystal}}
+        <button @click="setCrystal('add')" class="btn" v-if="isAdmin">+</button>
+      </div>
+      <div class="footer-top-right footerTab">
+        <button @click="setGold('min')" class="btn" v-if="isAdmin">-</button>
+        {{ player.gold}}
+        <button @click="setGold('add')" class="btn" v-if="isAdmin">+</button>
+        <select v-model="selectGold" v-if="isAdmin">
+          <option v-for="number in numbersGold" :key="number"> {{number}} </option>
+        </select>
+      </div>
     </div>
-    <div class="footer-menu__exp footerTab">
-      <button @click="setExp('min')" class="btn" v-if="isAdmin">-</button>
-      {{player.exp}} exp
-      <button @click="setExp('add')" class="btn" v-if="isAdmin">+</button>
+    <div class="footer-bottom">
+      <div class="footer-bottom-left footerTab" @click="toClasses">
+        {{nameLeftTab}}
+      </div>
+      <div class="footer-bottom-center footerTab">
+        <button @click="setExp('min')" class="btn" v-if="isAdmin">-</button>
+        {{player.exp}} exp
+        <button @click="setExp('add')" class="btn" v-if="isAdmin">+</button>
       <select v-model="selectExp" v-if="isAdmin" style="width: 40px;">
         <option v-for="Exp in numbersExp" :key="Exp"> {{Exp}} </option>
       </select>
+      </div>
+      <div class="footer-bottom-right footerTab" @click="toInventory">
+        {{nameRightTab}}
+      </div>
     </div>
-    <div class="footer-menu__btn-inventory footerTab" @click="toInventory">{{nameRightTab}}</div>
   </div>
 </template>
 <script>
@@ -62,11 +76,20 @@ export default {
       eventBus.$emit('setExp', this.player.exp);
       this.sendChangePlayer()
     },
+    setCrystal(param) {
+      if(param === 'add') {
+        /* eslint-disable */
+        this.player.crystal = ++this.player.crystal
+      }
+      if(param === 'min') {
+        this.player.crystal = --this.player.crystal
+      }
+      this.sendChangePlayer()
+    },
     sendChangePlayer() {
       store.dispatch('sendSharedValue')
     },
     toInventory() {
-
       this.$emit('tabChange', this.pageRightTab)
       this.sendChangePlayer()
     },
@@ -79,40 +102,6 @@ export default {
 }
 </script>
 <style lang="scss">
-.footer-menu {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  font-size: 12px;
-  justify-content: space-between;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  &__gold {
-    gap: 5px;
-    height: 100%;
-    width: 25%;
-  }
-  &__exp {
-    height: 100%;
-    width: 25%;
-    text-align: center;
-    gap: 5px;
-  }
-  &__btn-inventory {
-    height: 100%;
-    width: 25%;
-    text-align: center;
-    cursor: pointer;
-  }
-}
-.footerTab {
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  background-color: #e3a774;
-  flex-direction: row;
-  justify-content: center;
-  border: 2px solid #b7763f;
-}
 .btn {
   background-color: #e3a774;
   transition: 0.3s ease;
@@ -124,5 +113,73 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.footer {
+  width: calc(109% - 4px);
+  height: 80px;
+  position: relative;
+  &-top {
+    display: flex;
+    flex-direction: row;
+    height: 74px;
+    justify-content: center;
+    gap: 2px;
+    position: relative;
+    top: 22px;
+    &-right {
+      padding-bottom: 33px !important;
+    }
+    &-left {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-bottom: 33px !important;
+      &-image {
+        width: 18px;
+        height: 12px;
+        margin-right: 13px;
+        background-image: url('../../images/icons/crystal.png'); /* Путь к вашей PNG картинке */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+  &-bottom {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 38px;
+    z-index: 1;
+    gap: 2px;
+    bottom: -16px;
+    &-left {
+
+    }
+  }
+}
+.footerTab {
+  width: 33%;
+  height: 100%;
+  background-color: #8F4C3C;
+  border-radius: 13px 13px 0 0;
+  border: solid 1px #D9D9D9;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  color: white;
+}
+@media (min-width:596px) {
+  .footer {
+    margin-bottom: 40px;
+    &-bottom {
+      bottom: -39px;
+    }
+  }
+
 }
 </style>

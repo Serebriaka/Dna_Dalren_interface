@@ -98,9 +98,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .stats {
-  padding: 15px 15px 0 15px;
   width: 100%;
-  height: 96%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
