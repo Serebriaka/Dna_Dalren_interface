@@ -114,7 +114,6 @@ export default {
   justify-content: center;
   flex-direction: column;
 }
-
 .footer {
   width: calc(109% - 4px);
   height: 80px;
