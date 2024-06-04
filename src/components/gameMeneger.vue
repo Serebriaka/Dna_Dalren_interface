@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div class="listic"/>
     <adminComponent v-if="isEditor"/>
     <div class="body">
       <div class="body-column">
@@ -206,6 +207,14 @@ export default {
   margin-left: 40px;
 }
 @media (max-width: 576px) {
+  .listic {
+    width: 44px;
+    height: 68px;
+    background-image: url('../images/icons/listic.png');
+    position: absolute;
+    top: -10px;
+    left: -5px;
+  }
   .body {
     width: 100%;
     height: 100%;

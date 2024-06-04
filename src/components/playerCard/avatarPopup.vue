@@ -46,9 +46,10 @@ export default  {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
   &-container {
     height: auto;
-    width: 70vw;
+    width: 83vw;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

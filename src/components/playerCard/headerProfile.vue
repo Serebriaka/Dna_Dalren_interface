@@ -1,11 +1,15 @@
 <template>
   <div class="stats-header">
     <div class="stats-header-column">
+
       <div
           class="stats-ava"
           :style="{backgroundImage: 'url(' + require(`@/images/avatars/${player.avatar}.jpg`) + ')'}"
       >
+        <div class="romb-left romb"></div>
+        <div class="romb-right romb"></div>
       </div>
+
       <avatar-popup
           @avatarChange="avatarChange"
           v-if="isPopupAvatar && !isAdmin && player.isAvatar"
@@ -17,7 +21,6 @@
           :rombsNeeded="false"
           :text="player.name"
           :isText="true"
-          :boxShadow="false"
       />
     </div>
     <div class="stats-first">
@@ -38,6 +41,7 @@
             :isTwoText="true"
             :boxShadow="false"
             rombColor="#738F5F"
+            rightRombPosition="93.6%"
             solidColor="1px solid #A4A86B"
             style="width: 70%"
         />
@@ -108,7 +112,7 @@ export default {
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
-    gap: 3px;
+    gap: 2px;
   }
   &-first {
     height: 100%;
@@ -136,6 +140,7 @@ export default {
 
     &-column {
       height: 100%;
+      width: 35%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -146,9 +151,23 @@ export default {
     background-color: #3E3727;
     background-size: cover;
     background-position: center;
-    width: 86px;
-    height: 86px;
+    width: 100%;
+    height: 70%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+}
+.romb {
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  background-color: #738F5F;
+  position: relative;
+  left: 45%;
+  &-left {
+    top: 99%;
+  }
+  &-right {
+    bottom: 11px;
   }
 }
 </style>

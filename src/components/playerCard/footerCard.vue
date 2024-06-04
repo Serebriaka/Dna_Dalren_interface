@@ -7,6 +7,7 @@
         {{player.crystal}}
         <button @click="setCrystal('add')" class="btn" v-if="isAdmin">+</button>
       </div>
+      <div class="romb romb-center"/>
       <div class="footer-top-right footerTab">
         <button @click="setGold('min')" class="btn" v-if="isAdmin">-</button>
         {{ player.gold}}
@@ -20,6 +21,7 @@
       <div class="footer-bottom-left footerTab" @click="toClasses">
         {{nameLeftTab}}
       </div>
+      <div class="romb romb-left"/>
       <div class="footer-bottom-center footerTab">
         <button @click="setExp('min')" class="btn" v-if="isAdmin">-</button>
         {{player.exp}} exp
@@ -28,6 +30,7 @@
         <option v-for="Exp in numbersExp" :key="Exp"> {{Exp}} </option>
       </select>
       </div>
+      <div class="romb romb-right"/>
       <div class="footer-bottom-right footerTab" @click="toInventory">
         {{nameRightTab}}
       </div>
@@ -101,7 +104,7 @@ export default {
 
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .btn {
   background-color: #e3a774;
   transition: 0.3s ease;
@@ -123,7 +126,7 @@ export default {
     flex-direction: row;
     height: 74px;
     justify-content: center;
-    gap: 2px;
+    gap: 1px;
     position: relative;
     top: 22px;
     &-right {
@@ -157,6 +160,25 @@ export default {
     &-left {
 
     }
+  }
+}
+.romb {
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  background-color: #A4A86B;
+  position: absolute;
+  &-left {
+    left: 32.5%;
+    bottom: 38%;
+  }
+  &-right {
+    left: 66%;
+    bottom: 38%;
+  }
+  &-center {
+    left: 49.55%;
+    bottom: 69%;
   }
 }
 .footerTab {

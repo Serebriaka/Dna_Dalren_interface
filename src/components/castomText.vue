@@ -49,8 +49,8 @@
       <div>{{ textBottom }}</div>
     </div>
 
-    <div v-if="rombsNeeded" class="romb-left" :style="rombStyles"></div>
-    <div v-if="rombsNeeded" class="romb-right" :style="rombStyles"></div>
+    <div v-if="rombsNeeded" class="romb-left" :style="[rombStyles, leftPosition]"></div>
+    <div v-if="rombsNeeded" class="romb-right" :style="[rombStyles, rightPosition]"></div>
   </div>
 </template>
 
@@ -91,6 +91,12 @@ export default {
     },
     rombSize: {
       default: "6px"
+    },
+    leftRombPosition: {
+      default: "99%"
+    },
+    rightRombPosition: {
+      default: "right: 97.6%;"
     },
     fontSize: {
       default: "12px"
@@ -146,6 +152,12 @@ export default {
         transform: `rotate(45deg) translateY(-50%)`,
         position: "absolute",
         top: "calc(50% - 1px)"
+      },
+      leftPosition: {
+        right: this.leftRombPosition
+      },
+      rightPosition: {
+        left: this.rightRombPosition
       }
     };
   }
