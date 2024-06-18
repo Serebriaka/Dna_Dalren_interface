@@ -125,7 +125,7 @@ import playerCharacteristics from "./playerCharacteristics.vue";
 import store from "@/store";
 import LanguagesPlayer from "@/components/playerCard/languagesPlayer.vue";
 import footerCard from "@/components/playerCard/footerCard.vue";
-import InventoryPlayer from '@/components/playerCard/InventoryPlayer.vue'
+import InventoryPlayer from '@/components/playerCard/inventory/InventoryPlayer.vue'
 import ClassesComponent from "@/components/playerCard/classesComponent.vue";
 import CastomText from "@/components/castomText.vue";
 import HeaderProfile from "@/components/playerCard/headerProfile.vue";
@@ -352,18 +352,18 @@ export default {
   width: 20px;
   background: url("../../images/icons/prickingArmor.png") no-repeat center center / cover;
 }
-.inventory {
-  //padding: 15px 15px 0 15px;
-  width: 100%;
-  height: calc(100% - 17px);
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: center;
-  @media screen and (min-width: 576px) {
-    height: 100vh;
-  }
-}
+//.inventory {
+//  //padding: 15px 15px 0 15px;
+//  width: 100%;
+//  height: calc(100% - 17px);
+//  display: flex;
+//  flex-direction: column;
+//  justify-content: end;
+//  align-items: center;
+//  @media screen and (min-width: 576px) {
+//    height: 100vh;
+//  }
+//}
 .del-player {
   width: 100%;
   text-align: center;

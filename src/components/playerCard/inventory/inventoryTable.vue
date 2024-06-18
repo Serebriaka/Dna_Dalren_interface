@@ -382,15 +382,18 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 .inventory {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
-  height: 76%;
+  height: 67%;
+  @media screen and (min-width: 576px) {
+    height: 40vh;
+  }
   &-lists {
-    height: 100%;
+    height: 50%;
     width: 100%;
     display: flex;
     gap: 20px;

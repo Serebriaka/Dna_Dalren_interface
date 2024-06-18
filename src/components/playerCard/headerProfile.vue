@@ -1,15 +1,9 @@
 <template>
   <div class="stats-header">
     <div class="stats-header-column">
-
-      <div
-          class="stats-ava"
-          :style="{backgroundImage: 'url(' + require(`@/images/avatars/${player.avatar}.jpg`) + ')'}"
-      >
-        <div class="romb-left romb"></div>
-        <div class="romb-right romb"></div>
-      </div>
-
+      <avatar-component
+        :player="player"
+      />
       <avatar-popup
           @avatarChange="avatarChange"
           v-if="isPopupAvatar && !isAdmin && player.isAvatar"
@@ -73,10 +67,11 @@
 import AvatarPopup from "@/components/playerCard/avatarPopup.vue";
 import CastomText from "@/components/castomText.vue";
 import store from "@/store";
+import AvatarComponent from "@/components/playerCard/avatarComponent.vue";
 
 export default {
   name: "headerProfile",
-  components: {CastomText, AvatarPopup},
+  components: {AvatarComponent, CastomText, AvatarPopup},
   props: {
     isAdmin: {},
     player: {}
@@ -141,33 +136,12 @@ export default {
     &-column {
       height: 100%;
       width: 35%;
+      gap: 5px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
   }
-  &-ava {
-    border: solid 2px #8F4C3C;
-    background-color: #3E3727;
-    background-size: cover;
-    background-position: center;
-    width: 100%;
-    height: 70%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
 }
-.romb {
-  width: 6px;
-  height: 6px;
-  transform: rotate(45deg);
-  background-color: #738F5F;
-  position: relative;
-  left: 45%;
-  &-left {
-    top: 99%;
-  }
-  &-right {
-    bottom: 11px;
-  }
-}
+
 </style>

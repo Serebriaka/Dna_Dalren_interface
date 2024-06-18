@@ -1,22 +1,25 @@
 <template>
   <div class="inventory">
-    <div class="inventory-players">
-      <div class="inventory-players-tab"
-           v-for="(play, index) in players"
-           :key="play.name"
-           @click="clickAvatar(index)"
-           :style="{backgroundImage: 'url(' + require(`@/images/avatars/${play.avatar}.jpg`) + ')'}"
-      >
-      </div>
-    </div>
-    <div class="inventory-card"> Инфентарь игрока: {{players[indexCard].name}}</div>
+    <header-inventory
+      :player="player"
+      :players="players"
+      :indexCard="indexCard"
+    />
     <inventory-table
         :player="players[indexCard]"
         :index="index"
         :indexCard="indexCard"
         :playerName="player.name"
     />
-
+        <div class="inventory-players">
+          <div class="inventory-players-tab"
+               v-for="(play, index) in players"
+               :key="play.name"
+               @click="clickAvatar(index)"
+               :style="{backgroundImage: 'url(' + require(`@/images/avatars/${play.avatar}.jpg`) + ')'}"
+          >
+          </div>
+        </div>
     <footer-card
         :isAdmin="isAdmin"
         :player="player"
@@ -33,12 +36,13 @@
 import footerCard from "@/components/playerCard/footerCard.vue";
 import inventoryTable from "./inventoryTable.vue"
 import store from "@/store";
+import HeaderInventory from "@/components/playerCard/inventory/header-inventory.vue";
 export default {
   props: {
     player: {},
     index: {}
   },
-  components: {footerCard, inventoryTable},
+  components: {HeaderInventory, footerCard, inventoryTable},
   data() {
     return {
       indexCard: this.index,
@@ -72,10 +76,16 @@ export default {
 </script>
 <style lang="scss">
 .inventory {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 76%;
+    //padding: 15px 15px 0 15px;
+    width: 100%;
+    height: calc(100% - 17px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  justify-content: space-between;
+    @media screen and (min-width: 576px) {
+      height: 100vh;
+    }
   &-players {
     display: flex;
     flex-direction: row;
