@@ -102,7 +102,7 @@ export default {
   width: 100%;
   padding-bottom: 15px;
   &-popup {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;

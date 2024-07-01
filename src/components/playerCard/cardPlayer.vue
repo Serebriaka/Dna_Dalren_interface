@@ -33,9 +33,9 @@
               imageThree: 'crushingDamage'
             }"
               :damageValue="{
-              picking: setArmor.pickingArmor,
-              chopping: setArmor.choppingArmor,
-              crushing: setArmor.crushingArmor,
+              picking: 0,
+              chopping: 0,
+              crushing: 0,
             }"
               :isDamageStats="true"
           />
@@ -126,7 +126,7 @@ import store from "@/store";
 import LanguagesPlayer from "@/components/playerCard/languagesPlayer.vue";
 import footerCard from "@/components/playerCard/footerCard.vue";
 import InventoryPlayer from '@/components/playerCard/inventory/InventoryPlayer.vue'
-import ClassesComponent from "@/components/playerCard/classesComponent.vue";
+import ClassesComponent from "@/components/playerCard/classes/classesComponent.vue";
 import CastomText from "@/components/castomText.vue";
 import HeaderProfile from "@/components/playerCard/headerProfile.vue";
 
@@ -209,7 +209,9 @@ export default {
                       statsValue[index] < 14 ? 1 :
                         statsValue[index] < 16 ? 2 :
                           statsValue[index] < 18 ? 3 :
-                            statsValue[index] > 18 ? 4 :3
+                              statsValue[index] < 22 ? 4 :
+                                statsValue[index] > 22 ? 5 : 4
+
         let obj = {
           name: this.stats[index],
           value: statsValue[index],
@@ -264,7 +266,7 @@ export default {
       this.player.equipment.forEach(item => {
           result.choppingArmor += item.protection.chopping
           result.crushingArmor += item.protection.crushing
-          result.pickingArmor += item.protection.picking
+          result.pickingArmor += item.protection.pricking //опечатка, исправится после новой версии инвентаря
       })
       return result
     },

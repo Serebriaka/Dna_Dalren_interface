@@ -75,7 +75,7 @@ export default {
       default: "100%"
     },
     backgroundColor: {
-      default: "#8F4C3C"
+      default: "#8C5D3F"
     },
     color: {
       default: "#ffffff"
@@ -93,10 +93,10 @@ export default {
       default: "6px"
     },
     leftRombPosition: {
-      default: "99%"
+      default: "calc(100% - 1px)"
     },
     rightRombPosition: {
-      default: "right: 97.6%;"
+      default: "calc(100% - 5px);"
     },
     fontSize: {
       default: "12px"

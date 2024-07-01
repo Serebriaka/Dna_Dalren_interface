@@ -1,9 +1,18 @@
 <template>
   <div class="classes">
-    <playerLevels
-        :isAdmin="isAdmin"
-        :player="player"
-    />
+    <div class="classes-header">
+      <div class="classes-header__dalren"/>
+      <castom-text
+          textTop="УР"
+          :textBottom="player.level"
+          :isTwoText="true"
+          height="100%"
+          background-color="#A4A86B"
+          rightRombPosition="90.6%"
+          rombColor="#738F5F"
+          color="#3E3727"
+      />
+    </div>
     <class-list
         :isAdmin="isAdmin"
         :player="player"
@@ -20,9 +29,9 @@
   </div>
 </template>
 <script>
-import playerLevels from "@/components/playerCard/playerLevels.vue";
 import footerCard from "@/components/playerCard/footerCard.vue";
-import ClassList from "@/components/playerCard/classList.vue";
+import ClassList from "@/components/playerCard/classes/classList.vue";
+import CastomText from "@/components/castomText.vue";
 
 export default {
   props: {
@@ -36,9 +45,9 @@ export default {
   },
   name: "classesComponent",
   components: {
+    CastomText,
     ClassList,
     footerCard,
-    playerLevels
   },
   mounted() {
   },
@@ -64,7 +73,16 @@ export default {
   align-items: center;
   &-header {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 10px;
+    width: 50px;
+    &__dalren {
+      width: 85px;
+      height: 40px;
+      background-image: url("@/images/dalren.svg");
+      background-repeat: no-repeat;
+    }
   }
 }
 </style>

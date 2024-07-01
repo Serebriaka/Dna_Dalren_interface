@@ -15,6 +15,7 @@
           :rombsNeeded="false"
           :text="player.name"
           :isText="true"
+          background-color="#8F4C3C"
       />
     </div>
     <div class="stats-first">
@@ -129,7 +130,7 @@ export default {
   &-header {
     display: flex;
     flex-direction: row;
-    height: 22%;
+    height: 25%;
     width: 100%;
     justify-content: space-between;
 

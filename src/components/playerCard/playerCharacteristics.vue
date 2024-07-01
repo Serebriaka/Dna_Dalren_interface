@@ -67,7 +67,8 @@ export default  {
                         value < 14 ? 1 :
                             value < 16 ? 2 :
                                 value < 18 ? 3 :
-                                    value > 18 ? 4 : 3
+                                    value < 22 ? 4 :
+                                      value > 22 ? 5 : 4
         return {
           name: this.stats[index],
           value: value,

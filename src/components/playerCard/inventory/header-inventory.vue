@@ -10,7 +10,7 @@
         <div class="header-right__level-name"/>
         <div class="header-right__level-value">
           <castom-text
-              textTop="Ур"
+              textTop="УР"
               :textBottom="player.level"
               :isTwoText="true"
               height="100%"
@@ -54,7 +54,7 @@ export default {
 <style scoped lang="scss">
 .header {
   display: flex;
-  height: 16%;
+  height: 19%;
   width: 100%;
   gap: 10px;
   &-avatar {
