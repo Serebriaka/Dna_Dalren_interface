@@ -26,6 +26,7 @@
       </div>
       <div class="header-right__name">
         <castom-text
+            backgroundColor="#8C5D3F"
             :text="players[indexCard].name"
             :isText="true"
             :boxShadow="false"

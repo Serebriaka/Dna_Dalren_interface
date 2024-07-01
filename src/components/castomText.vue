@@ -135,16 +135,16 @@ export default {
   },
   data() {
     return {
-      mainStyles: {
-        height: this.height,
-        width: this.width,
-        backgroundColor: this.backgroundColor,
-        color: this.color,
-        borderRadius: this.borderRadius,
-        border: this.solidColor,
-        fontSize: this.fontSize,
-        boxShadow: this.boxShadow ? '0 4px 12px rgba(0, 0, 0, 0.45)' : 'none',
-      },
+      // mainStyles: {
+      //   height: this.height,
+      //   width: this.width,
+      //   backgroundColor: this.backgroundColor,
+      //   color: this.color,
+      //   borderRadius: this.borderRadius,
+      //   border: this.solidColor,
+      //   fontSize: this.fontSize,
+      //   boxShadow: this.boxShadow ? '0 4px 12px rgba(0, 0, 0, 0.45)' : 'none',
+      // },
       rombStyles: {
         width: this.rombSize,
         height: this.rombSize,
@@ -160,6 +160,20 @@ export default {
         left: this.rightRombPosition
       }
     };
+  },
+  computed: {
+    mainStyles() {
+      return {
+        height: this.height,
+        width: this.width,
+        backgroundColor: this.backgroundColor,
+        color: this.color,
+        borderRadius: this.borderRadius,
+        border: this.solidColor,
+        fontSize: this.fontSize,
+        boxShadow: this.boxShadow ? '0 4px 12px rgba(0, 0, 0, 0.45)' : 'none',
+      }
+    }
   }
 };
 </script>

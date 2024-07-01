@@ -63,7 +63,6 @@ export default {
             skills.intelligence = skills.intelligence + item.buffs.intelligence
             skills.strength = skills.strength + item.buffs.strength
             skills.wisdom = skills.wisdom + item.buffs.wisdom
-            console.log(item)
         }
         if(type === 'del') {
             skills.charisma = skills.charisma - item.buffs.charisma

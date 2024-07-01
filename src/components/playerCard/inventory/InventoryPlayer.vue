@@ -11,15 +11,10 @@
         :indexCard="indexCard"
         :playerName="player.name"
     />
-        <div class="inventory-players">
-          <div class="inventory-players-tab"
-               v-for="(play, index) in players"
-               :key="play.name"
-               @click="clickAvatar(index)"
-               :style="{backgroundImage: 'url(' + require(`@/images/avatars/${play.avatar}.jpg`) + ')'}"
-          >
-          </div>
-        </div>
+    <inventory-players
+        :players="players"
+        @change="clickAvatar"
+    />
     <footer-card
         :isAdmin="isAdmin"
         :player="player"
@@ -37,12 +32,13 @@ import footerCard from "@/components/playerCard/footerCard.vue";
 import inventoryTable from "./inventoryTable.vue"
 import store from "@/store";
 import HeaderInventory from "@/components/playerCard/inventory/header-inventory.vue";
+import InventoryPlayers from "@/components/playerCard/inventory/inventoryPlayers.vue";
 export default {
   props: {
     player: {},
     index: {}
   },
-  components: {HeaderInventory, footerCard, inventoryTable},
+  components: {InventoryPlayers, HeaderInventory, footerCard, inventoryTable},
   data() {
     return {
       indexCard: this.index,
@@ -54,8 +50,8 @@ export default {
       this.player.page = tab
 
     },
-    clickAvatar(index) {
-      this.indexCard = index
+    clickAvatar(i) {
+      this.indexCard = i
       store.dispatch('sendSharedValue')
     }
   },
@@ -86,22 +82,5 @@ export default {
     @media screen and (min-width: 576px) {
       height: 100vh;
     }
-  &-players {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-
-    &-tab {
-      background-size: cover;
-      background-position: center;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      border: 2px solid rgb(101, 92, 29);
-      height: 40px;
-      width: 40px;
-      background-color: green;
-      color: white;
-      cursor: pointer;
-    }
-  }
 }
 </style>

@@ -2,73 +2,163 @@
   <div class="inventory">
     <div class="inventory-lists">
       <div class="inventory-lists__left">
-        Экипировка
+        <castom-text
+            right-romb-position="96.3%"
+            rombColor="#3E3727"
+            style="z-index: 1"
+            backgroundColor="#8F4C3C"
+            text="Экипировка"
+            :isText="true"
+        />
         <div class="inventory-lists__left-tab">
           <div
-              class="inventory-lists__left-item"
+              style="width: 100%; display: flex"
               v-for="(equip, index) in player.equipment"
               :key="index"
               @click="enEquip(index, equip)"
           >
-            {{ equip.name }} <div v-if="isAdmin" @click="delEquip(index, equip)" style="margin-left: 5px">x</div>
+            <castom-text
+                :text="equip.name"
+                :isText="true"
+                height="100%"
+                background-color="#A4A86B"
+                rightRombPosition="96.6%"
+                rombColor="#3E3727"
+                color="#3E3727"
+                :boxShadow="false"
+            />
+            <div v-if="isAdmin" style="margin-left: 5px">x</div>
           </div>
-        </div>
-        <div
-            class="weight"
-            :class="{ red: inventoryWeight > maxWeight }"
-        >
-          Вес: {{inventoryWeight}} / {{maxWeight}}
         </div>
       </div>
       <div class="inventory-lists__right">
-        Инвентарь
-        <div class="inventory-lists__right-tab">
+        <castom-text
+            right-romb-position="96.3%"
+            style="z-index: 1"
+            rombColor="#3E3727"
+            backgroundColor="#8F4C3C"
+            text="Инвентарь"
+            :isText="true"
+        />
+        <div class="inventory-lists__right-tab" >
           <div
-              class="inventory-lists__right-item"
-              v-for="(inv, index) in player.inventory"
-              :key="index"
+              style="width: 100%; display: flex"
+               v-for="(inv, index) in player.inventory"
+               :key="index"
+              @click="clickItem(index, inv)"
+              @click.stop
           >
-            <div @click="clickItem(index, inv)">{{inv.name}}</div>
+            <castom-text
+                :text="inv.name"
+                :isText="true"
+                height="100%"
+                background-color="#A4A86B"
+                rightRombPosition="96.6%"
+                rombColor="#3E3727"
+                color="#3E3727"
+                :boxShadow="false"
+            />
             <div v-if="isAdmin" @click="delItem(index, inv)" style="margin-left: 5px">x</div>
             <div class="selectPopup" v-if="index === selectedIndexPopup">
               <div class="selectPopup-tab"
                    @click="clickTab('use', inv, index)"
                    v-if="inv.isUse && !stealItem"
               >
-                Использовать
+                <castom-text
+                    text="Использовать"
+                    :isText="true"
+                    height="100%"
+                    background-color="#A4A86B"
+                    rightRombPosition="96.6%"
+                    rombColor="#3E3727"
+                    color="#3E3727"
+                    :boxShadow="false"
+                />
               </div>
               <div class="selectPopup-tab"
                    v-if="inv.isEquip && !stealItem"
                    @click="clickTab('equip', inv, index)"
               >
-                Экипировать
+                <castom-text
+                    text="Экипировать"
+                    :isText="true"
+                    height="100%"
+                    background-color="#A4A86B"
+                    rightRombPosition="96.6%"
+                    rombColor="#3E3727"
+                    color="#3E3727"
+                    :boxShadow="false"
+                />
               </div>
               <div class="selectPopup-tab"
                    v-if="inv.isHandOver && !stealItem"
                    @click="clickTab('handOver', inv, index)"
               >
-                Передать
+                <castom-text
+                    text="Передать"
+                    :isText="true"
+                    height="100%"
+                    background-color="#A4A86B"
+                    rightRombPosition="96.6%"
+                    rombColor="#3E3727"
+                    color="#3E3727"
+                    :boxShadow="false"
+                />
               </div>
               <div class="selectPopup-tab"
                    v-if="inv.isPlant && !stealItem"
                    @click="clickTab('plant', inv, index)"
               >
-                Подкинуть
+                <castom-text
+                    text="Подкинуть"
+                    :isText="true"
+                    height="100%"
+                    background-color="#A4A86B"
+                    rightRombPosition="96.6%"
+                    rombColor="#3E3727"
+                    color="#3E3727"
+                    :boxShadow="false"
+                />
               </div>
               <div class="selectPopup-tab"
                    v-if="inv.isRead && !stealItem"
                    @click="clickTab('read', inv, index)"
               >
-                Описание
+                <castom-text
+                    text="Описание"
+                    :isText="true"
+                    height="100%"
+                    background-color="#A4A86B"
+                    rightRombPosition="96.6%"
+                    rombColor="#3E3727"
+                    color="#3E3727"
+                    :boxShadow="false"
+                />
               </div>
               <div class="selectPopup-tab"
                    v-if="stealItem"
                    @click="clickTab('stealItem', inv, index)"
               >
-                Украсть
+                <castom-text
+                    text="Украсть"
+                    :isText="true"
+                    height="100%"
+                    background-color="#A4A86B"
+                    rightRombPosition="96.6%"
+                    rombColor="#3E3727"
+                    color="#3E3727"
+                    :boxShadow="false"
+                />
               </div>
             </div>
           </div>
+          <!--          <div-->
+<!--              class="inventory-lists__right-item"-->
+<!--              v-for="(inv, index) in player.inventory"-->
+<!--              :key="index"-->
+<!--          >-->
+
+<!--          </div>-->
           <select v-if="isAdmin" v-model="selectedCategory" style="width: 100%">
             <option disabled value="">Выберите категорию</option>
             <option v-for="(item) in categoryArray" :key="item.id"> {{item.name}}</option>
@@ -81,7 +171,20 @@
         </div>
       </div>
     </div>
-
+    <div
+        class="weight"
+    >
+      <castom-text
+          :text="`Вес: ${inventoryWeight} / ${maxWeight}`"
+          :isText="true"
+          height="100%"
+          background-color="#A4A86B"
+          rightRombPosition="92.6%"
+          rombColor="#3E3727"
+          :color="isBigWeight"
+          :boxShadow="false"
+      /> 
+    </div>
     <div v-if="isAdmin && player.isSteal" class="modal" :class="{ 'modal': true, 'slide-out': true }" style="border: 2px solid #f9ad03;">
       <div class="modal-content">
         <p>Игрок {{player.domName}} хочет украсть {{player.invName}} у игрока {{player.subName}}</p>
@@ -104,10 +207,11 @@ import store from "@/store";
 import validationItems from "@/validationItems";
 import helpers from "@/helpers";
 import DescriptionPopup from "@/components/descriptionPopup.vue";
+import CastomText from "@/components/castomText.vue";
 // import helpers from "@/helpers";
 
 export default {
-  components: {DescriptionPopup},
+  components: {CastomText, DescriptionPopup},
   props: {
     player: {},
     index: {},
@@ -182,6 +286,7 @@ export default {
     }
   },
   mounted() {
+    document.addEventListener('click', this.handleClick);
     this.validateItems()
   },
   methods: {
@@ -274,30 +379,26 @@ export default {
       this.selectedIndexPopup = null
       store.dispatch('sendSharedValue')
     },
-    delEquip(index, inv) {
-      this.player.equipment.splice(index, 1)
-      helpers.setNewSkills(this.player.skills, inv, 'del')
-      store.dispatch('sendSharedValue')
-    },
+    // delEquip(index, inv) {
+    //   this.player.equipment.splice(index, 1)
+    //   helpers.setNewSkills(this.player.skills, inv, 'del')
+    //   store.dispatch('sendSharedValue')
+    // },
     enEquip(index, equip) {
       if(!this.stealItem) {
         this.player.equipment.splice(index, 1)
         this.player.inventory.push(equip)
         helpers.setNewSkills(this.player.skills, equip, 'del')
         store.dispatch('sendSharedValue')
-        this.isValidatePopup()
       }
     },
     clickItem(index, inv) { //логика открытия и закрытия попапа
       this.validateItems()
-      if (this.selectedIndexPopup === index) {
-        this.selectedIndexPopup = null
-      } else {
+      if (this.selectedIndexPopup !== index)  {
         this.selectedIndexPopup = index
+      } else {
+        this.selectedIndexPopup = null
       }
-    },
-    isValidatePopup(inv)  {
-
     },
     useHealth(inv, index) {
       if(inv.category === 'medicine') {
@@ -335,9 +436,15 @@ export default {
       this.player.subName = ''
       this.player.isSteal = false
       store.dispatch('sendSharedValue')
+    },
+    handleClick() {
+      this.selectedIndexPopup = null
     }
   },
   computed: {
+    isBigWeight() {
+      return this.inventoryWeight < this.maxWeight ? '#3E3727' : '#b40f0f'
+    },
     itemCategories() {
       return store.state.allItem
     },
@@ -388,12 +495,12 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   width: 100%;
-  height: 67%;
+  height: 55%;
   @media screen and (min-width: 576px) {
     height: 40vh;
   }
   &-lists {
-    height: 50%;
+    height: 80%;
     width: 100%;
     display: flex;
     gap: 20px;
@@ -406,7 +513,9 @@ export default {
       text-align: center;
       display: flex;
       flex-direction: column;
+      position: relative;
       &-item {
+        position: relative;
         display: flex;
         align-items: center;
         text-align: center;
@@ -424,21 +533,26 @@ export default {
       }
       &-tab {
         display: flex;
+        position: absolute;
         flex-direction: column;
         align-items: center;
         width: 100%;
-        height: 83%;
-        padding: 3px;
+        height: 100%;
+        padding: 22px 8px 0 8px;
         overflow: auto;
         gap: 4px;
-        border: 2px solid #8B4513;
+        background-color: rgba(176, 208, 194, 0.5);
+        border: 1px solid #3E3727;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        border-radius: 12px;
       }
     }
     &__right {
       width: 100%;
       height: 100%;
       text-align: center;
+      display: flex;
+      flex-direction: column;
       position: relative;
       &-item {
         position: relative;
@@ -463,13 +577,15 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 97%;
-        height: 90%;
-        padding: 3px;
-        border: 2px solid #8B4513;
+        width: 100%;
+        height: 100%;
+        padding: 22px 8px 0 8px;
+        background-color: rgba(176, 208, 194, 0.5);
+        border: 1px solid #3E3727;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         overflow: auto;
         gap: 4px;
+        border-radius: 12px;
       }
     }
   }
@@ -477,18 +593,20 @@ export default {
 .weight {
   font-size: 16px;
   font-weight: 600;
-  margin-top: 7%;
+  width: 100px;
 }
 .selectPopup {
   display: flex;
   flex-direction: column;
-  //position: absolute;
-  padding: 4px;
+  position: absolute;
+  padding: 10px;
   left: 4px;
+  gap: 4px;
   height: auto;
-  width: auto;
-  border: 2px solid #8B4513;
-  background-color: white;
+  width: 78%;
+  border: 2px solid #3E3727;
+  background-color: #CDBD97;
+  border-radius: 8px;
   top: 32px;
   z-index: 2;
   //margin-bottom: 117px;
