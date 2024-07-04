@@ -40,10 +40,7 @@
       </div>
 
       <div v-if="isClassInfo">
-        <description-popup
-            :description="popupText"
-            @close="closePopup"
-        />
+        descri
       </div>
       <div class="container">
         <img src="@/images/icons/dalrenlistic.svg" alt="Описание изображения" class="image">

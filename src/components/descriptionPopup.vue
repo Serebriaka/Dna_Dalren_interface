@@ -1,41 +1,41 @@
 <template>
   <div class="body-popup" @click="$emit('close')">
-    <div class="body-popup-content" @click.stop="">
-      <div class="fs12">{{description}}</div>
-      <div class="body-popup-content__damage fs12" v-if="isDamage">
-        <div>Урон</div>
-        <div v-if="item.buffs.damage.chopping">Рубящий: {{item.buffs.damage.chopping}}</div>
-        <div v-if="item.buffs.damage.crushing">Дробящий: {{item.buffs.damage.crushing}}</div>
-        <div v-if="item.buffs.damage.pricking">Колющий: {{item.buffs.damage.pricking}}</div>
-      </div>
-      <div class="body-popup-content__protection fs12" v-if="isProtection">
-        <div>Защита</div>
-        <div v-if="item.protection.chopping">Рубящая: {{item.protection.chopping}}</div>
-        <div v-if="item.protection.crushing">Дробящая: {{item.protection.crushing}}</div>
-        <div v-if="item.protection.pricking">Колющая: {{item.protection.pricking}}</div>
-      </div>
-      <div class="body-popup-content__requirements fs12" v-if="isRequirements">
-        <div>Требования</div>
-        <div v-if="item.requirements.strength">Сила: {{item.requirements.strength}}</div>
-        <div v-if="item.requirements.dexterity">Ловкость: {{item.requirements.dexterity}}</div>
-        <div v-if="item.requirements.constitution">Выносливость: {{item.requirements.constitution}}</div>
-        <div v-if="item.requirements.intelligence">Интеллект: {{item.requirements.intelligence}}</div>
-        <div v-if="item.requirements.wisdom">Мудрость: {{item.requirements.wisdom}}</div>
-        <div v-if="item.requirements.charisma">Харизма: {{item.requirements.charisma}}</div>
-      </div>
-      <div class="body-popup-content__requirements fs12" v-if="isBuffs">
-        <div>Бонусы</div>
-        <div v-if="item.buffs.strength">Сила: {{item.buffs.strength}}</div>
-        <div v-if="item.buffs.dexterity">Ловкость: {{item.buffs.dexterity}}</div>
-        <div v-if="item.buffs.constitution">Выносливость: {{item.buffs.constitution}}</div>
-        <div v-if="item.buffs.intelligence">Интеллект: {{item.buffs.intelligence}}</div>
-        <div v-if="item.buffs.wisdom">Мудрость: {{item.buffs.wisdom}}</div>
-        <div v-if="item.buffs.charisma">Харизма: {{item.buffs.charisma}}</div>
-        <div v-if="item.buffs.health">Доп. здоровье: {{item.buffs.health}}</div>
-      </div>
-      <div class="mt10 fs12" v-if="item?.sale">Цена: {{item.sale}}</div>
-      <div class="fs12" v-if="item?.weight">Вес: {{item.weight}}</div>
-    </div>
+<!--    <div class="body-popup-content" @click.stop="">-->
+<!--      <div class="fs12">{{description}}</div>-->
+<!--      <div class="body-popup-content__damage fs12" v-if="isDamage">-->
+<!--        <div>Урон</div>-->
+<!--        <div v-if="item.buffs.damage.chopping">Рубящий: {{item.buffs.damage.chopping}}</div>-->
+<!--        <div v-if="item.buffs.damage.crushing">Дробящий: {{item.buffs.damage.crushing}}</div>-->
+<!--        <div v-if="item.buffs.damage.pricking">Колющий: {{item.buffs.damage.pricking}}</div>-->
+<!--      </div>-->
+<!--      <div class="body-popup-content__protection fs12" v-if="isProtection">-->
+<!--        <div>Защита</div>-->
+<!--        <div v-if="item.protection.chopping">Рубящая: {{item.protection.chopping}}</div>-->
+<!--        <div v-if="item.protection.crushing">Дробящая: {{item.protection.crushing}}</div>-->
+<!--        <div v-if="item.protection.pricking">Колющая: {{item.protection.pricking}}</div>-->
+<!--      </div>-->
+<!--      <div class="body-popup-content__requirements fs12" v-if="isRequirements">-->
+<!--        <div>Требования</div>-->
+<!--        <div v-if="item.requirements.strength">Сила: {{item.requirements.strength}}</div>-->
+<!--        <div v-if="item.requirements.dexterity">Ловкость: {{item.requirements.dexterity}}</div>-->
+<!--        <div v-if="item.requirements.constitution">Выносливость: {{item.requirements.constitution}}</div>-->
+<!--        <div v-if="item.requirements.intelligence">Интеллект: {{item.requirements.intelligence}}</div>-->
+<!--        <div v-if="item.requirements.wisdom">Мудрость: {{item.requirements.wisdom}}</div>-->
+<!--        <div v-if="item.requirements.charisma">Харизма: {{item.requirements.charisma}}</div>-->
+<!--      </div>-->
+<!--      <div class="body-popup-content__requirements fs12" v-if="isBuffs">-->
+<!--        <div>Бонусы</div>-->
+<!--        <div v-if="item.buffs.strength">Сила: {{item.buffs.strength}}</div>-->
+<!--        <div v-if="item.buffs.dexterity">Ловкость: {{item.buffs.dexterity}}</div>-->
+<!--        <div v-if="item.buffs.constitution">Выносливость: {{item.buffs.constitution}}</div>-->
+<!--        <div v-if="item.buffs.intelligence">Интеллект: {{item.buffs.intelligence}}</div>-->
+<!--        <div v-if="item.buffs.wisdom">Мудрость: {{item.buffs.wisdom}}</div>-->
+<!--        <div v-if="item.buffs.charisma">Харизма: {{item.buffs.charisma}}</div>-->
+<!--        <div v-if="item.buffs.health">Доп. здоровье: {{item.buffs.health}}</div>-->
+<!--      </div>-->
+<!--      <div class="mt10 fs12" v-if="item?.sale">Цена: {{item.sale}}</div>-->
+<!--      <div class="fs12" v-if="item?.weight">Вес: {{item.weight}}</div>-->
+<!--    </div>-->
   </div>
 </template>
 
