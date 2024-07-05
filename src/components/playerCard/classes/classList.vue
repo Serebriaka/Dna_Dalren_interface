@@ -34,13 +34,10 @@
               :text="skill.name"
               :isText="true"
               height="28px"
+              :box-shadow="false"
           />
           <div @click="delClass(index)" v-if="isAdmin" style="cursor: pointer">x</div>
         </div>
-      </div>
-
-      <div v-if="isClassInfo">
-        descri
       </div>
       <div class="container">
         <img src="@/images/icons/dalrenlistic.svg" alt="Описание изображения" class="image">
@@ -51,8 +48,8 @@
 
 <script>
 import store from "@/store";
-import descriptionPopup from "@/components/descriptionPopup.vue";
 import CastomText from "@/components/castomText.vue";
+import footerCard from "@/components/playerCard/footerCard.vue";
 export default {
   /* eslint-disable */
   props: {
@@ -60,15 +57,13 @@ export default {
     isAdmin: {},
   },
   components: {
+    footerCard,
     CastomText,
-    descriptionPopup,
   },
   data() {
     return {
       selectedClassSkill: 'Воин',
       selectedClass: '',
-      isClassInfo: false,
-      popupText: '',
     }
   },
   mounted() {
@@ -87,12 +82,15 @@ export default {
       store.dispatch('sendSharedValue')
     },
     openPopup(skill) {
-      this.isClassInfo = true
-      this.popupText = skill.description
+      store.commit('setDescription',skill)
+      this.player.page = 'description'
+      this.sendChangePlayer()
+    },
+    sendChangePlayer() {
+      store.dispatch('sendSharedValue')
     },
     closePopup() {
-      this.isClassInfo = false
-      this.popupText = ''
+      store.commit('delDescription')
     }
   },
   computed: {

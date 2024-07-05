@@ -152,13 +152,6 @@
               </div>
             </div>
           </div>
-          <!--          <div-->
-<!--              class="inventory-lists__right-item"-->
-<!--              v-for="(inv, index) in player.inventory"-->
-<!--              :key="index"-->
-<!--          >-->
-
-<!--          </div>-->
           <select v-if="isAdmin" v-model="selectedCategory" style="width: 100%">
             <option disabled value="">Выберите категорию</option>
             <option v-for="(item) in categoryArray" :key="item.id"> {{item.name}}</option>
@@ -367,12 +360,12 @@ export default {
         this.player.isSteal = true
       }
       if(tab === 'read') {
-        this.isReadPopup = true
-        this.itemClick = inv
+        store.commit('setDescription',inv)
+        this.player.page = 'description'
       }
       this.selectedIndexPopup = null
       store.dispatch('sendSharedValue')
-
+      this.sendChangePlayer()
     },
     delItem(index) {
       this.player.inventory.splice(index, 1)

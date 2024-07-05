@@ -102,6 +102,10 @@
         :isAdmin="isAdmin"
         :index="index"
     />
+    <descriptionComponent
+        v-if="isAdmin || player.page === 'description'"
+        :isAdmin="isAdmin"
+        :player="player"/>
     <button
         class="del-player" v-if="isAdmin"
         @mousedown.stop="startHold"
@@ -129,6 +133,7 @@ import InventoryPlayer from '@/components/playerCard/inventory/InventoryPlayer.v
 import ClassesComponent from "@/components/playerCard/classes/classesComponent.vue";
 import CastomText from "@/components/castomText.vue";
 import HeaderProfile from "@/components/playerCard/headerProfile.vue";
+import descriptionComponent from "@/components/playerCard/descriptionComponent.vue";
 
 export default {
   props: {
@@ -144,6 +149,7 @@ export default {
     }
   },
   components: {
+    descriptionComponent,
     HeaderProfile,
     CastomText,
     ClassesComponent,
@@ -151,6 +157,11 @@ export default {
     playerCharacteristics,
     footerCard,
     InventoryPlayer
+  },
+  created() {
+    /* eslint-disable */
+    this.player.page = 'stats'
+    this.sendChangePlayer()
   },
   mounted() {
     /* eslint-disable */
