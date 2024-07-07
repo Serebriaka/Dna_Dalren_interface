@@ -363,9 +363,7 @@ export default {
         store.commit('setDescription',inv)
         this.player.page = 'description'
       }
-      this.selectedIndexPopup = null
       store.dispatch('sendSharedValue')
-      this.sendChangePlayer()
     },
     delItem(index) {
       this.player.inventory.splice(index, 1)
@@ -387,10 +385,13 @@ export default {
     },
     clickItem(index, inv) { //логика открытия и закрытия попапа
       this.validateItems()
-      if (this.selectedIndexPopup !== index)  {
-        this.selectedIndexPopup = index
-      } else {
+      console.log(this.selectedIndexPopup,'попали сюда 1', index)
+      if (this.selectedIndexPopup === index)  {
+        console.log(this.selectedIndexPopup,'попали сюда 2', index)
         this.selectedIndexPopup = null
+      } else {
+        console.log(this.selectedIndexPopup,'попали сюда 3', index)
+        this.selectedIndexPopup = index
       }
     },
     useHealth(inv, index) {
@@ -478,7 +479,7 @@ export default {
   watch: {
     selectedCategory() {
       this.selectedItem = ''
-    }
+    },
   }
 }
 </script>
