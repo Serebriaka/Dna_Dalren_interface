@@ -31,12 +31,12 @@
       />
       <div class="description-text"
            :style="bodyColor">
-        {{specification?.description}}
+            {{specification?.description}}
               <div v-if="isDamage">Урон:</div>
               <div class="body-popup-content__damage fs12" v-if="isDamage">
-                <div v-if="specification?.buffs.damage.chopping">Рубящий: {{specification.buffs.damage.chopping}}</div>
-                <div v-if="specification?.buffs.damage.crushing">Дробящий: {{specification.buffs.damage.crushing}}</div>
-                <div v-if="specification?.buffs.damage.pricking">Колющий: {{specification.buffs.damage.pricking}}</div>
+                <div v-if="specification?.buffs.damage.chopping">Рубящий: {{specification?.buffs.damage.chopping}}</div>
+                <div v-if="specification?.buffs.damage.crushing">Дробящий: {{specification?.buffs.damage.crushing}}</div>
+                <div v-if="specification?.buffs.damage.pricking">Колющий: {{specification?.buffs.damage.pricking}}</div>
               </div>
               <div v-if="isProtection">Защита:</div>
               <div class="body-popup-content__protection fs12" v-if="isProtection">
@@ -46,12 +46,9 @@
               </div>
               <div v-if="isRequirements">Требования:</div>
               <div class="body-popup-content__requirements fs12" v-if="isRequirements">
-                <div v-if="specification?.requirements.strength">Сила: {{specification.requirements.strength}}</div>
-                <div v-if="specification?.requirements.dexterity">Ловкость: {{specification.requirements.dexterity}}</div>
-                <div v-if="specification?.requirements.constitution">Выносливость: {{specification.requirements.constitution}}</div>
-                <div v-if="specification?.requirements.intelligence">Интеллект: {{specification.requirements.intelligence}}</div>
-                <div v-if="specification?.requirements.wisdom">Мудрость: {{specification.requirements.wisdom}}</div>
-                <div v-if="specification?.requirements.charisma">Харизма: {{specification.requirements.charisma}}</div>
+                <template v-for="(value, key, index) in specification?.requirements">
+                  <div v-if="value" :key="key">{{ statRusNames[index] }}: {{ value }}</div>
+                </template>
               </div>
               <div v-if="isBuffs">Бонусы:</div>
               <div class="body-popup-content__requirements fs12" v-if="isBuffs">
@@ -91,7 +88,8 @@ export default {
   },
   data() {
     return {
-      currentLevel: 1,
+      statNames: ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma', 'health'],
+      statRusNames: ['Сила', 'Ловкость', 'Выносливость', 'Интеллект', 'Мудрость', 'Харизма', 'Доп. здоровье'],
     }
   },
   components: {
@@ -120,43 +118,34 @@ export default {
   computed: {
     isDamage() {
       let result = false
-      if (this.specification?.buffs.damage.chopping || this.specification?.buffs.damage.crushing || this.specification?.buffs.damage.pricking) {
+      if (this.specification?.buffs?.damage?.chopping || this.specification?.buffs?.damage?.crushing || this.specification?.buffs?.damage?.pricking) {
         result = true
       }
       return result
     },
     isRequirements() {
-      let result = false
-      if (
-          this.specification?.requirements.strength
-          || this.specification?.requirements.dexterity
-          || this.specification?.requirements.constitution
-          || this.specification?.requirements.intelligence
-          || this.specification?.requirements.wisdom
-          || this.specification?.requirements.charisma
-      ) {
-        result = true
+      const buffs = this.specification?.requirements;
+      const attributes = this.statNames
+      for (let attribute of attributes) {
+        if (buffs?.[attribute]) {
+          return true;
+        }
       }
-      return result
+      return false;
     },
     isBuffs() {
-      let result = false
-      if (
-          this.specification?.buffs.strength
-          || this.specification?.buffs.dexterity
-          || this.specification?.buffs.constitution
-          || this.specification?.buffs.intelligence
-          || this.specification?.buffs.wisdom
-          || this.specification?.buffs.charisma
-          || this.specification?.buffs.health
-      ) {
-        result = true
+      const buffs = this.specification?.buffs;
+      const attributes = this.statNames
+      for (let attribute of attributes) {
+        if (buffs?.[attribute]) {
+          return buffs?.[attribute];
+        }
       }
-      return result
+      return false;
     },
     isProtection() {
       let result = false
-      if (this.specification?.protection.chopping || this.specification?.protection.crushing || this.specification?.protection.pricking) {
+      if (this.specification?.protection?.chopping || this.specification?.protection?.crushing || this.specification?.protection?.pricking) {
         result = true
       }
       return result

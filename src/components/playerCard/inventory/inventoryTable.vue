@@ -385,12 +385,9 @@ export default {
     },
     clickItem(index, inv) { //логика открытия и закрытия попапа
       this.validateItems()
-      console.log(this.selectedIndexPopup,'попали сюда 1', index)
       if (this.selectedIndexPopup === index)  {
-        console.log(this.selectedIndexPopup,'попали сюда 2', index)
         this.selectedIndexPopup = null
       } else {
-        console.log(this.selectedIndexPopup,'попали сюда 3', index)
         this.selectedIndexPopup = index
       }
     },
